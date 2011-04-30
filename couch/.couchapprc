@@ -1,0 +1,10 @@
+{
+  'env': {
+    'master': {
+      'db': 'http://name:pass@mycouch.couchone.com/timeline'
+    },
+    'default' : {
+      'db': 'http://localhost:5984/timeline'
+    }
+  }
+}
