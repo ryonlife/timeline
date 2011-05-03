@@ -3,4 +3,8 @@ dependencies:
   - jquery-1.5.2.js
   - underscore-1.1.6.js
   - backbone-master.js
+  - facebook.js
+  - modernizr-1.6.min.js
+  - jquery.ui.core.js
+  - jquery.ui.datepicker.js
 buildPath: 'couch/_attachments'

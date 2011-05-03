@@ -1,0 +1,45 @@
+<h1>New Memory</h1>
+
+<form>
+
+  <div class="field">
+    <label for="start_date">When?</label>
+
+    <input type="text" name="start_datepicker" id="start_datepicker" class="datepicker" readonly="readonly" />
+    <input type="hidden" name="start_date" id="start_date" />
+    
+    <span id="end_date">
+      <a href="#">Add end date</a>
+      <label for="end_date">through</label>
+      
+      <input type="text" name="end_datepicker" id="end_datepicker" class="datepicker" readonly="readonly" />
+      <input type="hidden" name="end_date" id="end_date" />
+    </span>
+  </div>
+  
+  <div class="field">
+    <label for="description">Description</label>
+    <textarea name="description" id="description" class="wide"></textarea>
+  </div>
+  
+  <div class="field">
+    <label for="friends">Who was there?</label>
+    <input type="hidden" name="friends" id="friends" />
+    
+    <a href="#" id="select_friends" class="button">
+      <span class="tag">Tag Friends</span>
+      Tag Friends
+    </a>
+    <div id="friend_selector"></div>
+  </div>
+  
+  <div class="field checkbox">
+    <input type="checkbox" name="is_favorite_memory" id="is_favorite_memory" value="1" />
+    <label for="is_favorite_memory">Add this memory to my favorites</label>
+  </div>
+  
+  <div class="actions">
+    <input type="submit" value="Create Memory" class="submit" />
+  </div>
+
+</form>
