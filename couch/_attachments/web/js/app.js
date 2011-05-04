@@ -10294,178 +10294,6 @@ window.jQuery = window.$ = jQuery;
 
 }).call(this);
 
-(function($) {
-  
-  // Facebook-looking friend selector widget
-  $.fn.friendSelector = function($button, $input, friends) {
-    
-    // $button - jQuery object (button) that launches the friendSelector onClick
-    // $input - jQuery object (text input) that a comma seperated list of friend IDs is injected into
-    // friends - array of friend IDs
-    
-    // Setup
-      
-    var $fs = this;
-    
-    $fs
-      .append('<div id="friend_selector_controls"></div>')
-      .append('<ul id="friend_selector_friends" class="clearfix"></ul>')
-      .append('<a href="#" class="form_button">Save and Close</a>');
-      
-    var $fsc = $('#friend_selector_controls');
-    
-    $fsc
-      .append('<input id="friend_selector_search" name="friend_selector_search" type="text" placeholder="Type a friend\'s name" />')
-      .append('<a href="#" class="show_selected">Selected (0)</a>')
-      .append('<a href="#" class="show_all highlight">All</a>')
-      .append('<a href="#" class="clear_search"></a>');
-    
-    var $fss = $('#friend_selector_search');
-    var $fsf = $('#friend_selector_friends');
-    
-    var $clear        = $fsc.find('.clear_search');
-    var $showAll      = $fsc.find('.show_all');
-    var $showSelected = $fsc.find('.show_selected');
-    
-    // Clear the search box
-    $clear
-      .css({
-        left: -1 * ($clear.offset().left - 7 - $fss.offset().left - $fss.width())
-      })
-      .click(function() {
-        $fss
-          .val('')
-          .trigger('keyup');
-        return false;
-      });
-    
-    // Show selected friends
-    $showSelected.click(function() {
-      if(!$showSelected.hasClass('highlight')) {
-        $showAll.removeClass('highlight');
-        $showSelected.addClass('highlight');
-        $clear.trigger('click');
-        $fsf.find('li').hide();
-        $.each(friends, function(i, friend) {
-          if(friend.name.search(new RegExp($fss.val(), 'i')) != -1) {
-            var $friend = $fsf.find('li[data-friend-id="'+friend.id+'"]');
-            if ($friend.hasClass('selected')) {
-              $friend.show();
-            }
-          }
-        });
-      }
-      return false;
-    });
-    
-    // Show all friends
-    $showAll.click(function() {
-      if(!$showAll.hasClass('highlight')) {
-        $showSelected.removeClass('highlight');
-        $showAll.addClass('highlight');
-        $fss.trigger('keyup');
-      }
-      return false;
-    });
-    
-    // Put all friends in the list
-    var selectedFriends = $input.val().split(',');
-    $.each(friends, function() {
-      var className = '';
-      if($.inArray(this.id.toString(), selectedFriends) != -1) {
-        var className = 'selected';
-      }      
-      var name = this.name.replace(/ /, '<br />');
-      $fsf.append('<li data-friend-id="'+this.id+'" class="'+className+'"><span class="frame"><fb:profile-pic class="image" facebook-logo="false" linked="false" size="square" uid="'+this.id+'"></fb:profile-pic><span class="check"></span></span><span class="name">'+name+'</span></li>');
-    });
-    FB.XFBML.parse(document.getElementById($fsf.attr('id'))); // Newly raising unsafe JS frame access when parsing pictures
-    updateSelectedCount();
-    
-    // Search for friends
-    $fss
-      .keyup(function() {
-        $fsf.find('li').hide();
-        $.each(friends, function(i, friend) {
-          if(friend.name.search(new RegExp($fss.val(), 'i')) != -1) {
-            $fsf.find('li[data-friend-id="'+friend.id+'"]').show();
-          }
-        });
-      })
-      .focus(function() {
-        $showAll.trigger('click');
-      });
-    
-    // Select and unselect friends
-    $fsf.find('li').click(function() {
-      var $this = $(this)
-      $this.toggleClass('selected');
-      
-      // Hide unselected friends if in the 'show selected' state
-      if(!$this.hasClass('selected') && $showSelected.hasClass('highlight')) {
-        $this.hide();
-      }
-      
-      updateSelectedCount();
-    });
-    
-    // Close button
-    $fs.find('.form_button').click(function() {
-      
-      // Remove dialog
-      $('<div id="friend_selector">').insertAfter('#select_friends');
-      $('#dialog').remove();
-      
-      // Serialize friend selections to hidden input
-      $input.val('');
-      var numFriendsSelected = 0;
-      $fsf.find('li.selected').each(function() {
-        $input.val($input.val()+$(this).attr('data-friend-id')+',');
-        numFriendsSelected++;
-      });
-      var friendString = $input.val()
-      $input.val(friendString.substr(0, friendString.length - 1));
-      $input.trigger('change'); // onChange event not firing on its own for some reason
-      
-      // Button text
-      if(numFriendsSelected) {
-        $button.html('<span class="tag"></span>Tag Friends ('+numFriendsSelected+')');
-      } else {
-        $button.html('<span class="tag"></span>Tag Friends');
-      }
-      
-      return false;
-    });
-    
-    // Update the selected counter
-    function updateSelectedCount() {
-      $showSelected.text('Selected ('+$fsf.find('li.selected').length+')');
-    }
-    
-    return this;
-    
-  };
-  
-  // Facebook-looking dialog widget
-  $.fn.dialog = function(title) {
-    $('#dialog').remove();
-    $('body').append('<div id="dialog"><div></div></div>');
-    
-    var $dialog = $('#dialog');
-    
-    $dialog.find('> div')
-      .append('<h3>'+title+'</h3>')
-      .append(this);
-      
-    $dialog.css({
-      marginLeft: $dialog.width() / 2 * -1,
-      marginTop:  $dialog.height() / 2 * 1.5 * -1
-    });
-      
-    return this;
-  }
-  
-})(jQuery);
-
 /*!
  * jQuery UI 1.8.7
  *
@@ -10773,7 +10601,7 @@ $.extend( $.ui, {
 	}
 });
 
-})( jQuery );
+})(jQuery);
 
 /*
  * jQuery UI Datepicker 1.8.7
@@ -12625,7 +12453,7 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
   exports.HomeController = (function() {
     __extends(HomeController, Backbone.Controller);
     HomeController.prototype.routes = {
-      "home": "home"
+      'home': ''
     };
     function HomeController() {
       HomeController.__super__.constructor.apply(this, arguments);
@@ -12654,44 +12482,219 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
       MemoriesController.__super__.constructor.apply(this, arguments);
     }
     MemoriesController.prototype["new"] = function() {
-      return $('#fb_wrapper').html(app.views.memories_new.render().el);
+      var birthday;
+      $('#fb_wrapper').html(app.views.memories_new.render().el);
+      birthday = {
+        'year': 1982,
+        'month': 11,
+        'day': 27
+      };
+      return $('.datepicker').each(function() {
+      var $this = $(this);
+      $this.datepicker({
+        showOn:          'both',
+        buttonImage:     '/web/img/calendar.gif',
+        buttonImageOnly: true,
+        changeMonth:     true,
+        changeYear:      true,
+        dayNamesMin:     ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+        showAnim:        '',
+        altFormat:       'yy-mm-dd',
+        altField:        '#event_'+$(this).attr('id').slice(0, -11)+'_date',
+        maxDate:         0,
+        minDate:         new Date(birthday.year, birthday.month, birthday.day),
+        yearRange:       birthday.year.toString()+':-nn:+nn',
+     });
+    });;
     };
     return MemoriesController;
   })();
 }).call(this);
-}, "main": function(exports, require, module) {(function() {
-  var HomeController, HomeIndexView, MemoriesController, MemoriesNewView;
-  window.app = {};
-  app.controllers = {};
-  app.models = {};
-  app.collections = {};
-  app.views = {};
-  HomeController = require('controllers/home_controller').HomeController;
-  HomeIndexView = require('views/home/home_index_view').HomeIndexView;
-  MemoriesController = require('controllers/memories_controller').MemoriesController;
-  MemoriesNewView = require('views/memories/memories_new_view').MemoriesNewView;
-  $(document).ready(function() {
-    app.initialize = function() {
-      app.controllers.home = new HomeController;
-      app.views.home_index = new HomeIndexView;
-      app.controllers.events = new MemoriesController;
-      app.views.memories_new = new MemoriesNewView;
-      if (Backbone.history.getFragment() === '') {
-        return Backbone.history.saveLocation('home');
+}, "lib/jquery.fb-dialog": function(exports, require, module) {(function($) {
+    
+  // Facebook-looking dialog widget
+  $.fn.dialog = function(title) {
+    $('#dialog').remove();
+    $('body').append('<div id="dialog"><div></div></div>');
+    
+    var $dialog = $('#dialog');
+    
+    $dialog.find('> div')
+      .append('<h3>'+title+'</h3>')
+      .append(this);
+      
+    $dialog.css({
+      marginLeft: $dialog.width() / 2 * -1,
+      marginTop:  $dialog.height() / 2 * 1.5 * -1
+    });
+      
+    return this;
+  }
+  
+})(jQuery);
+}, "lib/jquery.fb-friend-selector": function(exports, require, module) {(function($) {
+  
+  // Facebook-looking friend selector widget
+  $.fn.friendSelector = function($button, $input, friends) {
+    
+    // $button - jQuery object (button) that launches the friendSelector onClick
+    // $input - jQuery object (text input) that a comma seperated list of friend IDs is injected into
+    // friends - array of friend IDs
+    
+    // Setup
+      
+    var $fs = this;
+    
+    $fs
+      .append('<div id="friend_selector_controls"></div>')
+      .append('<ul id="friend_selector_friends" class="clearfix"></ul>')
+      .append('<a href="#" class="form_button">Save and Close</a>');
+      
+    var $fsc = $('#friend_selector_controls');
+    
+    $fsc
+      .append('<input id="friend_selector_search" name="friend_selector_search" type="text" placeholder="Type a friend\'s name" />')
+      .append('<a href="#" class="show_selected">Selected (0)</a>')
+      .append('<a href="#" class="show_all highlight">All</a>')
+      .append('<a href="#" class="clear_search"></a>');
+    
+    var $fss = $('#friend_selector_search');
+    var $fsf = $('#friend_selector_friends');
+    
+    var $clear        = $fsc.find('.clear_search');
+    var $showAll      = $fsc.find('.show_all');
+    var $showSelected = $fsc.find('.show_selected');
+    
+    // Clear the search box
+    $clear
+      .css({
+        left: -1 * ($clear.offset().left - 7 - $fss.offset().left - $fss.width())
+      })
+      .click(function() {
+        $fss
+          .val('')
+          .trigger('keyup');
+        return false;
+      });
+    
+    // Show selected friends
+    $showSelected.click(function() {
+      if(!$showSelected.hasClass('highlight')) {
+        $showAll.removeClass('highlight');
+        $showSelected.addClass('highlight');
+        $clear.trigger('click');
+        $fsf.find('li').hide();
+        $.each(friends, function(i, friend) {
+          if(friend.name.search(new RegExp($fss.val(), 'i')) != -1) {
+            var $friend = $fsf.find('li[data-friend-id="'+friend.id+'"]');
+            if ($friend.hasClass('selected')) {
+              $friend.show();
+            }
+          }
+        });
       }
-    };
-    app.initialize();
-    Backbone.history.start();
-    return
+      return false;
+    });
+    
+    // Show all friends
+    $showAll.click(function() {
+      if(!$showAll.hasClass('highlight')) {
+        $showSelected.removeClass('highlight');
+        $showAll.addClass('highlight');
+        $fss.trigger('keyup');
+      }
+      return false;
+    });
+    
+    // Put all friends in the list
+    var selectedFriends = $input.val().split(',');
+    $.each(friends, function() {
+      var className = '';
+      if($.inArray(this.id.toString(), selectedFriends) != -1) {
+        var className = 'selected';
+      }      
+      var name = this.name.replace(/ /, '<br />');
+      $fsf.append('<li data-friend-id="'+this.id+'" class="'+className+'"><span class="frame"><fb:profile-pic class="image" facebook-logo="false" linked="false" size="square" uid="'+this.id+'"></fb:profile-pic><span class="check"></span></span><span class="name">'+name+'</span></li>');
+    });
+    FB.XFBML.parse(document.getElementById($fsf.attr('id'))); // Newly raising unsafe JS frame access when parsing pictures
+    updateSelectedCount();
+    
+    // Search for friends
+    $fss
+      .keyup(function() {
+        $fsf.find('li').hide();
+        $.each(friends, function(i, friend) {
+          if(friend.name.search(new RegExp($fss.val(), 'i')) != -1) {
+            $fsf.find('li[data-friend-id="'+friend.id+'"]').show();
+          }
+        });
+      })
+      .focus(function() {
+        $showAll.trigger('click');
+      });
+    
+    // Select and unselect friends
+    $fsf.find('li').click(function() {
+      var $this = $(this)
+      $this.toggleClass('selected');
+      
+      // Hide unselected friends if in the 'show selected' state
+      if(!$this.hasClass('selected') && $showSelected.hasClass('highlight')) {
+        $this.hide();
+      }
+      
+      updateSelectedCount();
+    });
+    
+    // Close button
+    $fs.find('.form_button').click(function() {
+      
+      // Remove dialog
+      $('<div id="friend_selector">').insertAfter('#select_friends');
+      $('#dialog').remove();
+      
+      // Serialize friend selections to hidden input
+      $input.val('');
+      var numFriendsSelected = 0;
+      $fsf.find('li.selected').each(function() {
+        $input.val($input.val()+$(this).attr('data-friend-id')+',');
+        numFriendsSelected++;
+      });
+      var friendString = $input.val()
+      $input.val(friendString.substr(0, friendString.length - 1));
+      $input.trigger('change'); // onChange event not firing on its own for some reason
+      
+      // Button text
+      if(numFriendsSelected) {
+        $button.html('<span class="tag"></span>Tag Friends ('+numFriendsSelected+')');
+      } else {
+        $button.html('<span class="tag"></span>Tag Friends');
+      }
+      
+      return false;
+    });
+    
+    // Update the selected counter
+    function updateSelectedCount() {
+      $showSelected.text('Selected ('+$fsf.find('li.selected').length+')');
+    }
+    
+    return this;
+    
+  };
+    
+})(jQuery);
+}, "lib/old": function(exports, require, module) {$(function() {
+  
   // Orientation via data-attrs
   var where = {controller: $('h1.data').attr('data-controller'), action: $('h1.data').attr('data-action'), id: $('h1.data').attr('data-id')};
-
+  
   // jQuery UI datepicker
   $('.datepicker').each(function() {
     var $this = $(this);
     $this.datepicker({
       showOn:          'both',
-      buttonImage:     '/web/img/calendar.gif',
+      buttonImage:     '/images/calendar.gif',
       buttonImageOnly: true,
       changeMonth:     true,
       changeYear:      true,
@@ -12701,10 +12704,10 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
       altField:        '#event_'+$(this).attr('id').slice(0, -11)+'_date',
       maxDate:         0,
       minDate:         new Date(birthday.year, birthday.month, birthday.day),
-      yearRange:       birthday.year.toString()+':-nn:+nn',
+      yearRange:       birthday.year.toString()+':-nn:+nn', 
    });
   });
-
+  
   // Enable a range of dates
   $('span#end_date a').click(function() {
     var $this = $(this);
@@ -12714,7 +12717,7 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
     $this.remove();
     return false;
   });
-
+  
   // Second date in range must be >= the first
   $('.datepicker').first().change(function() {
     var date = $(this).datepicker('getDate');
@@ -12723,7 +12726,7 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
     endDate.datepicker('option', 'yearRange', date.getFullYear().toString()+':-nn:+nn');
     $('.ui-datepicker-trigger').show(); // WTF: calendar trigger icon disappears
   });
-
+  
   // In an error state, populate the visible datepickers with dates from the hidden (actual) date fields
   $start_date = $('#event_start_date');
   if($start_date.val()) {
@@ -12738,7 +12741,7 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
     $('#end_datepicker').val(default_date);
     $('span#end_date a').trigger('click');
   }
-
+  
   // Display a friend selector
   var friends;
   var $friendInput = $('#event_friends');
@@ -12756,13 +12759,13 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
       $('#friend_selector').friendSelector($this, $friendInput, friends).dialog('Tag Friends');
     }
   });
-
+  
   // Default state for friend selector button
   if($friendInput.val()) {
     var numFriendsSelected = $friendInput.val().split(',').length;
     $('#select_friends').html('<span class="tag"></span>Tag Friends ('+parseInt(numFriendsSelected+1)+')');
   }
-
+  
   // When the friend selector dialog is closed and friends are changed, update on-screen and on the server
   $('#event_friends.update').change(function() {
     $this = $(this);
@@ -12776,14 +12779,14 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
       }
     });
   });
-
+  
   // Cheat for centering stuff
   $('.center_cheat').each(function() {
     $this = $(this);
     $this.css({width: $this.width(), display: 'block'});
   });
-  ;
-  });
+  
+});
 
 // Callback that fires when FBXML is finished parsing
 function XfbmlParsed() {
@@ -12795,7 +12798,29 @@ function XfbmlParsed() {
     // $('body').append($('<div class="whiteout"></div>').css({top: offset.top + $fbComments.height(), left: offset.left}));
   });
 }
-;
+}, "main": function(exports, require, module) {(function() {
+  var HomeController, HomeIndexView, MemoriesController, MemoriesNewView;
+  window.app = {};
+  app.controllers = {};
+  app.models = {};
+  app.collections = {};
+  app.views = {};
+  HomeController = require('controllers/home_controller').HomeController;
+  HomeIndexView = require('views/home/home_index_view').HomeIndexView;
+  MemoriesController = require('controllers/memories_controller').MemoriesController;
+  MemoriesNewView = require('views/memories/memories_new_view').MemoriesNewView;
+  $(document).ready(function() {
+    app.initialize = function() {
+      app.controllers.home = new HomeController;
+      app.views.home_index = new HomeIndexView;
+      app.controllers.memories = new MemoriesController;
+      return app.views.memories_new = new MemoriesNewView;
+    };
+    app.initialize();
+    return Backbone.history.start();
+  });
+  require('lib/jquery.fb-dialog');
+  require('lib/jquery.fb-friend-selector');
 }).call(this);
 }, "templates/home/home_index": function(exports, require, module) {module.exports = function(__obj) {
   var _safe = function(value) {
@@ -12857,7 +12882,7 @@ function XfbmlParsed() {
       return _safe(result);
     };
     (function() {
-      _print(_safe('<h1>New Memory</h1>\n\n<form>\n\n  <div class="field">\n    <label for="start_date">When?</label>\n\n    <input type="text" name="start_datepicker" id="start_datepicker" class="datepicker" readonly="readonly" />\n    <input type="hidden" name="start_date" id="start_date" />\n    \n    <span id="end_date">\n      <a href="#">Add end date</a>\n      <label for="end_date">through</label>\n      \n      <input type="text" name="end_datepicker" id="end_datepicker" class="datepicker" readonly="readonly" />\n      <input type="hidden" name="end_date" id="end_date" />\n    </span>\n  </div>\n  \n  <div class="field">\n    <label for="description">Description</label>\n    <textarea name="description" id="description" class="wide"></textarea>\n  </div>\n  \n  <div class="field">\n    <label for="friends">Who was there?</label>\n    <input type="hidden" name="friends" id="friends" />\n    \n    <a href="#" id="select_friends" class="button">\n      <span class="tag">Tag Friends</span>\n      Tag Friends\n    </a>\n    <div id="friend_selector"></div>\n  </div>\n  \n  <div class="field checkbox">\n    <input type="checkbox" name="is_favorite_memory" id="is_favorite_memory" value="1" />\n    <label for="is_favorite_memory">Add this memory to my favorites</label>\n  </div>\n  \n  <div class="actions">\n    <input type="submit" value="Create Memory" class="submit" />\n  </div>\n\n</form>'));
+      _print(_safe('<h1>New Memory</h1>\n\n<form id="new_event">\n\n  <div class="field">\n    <label for="start_date">When?</label>\n\n    <input type="text" name="start_datepicker" id="start_datepicker" class="datepicker" readonly="readonly" />\n    <input type="hidden" name="start_date" id="start_date" />\n    \n    <span id="end_date">\n      <a href="#">Add end date</a>\n      <label for="end_date">through</label>\n      \n      <input type="text" name="end_datepicker" id="end_datepicker" class="datepicker" readonly="readonly" />\n      <input type="hidden" name="end_date" id="end_date" />\n    </span>\n  </div>\n  \n  <div class="field">\n    <label for="description">Description</label>\n    <input type="text" name="description" id="description" class="wide" />\n  </div>\n  \n  <div class="field">\n    <label for="friends">Who was there?</label>\n    <input type="hidden" name="friends" id="friends" />\n    \n    <a href="#" id="select_friends" class="button">\n      <span class="tag"></span>\n      Tag Friends\n    </a>\n    <div id="friend_selector"></div>\n  </div>\n  \n  <div class="field checkbox">\n    <input type="checkbox" name="is_favorite_memory" id="is_favorite_memory" value="1" />\n    <label for="is_favorite_memory">Add this memory to my favorites</label>\n  </div>\n  \n  <div class="actions">\n    <input type="submit" value="Create Memory" class="submit" />\n  </div>\n\n</form>'));
     }).call(this);
     
     return __out.join('');

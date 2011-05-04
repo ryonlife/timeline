@@ -1,0 +1,53 @@
+-content_for :sidebar do
+  
+  #photo
+    %a.add_photos{href: "#"}
+  
+  %p.center
+    %a.self_tag{href: "#"} I wasn't there!
+  
+  %a#select_friends.button.center_cheat{href: "#"}
+    %span.tag
+    Tag Friends
+  #friend_selector
+  %input#event_friends.update{type: "hidden", value: friends_to_csv(@event.friends, @current_user)}
+
+  %ul.friends
+    %li.count #{pluralize(@event.friends.length, "person was", plural="people were")} there
+    -me_first(@event.friends, @me["id"]).each do |friend|
+      %li
+        .profile_pic
+          %fb:profile-pic{class: "image", :"facebook-logo" => false, linked: false, size: "square", uid: friend.fb_id}
+        .name
+          -if @me["id"] == friend.fb_id
+            =link_to @me["name"], "http://www.facebook.com/profile.php?id=#{friend.fb_id}"
+          -else
+            %fb:name{uid: friend.fb_id}
+
+- content_for :header do
+
+  .fl
+    =h1_data controller, @event.id, @event.description
+    %p.date_line
+      =@event.start_date.strftime('%B %e, %Y')
+      -if @event.end_date
+        &mdash;
+        =@event.end_date.strftime('%B %e, %Y')
+  .fr
+    %fb:like{layout: "box_count", show_faces: "false"}
+
+#photos.clearfix
+  %ul.clearfix
+    %li
+    %li
+    %li
+    %li
+    %li
+      %a.add_photos{href: "#"}
+  %a.add_photos.fl{href: "#"}
+    Show All Photos (22)
+  %a.add_photos.fr{href: "#"}
+    Add Photos  
+
+#fb_comments
+  %fb:comments{href: url_for(controller: "events", action: "show", id: @event.id, only_path: false), width: 550, num_posts: 25}

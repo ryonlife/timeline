@@ -1,6 +1,6 @@
 <h1>New Memory</h1>
 
-<form>
+<form id="new_event">
 
   <div class="field">
     <label for="start_date">When?</label>
@@ -19,7 +19,7 @@
   
   <div class="field">
     <label for="description">Description</label>
-    <textarea name="description" id="description" class="wide"></textarea>
+    <input type="text" name="description" id="description" class="wide" />
   </div>
   
   <div class="field">
@@ -27,7 +27,7 @@
     <input type="hidden" name="friends" id="friends" />
     
     <a href="#" id="select_friends" class="button">
-      <span class="tag">Tag Friends</span>
+      <span class="tag"></span>
       Tag Friends
     </a>
     <div id="friend_selector"></div>

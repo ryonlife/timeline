@@ -1,0 +1,133 @@
+/* GENERAL */
+.clearfix:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }
+
+body, input, select, textarea, .ui-widget { font-family: "lucida grande", tahoma, verdana, arial, sans-serif !important; }
+
+h1 { font-size: 123.1%; margin: 0 0 0.5em 0; }
+
+select { border: 1px solid #BDC7D8; font-size: 11px; padding: 0 4px; margin: 0 2px; }
+
+a, a:visited { color: #3B5998; text-decoration: none; }
+a:hover, a:visited:hover { text-decoration: underline; }
+
+input { font-size: 85%; border: 1px solid #BDC7D8; padding: 3px; outline: none; }
+
+.hide { display: none; }
+
+#error_explanation { padding: 10px; background-color: #FFEBE8; border: 1px solid #DD3C10; font-size: 85%; margin-bottom: 2em; }
+#error_explanation h2 { display: none; }
+#error_explanation ul { margin-top: 0; margin-bottom: 0; }
+
+/*.whiteout{ display:block; width:100%; height:23px; background-color:#000; position:absolute; z-index:999
+}*/
+.center { text-align: center; }
+
+.center_cheat { margin: 0 auto; }
+
+.fl { float: left; }
+
+.fr { float: right; }
+
+/* LAYOUT */
+#sidebar { width: 168px; float: left; border-right: 1px solid #b3b3b3; }
+#sidebar #photo { height: 120px; margin-bottom: 10px; border-left: 2px solid #FFF; background-color: #ECEFF5; }
+#sidebar #photo a.add_photos { display: block; height: 120px; background: #eceff5 url(/web/img/add_photo.png) no-repeat center center; }
+
+#main { float: right; width: 550px; padding: 0 20px; border-left: 1px solid #b3b3b3; position: relative; left: -1px; }
+
+#main.no_sidebar { float: none; border: 0; width: 740px; padding: 0; }
+
+/* EVENT SHOW */
+#header { margin-bottom: 1em; }
+#header .date_line { color: gray; font-size: 85%; }
+#header .fr { position: relative; left: 3px; }
+
+ul.friends { border-top: 1px solid #D8DFEA; margin: 1.5em 0 0 0; padding: 1em 0 0 0; font-size: 85%; font-weight: bold; }
+ul.friends li.count { color: gray; margin-bottom: 10px; }
+ul.friends li { list-style: none; clear: both; }
+ul.friends li .profile_pic { width: 50px; float: left; margin: 0 10px 5px 0; }
+ul.friends li .name { margin-top: 5px; float: left; width: 95px; font-weight: normal; }
+
+a.self_tag { font-size: 93%; font-weight: bold; }
+
+#photos { font-size: 85%; margin-bottom: 2em; }
+#photos ul { margin: 0 0 5px -2px; }
+#photos ul li { float: left; padding: 0; display: block; list-style: none; width: 108px; height: 68px; background-color: #ECEFF5; border-left: 2px solid #FFF; }
+#photos ul li a.add_photos { background: transparent url(/web/img/add_photo_small.png) no-repeat center center; display: block; height: 68px; }
+
+/* EVENT NEW */
+/*#new_event { border: 1px solid #b3b3b3; background-color: #F2F2F2; padding: 20px; }
+#new_event .field { margin-bottom: 1em; }
+#new_event .field label { font-size: 85%; font-weight: bold; color: #666; display: inline-block; width: 110px; }
+#new_event .field input.wide { width: 575px; }
+#new_event .field a { font-size: 85%; }
+#new_event .field a:hover { cursor: pointer; }
+#new_event .field span#end_date { position: relative; left: -15px; }
+#new_event .field span#end_date label { display: none; font-weight: normal; padding-right: 5px; }
+#new_event .field span#end_date #end_datepicker { display: none; }
+#new_event .field span#end_date .ui-datepicker-trigger { display: none; }
+#new_event .field.checkbox { margin-left: 114px; }
+#new_event .field.checkbox label { width: auto; }
+#new_event .field.checkbox input { margin-top: 2px; }
+#new_event .actions { margin: 1.5em 0 0 114px; }
+
+input.location { background: white url(/web/img/compass.png) no-repeat right 2px; }*/
+
+/* COMPONENTS */
+a.form_button, input.submit { font-size: 13px; display: inline-block; width: auto; height: 23px; line-height: 23px; padding: 0 6px; font-weight: bold; color: #FFF; background: transparent url(/web/img/sprite2.png) repeat-x 0 -48px; border: 1px solid #000; border-top-color: #29447E; border-right-color: #29447E; border-bottom-color: #1A356E; border-left-color: #29447E; -webkit-box-shadow: rgba(0, 0, 0, 0.098) 0 1px 0 0; }
+a.form_button:hover, input.submit:hover { text-decoration: none; }
+
+input.submit { height: 25px; line-height: 23px; }
+
+a.button { font-size: 85%; border: 1px solid #888; background: #eeeeee url(/web/img/sprite2.png) repeat 0px 0px; height: 20px; line-height: 20px; padding: 0 6px; display: inline-block; color: #333; font-weight: bold; -webkit-box-shadow: rgba(0, 0, 0, 0.098) 0 1px 0 0; }
+a.button span.plus { display: inline-block; width: 10px; height: 10px; background: transparent url(/web/img/sprite3.png) no-repeat center -49px; }
+a.button span.tag { display: inline-block; position: relative; top: 3px; width: 15px; height: 13px; background: transparent url(/web/img/sprite3.png) no-repeat -10px -15px; }
+a.button:hover { text-decoration: none; }
+
+#dialog { display: inline-block; border: 8px solid #868686; -moz-border-radius: 8px !important; -webkit-border-radius: 8px !important; border-radius: 8px !important; position: fixed; top: 50%; left: 50%; }
+#dialog > div { border: 1px solid #3B5998; }
+#dialog > div h3 { font-size: 108%; color: #FFF; background-color: #6D84B4; padding: 5px 10px; margin: 0; }
+
+.datepicker { width: 110px !important; cursor: text; }
+
+.ui-datepicker-trigger { position: relative; left: -20px; top: 2px; cursor: text; }
+
+.ui-datepicker { padding: 0; -moz-border-radius: 0 !important; -webkit-border-radius: 0 !important; border-radius: 0 !important; width: 189px; margin-top: 3px; border-top: 1px solid #3A589B; border-bottom: 2px solid #3A589B; }
+.ui-datepicker .ui-widget-header { background: #6d84b4; color: #555; border: 0; -moz-border-radius: 0 !important; -webkit-border-radius: 0 !important; border-radius: 0 !important; }
+.ui-datepicker .ui-widget-header a.ui-datepicker-prev, .ui-datepicker .ui-widget-header a.ui-datepicker-next { border-color: yellow; -moz-border-radius: 0 !important; -webkit-border-radius: 0 !important; border-radius: 0 !important; width: 6px; height: 11px; border: 1px solid transparent; }
+.ui-datepicker .ui-widget-header a.ui-datepicker-prev:hover, .ui-datepicker .ui-widget-header a.ui-datepicker-next:hover { background: transparent; cursor: pointer; }
+.ui-datepicker .ui-widget-header a.ui-datepicker-prev span, .ui-datepicker .ui-widget-header a.ui-datepicker-next span { display: none; }
+.ui-datepicker .ui-widget-header a.ui-datepicker-prev, .ui-datepicker .ui-widget-header a.ui-datepicker-prev:hover { background: transparent url(/web/img/arrows.png) no-repeat 0 -35px; left: 8px; top: 8px; }
+.ui-datepicker .ui-widget-header a.ui-datepicker-next, .ui-datepicker .ui-widget-header a.ui-datepicker-next:hover { background: transparent url(/web/img/arrows.png) no-repeat -7px -35px; right: 8px; top: 8px; }
+.ui-datepicker .ui-widget-header select { font-size: 10px; font-weight: bold; width: 60px; position: relative; top: -2px; text-align: center; }
+.ui-datepicker .ui-widget-header select.ui-datepicker-month { margin-right: 2px; }
+.ui-datepicker .ui-widget-header select.ui-datepicker-year { margin-left: 2px; }
+.ui-datepicker .ui-datepicker-calendar { margin-bottom: 0; }
+.ui-datepicker .ui-datepicker-calendar thead { background-color: #F2F2F2; border-bottom: 1px solid #C1C1C1; text-align: center; font-size: 69.3%; }
+.ui-datepicker .ui-datepicker-calendar thead th { width: 25px !important; padding: 3px 0 3px 0; color: #555; }
+.ui-datepicker .ui-datepicker-calendar a { border: 1px solid #FFF; background: transparent; text-align: center; font-size: 85%; color: #555; padding: 3px 1px; }
+.ui-datepicker .ui-datepicker-calendar a:hover { color: #3b5998; border-color: #bec8dd; background-color: #dfe4ee; }
+.ui-datepicker .ui-datepicker-calendar a.ui-state-active { background-color: #DDD; font-weight: bold; }
+.ui-datepicker .ui-datepicker-calendar .ui-datepicker-unselectable span { font-size: 85%; text-align: center; padding: 3px 0 2px 0; }
+
+#friend_selector { width: 450px; background-color: #F7F7F7; overflow: hidden; }
+#friend_selector #friend_selector_controls { padding: 10px; }
+#friend_selector #friend_selector_controls input { background: white url(/web/img/sprite1.png) no-repeat 0% 4px; padding-left: 17px; padding-bottom: 4px; width: 270px; }
+#friend_selector #friend_selector_controls a { font-size: 85%; font-weight: bold; float: right; height: 20px; line-height: 20px; padding: 0 4px; border: 1px solid #F7F7F7; }
+#friend_selector #friend_selector_controls a.highlight { background-color: #6d84b4; -moz-border-radius: 5px !important; -webkit-border-radius: 5px !important; border-radius: 5px !important; color: #FFF; cursor: default; border: 1px solid #6d84b4; }
+#friend_selector #friend_selector_controls a.highlight:hover { text-decoration: none; }
+#friend_selector #friend_selector_controls a.clear_search { background: url(/web/img/sprite1.png) no-repeat -846px -67px; display: block; width: 9px; height: 9px; margin-top: 6px; position: relative; padding: 0; }
+#friend_selector #friend_selector_controls a.clear_search:hover { background: url(/web/img/sprite1.png) no-repeat -834px -67px; }
+#friend_selector ul { margin: 0; padding: 3px 3px 0 3px; font-size: 85%; height: 210px; overflow-y: auto; border-top: 1px solid #C1C1C1; border-bottom: 1px solid #C1C1C1; background-color: #FFF; }
+#friend_selector ul li { list-style-type: none; width: 134px; height: 64px; margin: 3px; float: left; }
+#friend_selector ul li:hover { background-image: url(/web/img/friend_selector_hover.gif); cursor: pointer; }
+#friend_selector ul li:hover span.frame img { border-color: #3B5998; }
+#friend_selector ul li span.frame { float: left; width: 56px; height: 56px; margin: 4px 0 0 4px; position: relative; }
+#friend_selector ul li span.frame img { padding: 2px; border: 1px solid #E0E0E0; }
+#friend_selector ul li span.frame span.check { display: none; width: 14px; height: 14px; position: absolute; left: 3px; bottom: 3px; background-image: url(/web/img/friend_selector_check.gif); }
+#friend_selector ul li span.name { display: inline-block; padding: 8px 8px 0 8px; width: 54px; overflow: hidden; text-overflow: ellipsis; }
+#friend_selector ul li.selected, #friend_selector ul li.selected:hover { background-image: url(/web/img/friend_selector_selected.gif); color: #FFF; }
+#friend_selector ul li.selected span.frame, #friend_selector ul li.selected:hover span.frame { background-color: #8497C0; }
+#friend_selector ul li.selected span.frame img, #friend_selector ul li.selected:hover span.frame img { border-color: #B1C1E1; }
+#friend_selector ul li.selected span.frame span.check, #friend_selector ul li.selected:hover span.frame span.check { display: block; }
+#friend_selector a.form_button { float: right; margin: 10px; }

@@ -305,4 +305,4 @@ $.extend( $.ui, {
 	}
 });
 
-})( jQuery );
+})(jQuery);
