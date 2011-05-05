@@ -12476,36 +12476,13 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
   exports.MemoriesController = (function() {
     __extends(MemoriesController, Backbone.Controller);
     MemoriesController.prototype.routes = {
-      'memories_new': 'new'
+      '/memories/new': 'new'
     };
     function MemoriesController() {
       MemoriesController.__super__.constructor.apply(this, arguments);
     }
     MemoriesController.prototype["new"] = function() {
-      var birthday;
-      $('#fb_wrapper').html(app.views.memories_new.render().el);
-      birthday = {
-        'year': 1982,
-        'month': 11,
-        'day': 27
-      };
-      return $('.datepicker').each(function() {
-      var $this = $(this);
-      $this.datepicker({
-        showOn:          'both',
-        buttonImage:     '/web/img/calendar.gif',
-        buttonImageOnly: true,
-        changeMonth:     true,
-        changeYear:      true,
-        dayNamesMin:     ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-        showAnim:        '',
-        altFormat:       'yy-mm-dd',
-        altField:        '#event_'+$(this).attr('id').slice(0, -11)+'_date',
-        maxDate:         0,
-        minDate:         new Date(birthday.year, birthday.month, birthday.day),
-        yearRange:       birthday.year.toString()+':-nn:+nn',
-     });
-    });;
+      return $('#fb_wrapper').html(app.views.memories_new.render().el);
     };
     return MemoriesController;
   })();
@@ -12689,58 +12666,58 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
   // Orientation via data-attrs
   var where = {controller: $('h1.data').attr('data-controller'), action: $('h1.data').attr('data-action'), id: $('h1.data').attr('data-id')};
   
-  // jQuery UI datepicker
-  $('.datepicker').each(function() {
-    var $this = $(this);
-    $this.datepicker({
-      showOn:          'both',
-      buttonImage:     '/images/calendar.gif',
-      buttonImageOnly: true,
-      changeMonth:     true,
-      changeYear:      true,
-      dayNamesMin:     ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-      showAnim:        '',
-      altFormat:       'yy-mm-dd',
-      altField:        '#event_'+$(this).attr('id').slice(0, -11)+'_date',
-      maxDate:         0,
-      minDate:         new Date(birthday.year, birthday.month, birthday.day),
-      yearRange:       birthday.year.toString()+':-nn:+nn', 
-   });
-  });
+  // // jQuery UI datepicker
+  // $('.datepicker').each(function() {
+  //   var $this = $(this);
+  //   $this.datepicker({
+  //     showOn:          'both',
+  //     buttonImage:     '/images/calendar.gif',
+  //     buttonImageOnly: true,
+  //     changeMonth:     true,
+  //     changeYear:      true,
+  //     dayNamesMin:     ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+  //     showAnim:        '',
+  //     altFormat:       'yy-mm-dd',
+  //     altField:        '#event_'+$(this).attr('id').slice(0, -11)+'_date',
+  //     maxDate:         0,
+  //     minDate:         new Date(birthday.year, birthday.month, birthday.day),
+  //     yearRange:       birthday.year.toString()+':-nn:+nn', 
+  //  });
+  // });
   
-  // Enable a range of dates
-  $('span#end_date a').click(function() {
-    var $this = $(this);
-    $this.siblings().each(function() {
-      $(this).removeClass('hide').show()
-    });
-    $this.remove();
-    return false;
-  });
+  // // Enable a range of dates
+  // $('span#end_date a').click(function() {
+  //   var $this = $(this);
+  //   $this.siblings().each(function() {
+  //     $(this).removeClass('hide').show()
+  //   });
+  //   $this.remove();
+  //   return false;
+  // });
   
-  // Second date in range must be >= the first
-  $('.datepicker').first().change(function() {
-    var date = $(this).datepicker('getDate');
-    var endDate = $('.datepicker').last();
-    endDate.datepicker('option', 'minDate', date);
-    endDate.datepicker('option', 'yearRange', date.getFullYear().toString()+':-nn:+nn');
-    $('.ui-datepicker-trigger').show(); // WTF: calendar trigger icon disappears
-  });
-  
-  // In an error state, populate the visible datepickers with dates from the hidden (actual) date fields
-  $start_date = $('#event_start_date');
-  if($start_date.val()) {
-    var date         = $start_date.val().split('-');
-    var default_date = date[1]+'/'+date[2]+'/'+date[0];
-    $('#start_datepicker').val(default_date);
-  }
-  $end_date = $('#event_end_date');
-  if($end_date.val()) {
-    var date         = $end_date.val().split('-');
-    var default_date = date[1]+'/'+date[2]+'/'+date[0];
-    $('#end_datepicker').val(default_date);
-    $('span#end_date a').trigger('click');
-  }
+  // // Second date in range must be >= the first
+  // $('.datepicker').first().change(function() {
+  //   var date = $(this).datepicker('getDate');
+  //   var endDate = $('.datepicker').last();
+  //   endDate.datepicker('option', 'minDate', date);
+  //   endDate.datepicker('option', 'yearRange', date.getFullYear().toString()+':-nn:+nn');
+  //   $('.ui-datepicker-trigger').show(); // WTF: calendar trigger icon disappears
+  // });
+  // 
+  // // In an error state, populate the visible datepickers with dates from the hidden (actual) date fields
+  // $start_date = $('#event_start_date');
+  // if($start_date.val()) {
+  //   var date         = $start_date.val().split('-');
+  //   var default_date = date[1]+'/'+date[2]+'/'+date[0];
+  //   $('#start_datepicker').val(default_date);
+  // }
+  // $end_date = $('#event_end_date');
+  // if($end_date.val()) {
+  //   var date         = $end_date.val().split('-');
+  //   var default_date = date[1]+'/'+date[2]+'/'+date[0];
+  //   $('#end_datepicker').val(default_date);
+  //   $('span#end_date a').trigger('click');
+  // }
   
   // Display a friend selector
   var friends;
@@ -12788,16 +12765,16 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
   
 });
 
-// Callback that fires when FBXML is finished parsing
-function XfbmlParsed() {
-  $(function() {
-    // $fbComments = $('#fb_comments');
-    // var offset = $fbComments.offset();
-    // console.log(offset.top);
-    // console.log($fbComments.height());
-    // $('body').append($('<div class="whiteout"></div>').css({top: offset.top + $fbComments.height(), left: offset.left}));
-  });
-}
+// // Callback that fires when FBXML is finished parsing
+// function XfbmlParsed() {
+//   $(function() {
+//     // $fbComments = $('#fb_comments');
+//     // var offset = $fbComments.offset();
+//     // console.log(offset.top);
+//     // console.log($fbComments.height());
+//     // $('body').append($('<div class="whiteout"></div>').css({top: offset.top + $fbComments.height(), left: offset.left}));
+//   });
+// }
 }, "main": function(exports, require, module) {(function() {
   var HomeController, HomeIndexView, MemoriesController, MemoriesNewView;
   window.app = {};
@@ -12882,7 +12859,7 @@ function XfbmlParsed() {
       return _safe(result);
     };
     (function() {
-      _print(_safe('<h1>New Memory</h1>\n\n<form id="new_event">\n\n  <div class="field">\n    <label for="start_date">When?</label>\n\n    <input type="text" name="start_datepicker" id="start_datepicker" class="datepicker" readonly="readonly" />\n    <input type="hidden" name="start_date" id="start_date" />\n    \n    <span id="end_date">\n      <a href="#">Add end date</a>\n      <label for="end_date">through</label>\n      \n      <input type="text" name="end_datepicker" id="end_datepicker" class="datepicker" readonly="readonly" />\n      <input type="hidden" name="end_date" id="end_date" />\n    </span>\n  </div>\n  \n  <div class="field">\n    <label for="description">Description</label>\n    <input type="text" name="description" id="description" class="wide" />\n  </div>\n  \n  <div class="field">\n    <label for="friends">Who was there?</label>\n    <input type="hidden" name="friends" id="friends" />\n    \n    <a href="#" id="select_friends" class="button">\n      <span class="tag"></span>\n      Tag Friends\n    </a>\n    <div id="friend_selector"></div>\n  </div>\n  \n  <div class="field checkbox">\n    <input type="checkbox" name="is_favorite_memory" id="is_favorite_memory" value="1" />\n    <label for="is_favorite_memory">Add this memory to my favorites</label>\n  </div>\n  \n  <div class="actions">\n    <input type="submit" value="Create Memory" class="submit" />\n  </div>\n\n</form>'));
+      _print(_safe('<h1>New Memory</h1>\n\n<form id="new_event">\n\n  <div class="field">\n    <label for="start_date">When?</label>\n\n    <input type="text" name="start_datepicker" id="start_datepicker" class="datepicker" readonly="readonly" />\n    <input type="hidden" name="start_date" id="start_date" />\n    \n    <span id="end_date">\n      <a href="#">Add end date</a>\n      <label for="end_date" class="hide">through</label>\n      \n      <input type="text" name="end_datepicker" id="end_datepicker" class="datepicker hide" readonly="readonly" />\n      <input type="hidden" name="end_date" id="end_date" />\n    </span>\n  </div>\n  \n  <div class="field">\n    <label for="description">Description</label>\n    <input type="text" name="description" id="description" class="wide" />\n  </div>\n  \n  <div class="field">\n    <label for="friends">Who was there?</label>\n    <input type="hidden" name="friends" id="friends" />\n    \n    <a href="#" id="select_friends" class="button">\n      <span class="tag"></span>\n      Tag Friends\n    </a>\n    <div id="friend_selector"></div>\n  </div>\n  \n  <div class="field checkbox">\n    <input type="checkbox" name="is_favorite_memory" id="is_favorite_memory" value="1" />\n    <label for="is_favorite_memory">Add this memory to my favorites</label>\n  </div>\n  \n  <div class="actions">\n    <input type="submit" value="Create Memory" class="submit" />\n  </div>\n\n</form>'));
     }).call(this);
     
     return __out.join('');
@@ -12941,9 +12918,80 @@ function XfbmlParsed() {
     }
     __extends(MemoriesNewView, Backbone.View);
     MemoriesNewView.prototype.id = 'memories_new';
+    MemoriesNewView.prototype.events = {
+      'click #end_date a': 'enableDateRange'
+    };
     MemoriesNewView.prototype.render = function() {
-      $(this.el).html(memoriesNewTemplate());
+      var $dateField, $endDate, $startDate, $view, birthday, date, defaultDate, _i, _len, _ref;
+      $view = $(this.el).html(memoriesNewTemplate());
+      birthday = {
+        'year': 1982,
+        'month': 11,
+        'day': 27
+      };
+      $view.find('.datepicker').each(function() {
+        var $this, options;
+        $this = $(this);
+        options = {
+          'showOn': 'both',
+          'buttonImage': '/web/img/calendar.gif',
+          'buttonImageOnly': true,
+          'changeMonth': true,
+          'changeYear': true,
+          'dayNamesMin': ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+          'showAnim': '',
+          'altFormat': 'yy-mm-dd',
+          'altField': '#' + $(this).attr('id').slice(0, -6),
+          'maxDate': 0,
+          'minDate': new Date(birthday.year, birthday.month, birthday.day),
+          'yearRange': birthday.year.toString() + ':-nn:+nn'
+        };
+        return $this.datepicker(options);
+      });
+      $view.find('.datepicker').first().change(function() {
+        var $this, date, endDate;
+        $this = $(this);
+        date = $this.datepicker('getDate');
+        endDate = $view.find('.datepicker').last();
+        endDate.datepicker('option', 'minDate', date);
+        endDate.datepicket('option', 'yearRange', date.getFullYear().toString() + ':-nn+nn');
+        return $('.ui-datepicker-trigger').show();
+      });
+      $startDate = $('#start_date');
+      if ($startDate.val()) {
+        date = $startDate.val().split('-');
+        defaultDate = date[1] + '/' + date[2] + '/' + date[0];
+        $('#start_datepicker').val(defaultDate);
+      }
+      $endDate = $('#end_date');
+      if ($endDate.val()) {
+        date = $endDate.val().split('-');
+        defaultDate = date[1] + '/' + date[2] + '/' + date[0];
+        $('#end_datepicker').val(defaultDate);
+        $('#end_date a').trigger('click');
+      }
+      _ref = [$('#start_date'), $('#end_date')];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        $dateField = _ref[_i];
+        if ($dateField.val()) {
+          date = $dateField.val().split('-');
+          defaultDate = date[1] + '/' + date[2] + '/' + date[0];
+          $('#' + $dateField.attr('id') + 'picker').val(defaultDate);
+          if ($dateField.attr('id') === 'end_date') {
+            $('#end_date a').trigger('click');
+          }
+        }
+      }
       return this;
+    };
+    MemoriesNewView.prototype.enableDateRange = function(e) {
+      var $link;
+      e.preventDefault();
+      $link = $(e.currentTarget);
+      $link.siblings().each(function() {
+        return $(this).removeClass('hide').show();
+      });
+      return $link.remove();
     };
     return MemoriesNewView;
   })();

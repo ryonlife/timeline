@@ -10,9 +10,9 @@
     
     <span id="end_date">
       <a href="#">Add end date</a>
-      <label for="end_date">through</label>
+      <label for="end_date" class="hide">through</label>
       
-      <input type="text" name="end_datepicker" id="end_datepicker" class="datepicker" readonly="readonly" />
+      <input type="text" name="end_datepicker" id="end_datepicker" class="datepicker hide" readonly="readonly" />
       <input type="hidden" name="end_date" id="end_date" />
     </span>
   </div>
