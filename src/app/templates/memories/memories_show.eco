@@ -1,0 +1,62 @@
+<div id="sidebar">
+  <div id="photo">
+    <a href="#" class="add_photos"></a>
+  </div>
+  
+  <p class="center">
+    <a href="#" class="self_tag">I wasn't there!</a>
+  </p>
+  
+  <a href="#" id="select_friends" class="button center_cheat">
+    <span class="tag"></span>
+    Tag Friends
+  </a>
+  <input type="hidden" id="friends" class="update" value="" />
+  
+  <ul class="friends">
+    <li class="count">3 people were there</li>
+    <li>
+      <div class="profile_pic">
+        <fb:profile-pic class="image" facebook-logo="false" linked="false" size="square" uid="1" />
+      </div>
+      <div class="name">
+        <fb:name uid="1" />
+      </div>
+    </li>
+  </ul>
+</div>
+
+<div id="main">
+  <header>
+    <div id="header" class="clearfix">
+      <div class="fl">
+        <h1>Memory</h1>
+        <p class="date_line">January 1, 2010 &mdash; January 3, 2010</p>
+      </div>
+      
+      <div class="fr">
+        <fb:like layout="box_count" show_faces="false" />
+      </div>
+    </div>
+  </header>
+  
+  <div id="photos" class="clearfix">
+    <ul class="clearfix">
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li>
+        <a href="#" class="add_photos"></a>
+      </li>
+    </ul>
+    
+    <a href="#" class="fl">Show All Photos (22)</a>
+    <a href="#" class="add_photos fr">Add Photos</a>
+  </div>
+  
+  <div id="fb_comments">
+    <fb:comments href="http://localhost:8080/#/memories/1" width="550" num_posts="25" />
+  </div>
+    
+</div>
