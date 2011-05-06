@@ -128,11 +128,11 @@
       $input.trigger('change'); // onChange event not firing on its own for some reason
       
       // Button text
-      if(numFriendsSelected) {
-        $button.html('<span class="tag"></span>Tag Friends ('+numFriendsSelected+')');
-      } else {
-        $button.html('<span class="tag"></span>Tag Friends');
-      }
+      var tagged = numFriendsSelected ? ' ('+numFriendsSelected+')' : ''
+      $button
+        .html('<span class="tag"></span> Tag Friends'+tagged)
+        .css({'width': 'auto', 'display': 'inline-block'});
+      $button.css({'width': $button.width(), 'display': 'block'})
       
       // Remove dialog
       $('#dialog').remove();

@@ -7,7 +7,7 @@
     <a href="#" class="self_tag">I wasn't there!</a>
   </p>
   
-  <a href="#" id="select_friends" class="button center_cheat">
+  <a href="#" id="tag_friends" class="button center_cheat">
     <span class="tag"></span>
     Tag Friends
   </a>

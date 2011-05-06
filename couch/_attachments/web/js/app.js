@@ -12485,9 +12485,13 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
     MemoriesController.prototype["new"] = function() {
       $('#fb_wrapper').html(app.views.memories_new.render().el);
       return $('#fb_wrapper').find('[data-top-align-with]').each(function() {
-        var $this;
+        var $alignWith, $this;
         $this = $(this);
-        return console.log($this);
+        $alignWith = $($this.attr('data-top-align-with'));
+        return $this.css({
+          'position': 'relative',
+          top: $alignWith.position().top - $this.position().top
+        });
       });
     };
     MemoriesController.prototype.show = function() {
@@ -12656,11 +12660,11 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
       $input.trigger('change'); // onChange event not firing on its own for some reason
       
       // Button text
-      if(numFriendsSelected) {
-        $button.html('<span class="tag"></span>Tag Friends ('+numFriendsSelected+')');
-      } else {
-        $button.html('<span class="tag"></span>Tag Friends');
-      }
+      var tagged = numFriendsSelected ? ' ('+numFriendsSelected+')' : ''
+      $button
+        .html('<span class="tag"></span> Tag Friends'+tagged)
+        .css({'width': 'auto', 'display': 'inline-block'});
+      $button.css({'width': $button.width(), 'display': 'block'})
       
       // Remove dialog
       $('#dialog').remove();
@@ -12839,7 +12843,7 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
       return _safe(result);
     };
     (function() {
-      _print(_safe('<h2>Cool</h2>'));
+      _print(_safe('<h1>Home</h1>\n'));
     }).call(this);
     
     return __out.join('');
@@ -12878,7 +12882,7 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
       return _safe(result);
     };
     (function() {
-      _print(_safe('<h1>New Memory</h1>\n\n<form id="new_event">\n\n  <div class="field">\n    <label for="start_date">When?</label>\n\n    <input type="text" name="start_datepicker" id="start_datepicker" class="datepicker" readonly="readonly" />\n    <input type="hidden" name="start_date" id="start_date" />\n    \n    <span id="end_date">\n      <a href="#">Add end date</a>\n      <label for="end_date" class="hide">through</label>\n      \n      <input type="text" name="end_datepicker" id="end_datepicker" class="datepicker hide" readonly="readonly" />\n      <input type="hidden" name="end_date" id="end_date" />\n    </span>\n  </div>\n  \n  <div class="field">\n    <label for="title">Title</label>\n    <input type="text" name="title" id="title" class="wide" />\n  </div>\n  \n  <div class="field">\n    <label for="description" data-top-align-with="#description">Description</label>\n    <textarea name="description" id="description" class="wide"></textarea>\n  </div>\n  \n  <div class="field">\n    <label for="friends">Who was there?</label>\n    <input type="hidden" name="friends" id="friends" />\n    \n    <a href="#" id="tag_friends" class="button">\n      <span class="tag"></span>\n      Tag Friends\n    </a>\n  </div>\n  \n  <div class="field checkbox">\n    <input type="checkbox" name="is_favorite_memory" id="is_favorite_memory" value="1" />\n    <label for="is_favorite_memory">Add this memory to my favorites</label>\n  </div>\n  \n  <div class="actions">\n    <input type="submit" value="Create Memory" class="submit" />\n  </div>\n\n</form>'));
+      _print(_safe('<div id="main.no_sidebar">\n\n  <header>\n    <div id="header" class="clearfix">\n      <h1>New Memory</h1>\n    </div>\n  </header>\n\n  <form id="new_event">\n\n    <div class="field">\n      <label for="start_date">When?</label>\n\n      <input type="text" name="start_datepicker" id="start_datepicker" class="datepicker" readonly="readonly" />\n      <input type="hidden" name="start_date" id="start_date" />\n    \n      <span id="end_date">\n        <a href="#">Add end date</a>\n        <label for="end_date" class="hide">through</label>\n      \n        <input type="text" name="end_datepicker" id="end_datepicker" class="datepicker hide" readonly="readonly" />\n        <input type="hidden" name="end_date" id="end_date" />\n      </span>\n    </div>\n  \n    <div class="field">\n      <label for="title">Title</label>\n      <input type="text" name="title" id="title" class="wide" />\n    </div>\n  \n    <div class="field">\n      <label for="description" data-top-align-with="#description">Description</label>\n      <textarea name="description" id="description" class="wide"></textarea>\n    </div>\n  \n    <div class="field">\n      <label for="friends">Who was there?</label>\n      <input type="hidden" name="friends" id="friends" />\n    \n      <a href="#" id="tag_friends" class="button">\n        <span class="tag"></span>\n        Tag Friends\n      </a>\n    </div>\n  \n    <div class="field checkbox">\n      <input type="checkbox" name="is_favorite_memory" id="is_favorite_memory" value="1" checked="true" />\n      <label for="is_favorite_memory">Add this memory to my favorites</label>\n    </div>\n  \n    <div class="actions">\n      <input type="submit" value="Create Memory" class="submit" />\n    </div>\n\n  </form>\n  \n</div>\n'));
     }).call(this);
     
     return __out.join('');
@@ -12917,7 +12921,7 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
       return _safe(result);
     };
     (function() {
-      _print(_safe('<div id="sidebar">\n  <div id="photo">\n    <a href="#" class="add_photos"></a>\n  </div>\n  \n  <p class="center">\n    <a href="#" class="self_tag">I wasn\'t there!</a>\n  </p>\n  \n  <a href="#" id="select_friends" class="button center_cheat">\n    <span class="tag"></span>\n    Tag Friends\n  </a>\n  <input type="hidden" id="friends" class="update" value="" />\n  \n  <ul class="friends">\n    <li class="count">3 people were there</li>\n    <li>\n      <div class="profile_pic">\n        <fb:profile-pic class="image" facebook-logo="false" linked="false" size="square" uid="1" />\n      </div>\n      <div class="name">\n        <fb:name uid="1" />\n      </div>\n    </li>\n  </ul>\n</div>\n\n<div id="main">\n  <header>\n    <div id="header" class="clearfix">\n      <div class="fl">\n        <h1>Memory</h1>\n        <p class="date_line">January 1, 2010 &mdash; January 3, 2010</p>\n      </div>\n      \n      <div class="fr">\n        <fb:like layout="box_count" show_faces="false" />\n      </div>\n    </div>\n  </header>\n  \n  <div id="photos" class="clearfix">\n    <ul class="clearfix">\n      <li></li>\n      <li></li>\n      <li></li>\n      <li></li>\n      <li>\n        <a href="#" class="add_photos"></a>\n      </li>\n    </ul>\n    \n    <a href="#" class="fl">Show All Photos (22)</a>\n    <a href="#" class="add_photos fr">Add Photos</a>\n  </div>\n  \n  <div id="fb_comments">\n    <fb:comments href="http://localhost:8080/#/memories/1" width="550" num_posts="25" />\n  </div>\n    \n</div>\n'));
+      _print(_safe('<div id="sidebar">\n  <div id="photo">\n    <a href="#" class="add_photos"></a>\n  </div>\n  \n  <p class="center">\n    <a href="#" class="self_tag">I wasn\'t there!</a>\n  </p>\n  \n  <a href="#" id="tag_friends" class="button center_cheat">\n    <span class="tag"></span>\n    Tag Friends\n  </a>\n  <input type="hidden" id="friends" class="update" value="" />\n  \n  <ul class="friends">\n    <li class="count">3 people were there</li>\n    <li>\n      <div class="profile_pic">\n        <fb:profile-pic class="image" facebook-logo="false" linked="false" size="square" uid="1" />\n      </div>\n      <div class="name">\n        <fb:name uid="1" />\n      </div>\n    </li>\n  </ul>\n</div>\n\n<div id="main">\n  <header>\n    <div id="header" class="clearfix">\n      <div class="fl">\n        <h1>Memory</h1>\n        <p class="date_line">January 1, 2010 &mdash; January 3, 2010</p>\n      </div>\n      \n      <div class="fr">\n        <fb:like layout="box_count" show_faces="false" />\n      </div>\n    </div>\n  </header>\n  \n  <div id="photos" class="clearfix">\n    <ul class="clearfix">\n      <li></li>\n      <li></li>\n      <li></li>\n      <li></li>\n      <li>\n        <a href="#" class="add_photos"></a>\n      </li>\n    </ul>\n    \n    <a href="#" class="fl">Show All Photos (22)</a>\n    <a href="#" class="add_photos fr">Add Photos</a>\n  </div>\n  \n  <div id="fb_comments">\n    <fb:comments href="http://localhost:8080/#/memories/1" width="550" num_posts="25" />\n  </div>\n    \n</div>\n'));
     }).call(this);
     
     return __out.join('');
@@ -13085,10 +13089,22 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
     }
     __extends(MemoriesShowView, Backbone.View);
     MemoriesShowView.prototype.id = 'memories_show';
+    MemoriesShowView.prototype.events = {
+      'click #tag_friends': 'showFriendSelector'
+    };
     MemoriesShowView.prototype.render = function() {
       var $view;
       $view = $(this.el).html(memoriesShowTemplate());
       return this;
+    };
+    MemoriesShowView.prototype.showFriendSelector = function(e) {
+      e.preventDefault();
+      return $('<div id="friend_selector"></div>').friendSelector($(e.currentTarget), $('#friends'), [
+        {
+          'id': 1,
+          'name': 'Ryan McKillen'
+        }
+      ]).dialog('Tag Friends');
     };
     return MemoriesShowView;
   })();

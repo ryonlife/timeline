@@ -11,8 +11,20 @@ html{color:#000;background:#FFF;}body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pr
 body{font:13px/1.231 arial,helvetica,clean,sans-serif;*font-size:small;*font:x-small;}select,input,button,textarea{font:99% arial,helvetica,clean,sans-serif;}table{font-size:inherit;font:100%;}pre,code,kbd,samp,tt{font-family:monospace;*font-size:108%;line-height:100%;}
 h1{font-size:138.5%;}h2{font-size:123.1%;}h3{font-size:108%;}h1,h2,h3{margin:1em 0;}h1,h2,h3,h4,h5,h6,strong{font-weight:bold;}abbr,acronym{border-bottom:1px dotted #000;cursor:help;}em{font-style:italic;}blockquote,ul,ol,dl{margin:1em;}ol,ul,dl{margin-left:2em;}ol li{list-style:decimal outside;}ul li{list-style:disc outside;}dl dd{margin-left:1em;}th,td{border:1px solid #000;padding:.5em;}th{font-weight:bold;text-align:center;}caption{margin-bottom:.5em;text-align:center;}p,fieldset,table,pre{margin-bottom:1em;}input[type=text],input[type=password],textarea{width:12.25em;*width:11.9em;}
 #fb_wrapper{width:760px;margin:1em auto}
+#main{float:right;width:550px;padding:0 20px;border-left:1px solid #b3b3b3;position:relative;left:-1px}
+#main.no_sidebar{float:none;border:0;width:760px;padding:0}
+#sidebar{width:168px;float:left;border-right:1px solid #b3b3b3}
+body,input,select,textarea,.ui-widget{font-family:"lucida grande",tahoma,verdana,arial,sans-serif !important}
+h1{font-size:123.1%;margin:0 0 .5em 0}
+a,a:visited{color:#3b5998;text-decoration:none;}
+a:hover,a:visited:hover{text-decoration:underline}
+.clearfix:after{content:".";display:block;height:0;clear:both;visibility:hidden}
 .hide{display:none !important}
-a.button,a.button:visited{font-size:85%;border:1px solid #888;background:#eee url("/web/img/sprite2.png") repeat 0 0;height:20px;line-height:20px;padding:0 6px;display:inline-block;color:#333;font-weight:bold;-webkit-box-shadow:rgba(0,0,0,0.0976562) 0 1px 0 0;}
+.center{text-align:center}
+.center_cheat{margin:0 auto}
+.fl{float:left}
+.fr{float:right}
+a.button,a.button:visited{white-space:nowrap;font-size:85%;border:1px solid #888;background:#eee url("/web/img/sprite2.png") repeat 0 0;height:20px;line-height:20px;padding:0 6px;display:inline-block;color:#333;font-weight:bold;-webkit-box-shadow:rgba(0,0,0,0.0976562) 0 1px 0 0;}
 a.button span.plus,a.button:visited span.plus{display:inline-block;width:10px;height:10px;background:transparent url("/web/img/sprite3.png") no-repeat center -49px}
 a.button span.tag,a.button:visited span.tag{display:inline-block;position:relative;top:3px;width:15px;height:13px;background:transparent url("/web/img/sprite3.png") no-repeat -10px -15px}
 a.button:hover,a.button:visited:hover{text-decoration:none}
@@ -33,6 +45,21 @@ a.form_button:hover,a.form_button:visited:hover,input.submit:hover{text-decorati
 #new_event .field.checkbox label{width:auto}
 #new_event .field.checkbox input{margin-top:2px}
 #new_event .actions{margin:1.5em 0 0 114px}
+#sidebar #photo{height:120px;margin-bottom:10px;border-left:2px solid #fff;background-color:#eceff5;}
+#sidebar #photo a.add_photos{display:block;height:120px;background:#eceff5 url("/web/img/add_photo.png") no-repeat center center}
+#header{margin-bottom:1em;}
+#header .date_line{color:#808080;font-size:85%}
+#header .fr{position:relative;left:3px}
+ul.friends{border-top:1px solid #d8dfea;margin:1.5em 0 0 0;padding:1em 0 0 0;font-size:85%;font-weight:bold;}
+ul.friends li.count{color:#808080;margin-bottom:10px}
+ul.friends li{list-style:none;clear:both;}
+ul.friends li .profile_pic{width:50px;float:left;margin:0 10px 5px 0}
+ul.friends li .name{margin-top:5px;float:left;width:95px;font-weight:normal}
+a.self_tag{font-size:93%;font-weight:bold}
+#photos{font-size:85%;margin-bottom:2em;}
+#photos ul{margin:0 0 5px -2px;}
+#photos ul li{float:left;padding:0;display:block;list-style:none;width:108px;height:68px;background-color:#eceff5;border-left:2px solid #fff;}
+#photos ul li a.add_photos{background:transparent url("/web/img/add_photo_small.png") no-repeat center center;display:block;height:68px}
 #dialog{display:inline-block;border:8px solid #868686;-moz-border-radius:8px;-webkit-border-radius:8px;border-radius:8px;position:fixed;top:50%;left:50%;}
 #dialog > div{border:1px solid #3b5998;}
 #dialog > div h3{font-size:108%;color:#fff;background-color:#6d84b4;padding:5px 10px;margin:0}
