@@ -26,7 +26,7 @@
     <label for="friends">Who was there?</label>
     <input type="hidden" name="friends" id="friends" />
     
-    <a href="#" id="select_friends" class="button">
+    <a href="#" id="tag_friends" class="button">
       <span class="tag"></span>
       Tag Friends
     </a>

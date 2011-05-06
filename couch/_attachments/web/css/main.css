@@ -25,3 +25,6 @@ h1{font-size:138.5%;}h2{font-size:123.1%;}h3{font-size:108%;}h1,h2,h3{margin:1em
 #new_event .field.checkbox label{width:auto}
 #new_event .field.checkbox input{margin-top:2px}
 #new_event .actions{margin:1.5em 0 0 114px}
+#dialog{display:inline-block;border:8px solid #868686;-moz-border-radius:8px;-webkit-border-radius:8px;border-radius:8px;position:fixed;top:50%;left:50%;}
+#dialog > div{border:1px solid #3b5998;}
+#dialog > div h3{font-size:108%;color:#fff;background-color:#6d84b4;padding:5px 10px;margin:0}

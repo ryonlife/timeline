@@ -6,5 +6,5 @@ class exports.MemoriesController extends Backbone.Controller
     super
 
   new: ->
-    $('#fb_wrapper').html app.views.memories_new.render().el
+    $('#fb_wrapper').html(app.views.memories_new.render().el)
     

@@ -12859,7 +12859,7 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
       return _safe(result);
     };
     (function() {
-      _print(_safe('<h1>New Memory</h1>\n\n<form id="new_event">\n\n  <div class="field">\n    <label for="start_date">When?</label>\n\n    <input type="text" name="start_datepicker" id="start_datepicker" class="datepicker" readonly="readonly" />\n    <input type="hidden" name="start_date" id="start_date" />\n    \n    <span id="end_date">\n      <a href="#">Add end date</a>\n      <label for="end_date" class="hide">through</label>\n      \n      <input type="text" name="end_datepicker" id="end_datepicker" class="datepicker hide" readonly="readonly" />\n      <input type="hidden" name="end_date" id="end_date" />\n    </span>\n  </div>\n  \n  <div class="field">\n    <label for="description">Description</label>\n    <input type="text" name="description" id="description" class="wide" />\n  </div>\n  \n  <div class="field">\n    <label for="friends">Who was there?</label>\n    <input type="hidden" name="friends" id="friends" />\n    \n    <a href="#" id="select_friends" class="button">\n      <span class="tag"></span>\n      Tag Friends\n    </a>\n    <div id="friend_selector"></div>\n  </div>\n  \n  <div class="field checkbox">\n    <input type="checkbox" name="is_favorite_memory" id="is_favorite_memory" value="1" />\n    <label for="is_favorite_memory">Add this memory to my favorites</label>\n  </div>\n  \n  <div class="actions">\n    <input type="submit" value="Create Memory" class="submit" />\n  </div>\n\n</form>'));
+      _print(_safe('<h1>New Memory</h1>\n\n<form id="new_event">\n\n  <div class="field">\n    <label for="start_date">When?</label>\n\n    <input type="text" name="start_datepicker" id="start_datepicker" class="datepicker" readonly="readonly" />\n    <input type="hidden" name="start_date" id="start_date" />\n    \n    <span id="end_date">\n      <a href="#">Add end date</a>\n      <label for="end_date" class="hide">through</label>\n      \n      <input type="text" name="end_datepicker" id="end_datepicker" class="datepicker hide" readonly="readonly" />\n      <input type="hidden" name="end_date" id="end_date" />\n    </span>\n  </div>\n  \n  <div class="field">\n    <label for="description">Description</label>\n    <input type="text" name="description" id="description" class="wide" />\n  </div>\n  \n  <div class="field">\n    <label for="friends">Who was there?</label>\n    <input type="hidden" name="friends" id="friends" />\n    \n    <a href="#" id="tag_friends" class="button">\n      <span class="tag"></span>\n      Tag Friends\n    </a>\n    <div id="friend_selector"></div>\n  </div>\n  \n  <div class="field checkbox">\n    <input type="checkbox" name="is_favorite_memory" id="is_favorite_memory" value="1" />\n    <label for="is_favorite_memory">Add this memory to my favorites</label>\n  </div>\n  \n  <div class="actions">\n    <input type="submit" value="Create Memory" class="submit" />\n  </div>\n\n</form>'));
     }).call(this);
     
     return __out.join('');
@@ -12919,7 +12919,8 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
     __extends(MemoriesNewView, Backbone.View);
     MemoriesNewView.prototype.id = 'memories_new';
     MemoriesNewView.prototype.events = {
-      'click #end_date a': 'enableDateRange'
+      'click #end_date a': 'enableDateRange',
+      'click #tag_friends': 'showFriendSelector'
     };
     MemoriesNewView.prototype.render = function() {
       var $dateField, $endDate, $startDate, $view, birthday, date, defaultDate, _i, _len, _ref;
@@ -12992,6 +12993,10 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
         return $(this).removeClass('hide').show();
       });
       return $link.remove();
+    };
+    MemoriesNewView.prototype.showFriendSelector = function(e) {
+      e.preventDefault();
+      return $('<p>test</p>').dialog('Test');
     };
     return MemoriesNewView;
   })();

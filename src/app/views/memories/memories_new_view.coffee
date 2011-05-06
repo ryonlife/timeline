@@ -4,7 +4,8 @@ class exports.MemoriesNewView extends Backbone.View
   id: 'memories_new'
   
   events:
-    'click #end_date a': 'enableDateRange'
+    'click #end_date a'  : 'enableDateRange'
+    'click #tag_friends' : 'showFriendSelector'
   
   render: ->
     $view = $(@.el).html(memoriesNewTemplate())
@@ -76,4 +77,7 @@ class exports.MemoriesNewView extends Backbone.View
     )
     $link.remove()
     
+  showFriendSelector: (e) ->
+    e.preventDefault()
+    $('<p>test</p>').dialog('Test')
     
