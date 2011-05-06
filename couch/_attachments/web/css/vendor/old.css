@@ -5,12 +5,11 @@ body, input, select, textarea, .ui-widget { font-family: "lucida grande", tahoma
 
 h1 { font-size: 123.1%; margin: 0 0 0.5em 0; }
 
-select { border: 1px solid #BDC7D8; font-size: 11px; padding: 0 4px; margin: 0 2px; }
+/*select { border: 1px solid #BDC7D8; font-size: 11px; padding: 0 4px; margin: 0 2px; }
+input { font-size: 85%; border: 1px solid #BDC7D8; padding: 3px; outline: none; }*/
 
 a, a:visited { color: #3B5998; text-decoration: none; }
 a:hover, a:visited:hover { text-decoration: underline; }
-
-input { font-size: 85%; border: 1px solid #BDC7D8; padding: 3px; outline: none; }
 
 /*.hide { display: none !important; }*/
 
@@ -74,7 +73,7 @@ a.self_tag { font-size: 93%; font-weight: bold; }
 input.location { background: white url(/web/img/compass.png) no-repeat right 2px; }*/
 
 /* COMPONENTS */
-a.form_button, input.submit { font-size: 13px; display: inline-block; width: auto; height: 23px; line-height: 23px; padding: 0 6px; font-weight: bold; color: #FFF; background: transparent url(/web/img/sprite2.png) repeat-x 0 -48px; border: 1px solid #000; border-top-color: #29447E; border-right-color: #29447E; border-bottom-color: #1A356E; border-left-color: #29447E; -webkit-box-shadow: rgba(0, 0, 0, 0.098) 0 1px 0 0; }
+/*a.form_button, input.submit { font-size: 13px; display: inline-block; width: auto; height: 23px; line-height: 23px; padding: 0 6px; font-weight: bold; color: #FFF; background: transparent url(/web/img/sprite2.png) repeat-x 0 -48px; border: 1px solid #000; border-top-color: #29447E; border-right-color: #29447E; border-bottom-color: #1A356E; border-left-color: #29447E; -webkit-box-shadow: rgba(0, 0, 0, 0.098) 0 1px 0 0; }
 a.form_button:hover, input.submit:hover { text-decoration: none; }
 
 input.submit { height: 25px; line-height: 23px; }
@@ -83,7 +82,7 @@ a.button { font-size: 85%; border: 1px solid #888; background: #eeeeee url(/web/
 a.button span.plus { display: inline-block; width: 10px; height: 10px; background: transparent url(/web/img/sprite3.png) no-repeat center -49px; }
 a.button span.tag { display: inline-block; position: relative; top: 3px; width: 15px; height: 13px; background: transparent url(/web/img/sprite3.png) no-repeat -10px -15px; }
 a.button:hover { text-decoration: none; }
-
+*/
 /*#dialog { display: inline-block; border: 8px solid #868686; -moz-border-radius: 8px !important; -webkit-border-radius: 8px !important; border-radius: 8px !important; position: fixed; top: 50%; left: 50%; }
 #dialog > div { border: 1px solid #3B5998; }
 #dialog > div h3 { font-size: 108%; color: #FFF; background-color: #6D84B4; padding: 5px 10px; margin: 0; }*/

@@ -12476,13 +12476,30 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
   exports.MemoriesController = (function() {
     __extends(MemoriesController, Backbone.Controller);
     MemoriesController.prototype.routes = {
-      '/memories/new': 'new'
+      '/memories/new': 'new',
+      '/memories/:id': 'show'
     };
     function MemoriesController() {
       MemoriesController.__super__.constructor.apply(this, arguments);
     }
     MemoriesController.prototype["new"] = function() {
-      return $('#fb_wrapper').html(app.views.memories_new.render().el);
+      $('#fb_wrapper').html(app.views.memories_new.render().el);
+      return $('#fb_wrapper').find('[data-top-align-with]').each(function() {
+        var $this;
+        $this = $(this);
+        return console.log($this);
+      });
+    };
+    MemoriesController.prototype.show = function() {
+      $('#fb_wrapper').html(app.views.memories_show.render().el);
+      return $('#fb_wrapper').find('.center_cheat').each(function() {
+        var $this;
+        $this = $(this);
+        return $this.css({
+          'width': $this.width(),
+          'display': 'block'
+        });
+      });
     };
     return MemoriesController;
   })();
@@ -12516,11 +12533,12 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
     
     // $button - jQuery object (button) that launches the friendSelector onClick
     // $input - jQuery object (text input) that a comma seperated list of friend IDs is injected into
-    // friends - array of friend IDs
+    // friends - array of friends from the Facebook Graph API
     
     // Setup
-      
-    var $fs = this;
+    
+    var $fs = $(this);
+    $('body').append($fs);
     
     $fs
       .append('<div id="friend_selector_controls"></div>')
@@ -12593,7 +12611,7 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
       var name = this.name.replace(/ /, '<br />');
       $fsf.append('<li data-friend-id="'+this.id+'" class="'+className+'"><span class="frame"><fb:profile-pic class="image" facebook-logo="false" linked="false" size="square" uid="'+this.id+'"></fb:profile-pic><span class="check"></span></span><span class="name">'+name+'</span></li>');
     });
-    FB.XFBML.parse(document.getElementById($fsf.attr('id'))); // Newly raising unsafe JS frame access when parsing pictures
+    // FB.XFBML.parse(document.getElementById($fsf.attr('id'))); // Newly raising unsafe JS frame access when parsing pictures
     updateSelectedCount();
     
     // Search for friends
@@ -12625,11 +12643,7 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
     
     // Close button
     $fs.find('.form_button').click(function() {
-      
-      // Remove dialog
-      $('<div id="friend_selector">').insertAfter('#select_friends');
-      $('#dialog').remove();
-      
+            
       // Serialize friend selections to hidden input
       $input.val('');
       var numFriendsSelected = 0;
@@ -12648,6 +12662,9 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
         $button.html('<span class="tag"></span>Tag Friends');
       }
       
+      // Remove dialog
+      $('#dialog').remove();
+      
       return false;
     });
     
@@ -12656,15 +12673,15 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
       $showSelected.text('Selected ('+$fsf.find('li.selected').length+')');
     }
     
-    return this;
+    return $fs;
     
   };
     
 })(jQuery);
 }, "lib/old": function(exports, require, module) {$(function() {
   
-  // Orientation via data-attrs
-  var where = {controller: $('h1.data').attr('data-controller'), action: $('h1.data').attr('data-action'), id: $('h1.data').attr('data-id')};
+  // // Orientation via data-attrs
+  // var where = {controller: $('h1.data').attr('data-controller'), action: $('h1.data').attr('data-action'), id: $('h1.data').attr('data-id')};
   
   // // jQuery UI datepicker
   // $('.datepicker').each(function() {
@@ -12719,23 +12736,23 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
   //   $('span#end_date a').trigger('click');
   // }
   
-  // Display a friend selector
-  var friends;
-  var $friendInput = $('#event_friends');
-  $('#select_friends').click(function() {
-    $this = $(this);
-    if(!friends) {
-      $.ajax({
-        url: '/graph/friends',
-        success: function(data) {
-          friends = data;
-          $('#friend_selector').friendSelector($this, $friendInput, friends).dialog('Tag Friends');
-        }
-      });
-    } else {
-      $('#friend_selector').friendSelector($this, $friendInput, friends).dialog('Tag Friends');
-    }
-  });
+  // // Display a friend selector
+  // var friends;
+  // var $friendInput = $('#event_friends');
+  // $('#select_friends').click(function() {
+  //   $this = $(this);
+  //   if(!friends) {
+  //     $.ajax({
+  //       url: '/graph/friends',
+  //       success: function(data) {
+  //         friends = data;
+  //         $('#friend_selector').friendSelector($this, $friendInput, friends).dialog('Tag Friends');
+  //       }
+  //     });
+  //   } else {
+  //     $('#friend_selector').friendSelector($this, $friendInput, friends).dialog('Tag Friends');
+  //   }
+  // });
   
   // Default state for friend selector button
   if($friendInput.val()) {
@@ -12757,11 +12774,11 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
     });
   });
   
-  // Cheat for centering stuff
-  $('.center_cheat').each(function() {
-    $this = $(this);
-    $this.css({width: $this.width(), display: 'block'});
-  });
+  // // Cheat for centering stuff
+  // $('.center_cheat').each(function() {
+  //   $this = $(this);
+  //   $this.css({width: $this.width(), display: 'block'});
+  // });
   
 });
 
@@ -12776,7 +12793,7 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
 //   });
 // }
 }, "main": function(exports, require, module) {(function() {
-  var HomeController, HomeIndexView, MemoriesController, MemoriesNewView;
+  var HomeController, HomeIndexView, MemoriesController, MemoriesNewView, MemoriesShowView;
   window.app = {};
   app.controllers = {};
   app.models = {};
@@ -12786,12 +12803,14 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
   HomeIndexView = require('views/home/home_index_view').HomeIndexView;
   MemoriesController = require('controllers/memories_controller').MemoriesController;
   MemoriesNewView = require('views/memories/memories_new_view').MemoriesNewView;
+  MemoriesShowView = require('views/memories/memories_show_view').MemoriesShowView;
   $(document).ready(function() {
     app.initialize = function() {
       app.controllers.home = new HomeController;
       app.views.home_index = new HomeIndexView;
       app.controllers.memories = new MemoriesController;
-      return app.views.memories_new = new MemoriesNewView;
+      app.views.memories_new = new MemoriesNewView;
+      return app.views.memories_show = new MemoriesShowView;
     };
     app.initialize();
     return Backbone.history.start();
@@ -12859,7 +12878,46 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
       return _safe(result);
     };
     (function() {
-      _print(_safe('<h1>New Memory</h1>\n\n<form id="new_event">\n\n  <div class="field">\n    <label for="start_date">When?</label>\n\n    <input type="text" name="start_datepicker" id="start_datepicker" class="datepicker" readonly="readonly" />\n    <input type="hidden" name="start_date" id="start_date" />\n    \n    <span id="end_date">\n      <a href="#">Add end date</a>\n      <label for="end_date" class="hide">through</label>\n      \n      <input type="text" name="end_datepicker" id="end_datepicker" class="datepicker hide" readonly="readonly" />\n      <input type="hidden" name="end_date" id="end_date" />\n    </span>\n  </div>\n  \n  <div class="field">\n    <label for="description">Description</label>\n    <input type="text" name="description" id="description" class="wide" />\n  </div>\n  \n  <div class="field">\n    <label for="friends">Who was there?</label>\n    <input type="hidden" name="friends" id="friends" />\n    \n    <a href="#" id="tag_friends" class="button">\n      <span class="tag"></span>\n      Tag Friends\n    </a>\n    <div id="friend_selector"></div>\n  </div>\n  \n  <div class="field checkbox">\n    <input type="checkbox" name="is_favorite_memory" id="is_favorite_memory" value="1" />\n    <label for="is_favorite_memory">Add this memory to my favorites</label>\n  </div>\n  \n  <div class="actions">\n    <input type="submit" value="Create Memory" class="submit" />\n  </div>\n\n</form>'));
+      _print(_safe('<h1>New Memory</h1>\n\n<form id="new_event">\n\n  <div class="field">\n    <label for="start_date">When?</label>\n\n    <input type="text" name="start_datepicker" id="start_datepicker" class="datepicker" readonly="readonly" />\n    <input type="hidden" name="start_date" id="start_date" />\n    \n    <span id="end_date">\n      <a href="#">Add end date</a>\n      <label for="end_date" class="hide">through</label>\n      \n      <input type="text" name="end_datepicker" id="end_datepicker" class="datepicker hide" readonly="readonly" />\n      <input type="hidden" name="end_date" id="end_date" />\n    </span>\n  </div>\n  \n  <div class="field">\n    <label for="title">Title</label>\n    <input type="text" name="title" id="title" class="wide" />\n  </div>\n  \n  <div class="field">\n    <label for="description" data-top-align-with="#description">Description</label>\n    <textarea name="description" id="description" class="wide"></textarea>\n  </div>\n  \n  <div class="field">\n    <label for="friends">Who was there?</label>\n    <input type="hidden" name="friends" id="friends" />\n    \n    <a href="#" id="tag_friends" class="button">\n      <span class="tag"></span>\n      Tag Friends\n    </a>\n  </div>\n  \n  <div class="field checkbox">\n    <input type="checkbox" name="is_favorite_memory" id="is_favorite_memory" value="1" />\n    <label for="is_favorite_memory">Add this memory to my favorites</label>\n  </div>\n  \n  <div class="actions">\n    <input type="submit" value="Create Memory" class="submit" />\n  </div>\n\n</form>'));
+    }).call(this);
+    
+    return __out.join('');
+  }).call((function() {
+    var obj = {
+      escape: function(value) {
+        return ('' + value)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;');
+      },
+      safe: _safe
+    }, key;
+    for (key in __obj) obj[key] = __obj[key];
+    return obj;
+  })());
+};}, "templates/memories/memories_show": function(exports, require, module) {module.exports = function(__obj) {
+  var _safe = function(value) {
+    if (typeof value === 'undefined' && value == null)
+      value = '';
+    var result = new String(value);
+    result.ecoSafe = true;
+    return result;
+  };
+  return (function() {
+    var __out = [], __self = this, _print = function(value) {
+      if (typeof value !== 'undefined' && value != null)
+        __out.push(value.ecoSafe ? value : __self.escape(value));
+    }, _capture = function(callback) {
+      var out = __out, result;
+      __out = [];
+      callback.call(this);
+      result = __out.join('');
+      __out = out;
+      return _safe(result);
+    };
+    (function() {
+      _print(_safe('<div id="sidebar">\n  <div id="photo">\n    <a href="#" class="add_photos"></a>\n  </div>\n  \n  <p class="center">\n    <a href="#" class="self_tag">I wasn\'t there!</a>\n  </p>\n  \n  <a href="#" id="select_friends" class="button center_cheat">\n    <span class="tag"></span>\n    Tag Friends\n  </a>\n  <input type="hidden" id="friends" class="update" value="" />\n  \n  <ul class="friends">\n    <li class="count">3 people were there</li>\n    <li>\n      <div class="profile_pic">\n        <fb:profile-pic class="image" facebook-logo="false" linked="false" size="square" uid="1" />\n      </div>\n      <div class="name">\n        <fb:name uid="1" />\n      </div>\n    </li>\n  </ul>\n</div>\n\n<div id="main">\n  <header>\n    <div id="header" class="clearfix">\n      <div class="fl">\n        <h1>Memory</h1>\n        <p class="date_line">January 1, 2010 &mdash; January 3, 2010</p>\n      </div>\n      \n      <div class="fr">\n        <fb:like layout="box_count" show_faces="false" />\n      </div>\n    </div>\n  </header>\n  \n  <div id="photos" class="clearfix">\n    <ul class="clearfix">\n      <li></li>\n      <li></li>\n      <li></li>\n      <li></li>\n      <li>\n        <a href="#" class="add_photos"></a>\n      </li>\n    </ul>\n    \n    <a href="#" class="fl">Show All Photos (22)</a>\n    <a href="#" class="add_photos fr">Add Photos</a>\n  </div>\n  \n  <div id="fb_comments">\n    <fb:comments href="http://localhost:8080/#/memories/1" width="550" num_posts="25" />\n  </div>\n    \n</div>\n'));
     }).call(this);
     
     return __out.join('');
@@ -12920,7 +12978,8 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
     MemoriesNewView.prototype.id = 'memories_new';
     MemoriesNewView.prototype.events = {
       'click #end_date a': 'enableDateRange',
-      'click #tag_friends': 'showFriendSelector'
+      'click #tag_friends': 'showFriendSelector',
+      'submit form': 'createMemory'
     };
     MemoriesNewView.prototype.render = function() {
       var $dateField, $endDate, $startDate, $view, birthday, date, defaultDate, _i, _len, _ref;
@@ -12955,8 +13014,7 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
         date = $this.datepicker('getDate');
         endDate = $view.find('.datepicker').last();
         endDate.datepicker('option', 'minDate', date);
-        endDate.datepicket('option', 'yearRange', date.getFullYear().toString() + ':-nn+nn');
-        return $('.ui-datepicker-trigger').show();
+        return endDate.datepicker('option', 'yearRange', date.getFullYear().toString() + ':-nn+nn');
       });
       $startDate = $('#start_date');
       if ($startDate.val()) {
@@ -12996,9 +13054,43 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
     };
     MemoriesNewView.prototype.showFriendSelector = function(e) {
       e.preventDefault();
-      return $('<p>test</p>').dialog('Test');
+      return $('<div id="friend_selector"></div>').friendSelector($(e.currentTarget), $('#friends'), [
+        {
+          'id': 1,
+          'name': 'Ryan McKillen'
+        }
+      ]).dialog('Tag Friends');
+    };
+    MemoriesNewView.prototype.createMemory = function(e) {
+      e.preventDefault();
+      return console.log('create');
     };
     return MemoriesNewView;
+  })();
+}).call(this);
+}, "views/memories/memories_show_view": function(exports, require, module) {(function() {
+  var memoriesShowTemplate;
+  var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
+    for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
+    function ctor() { this.constructor = child; }
+    ctor.prototype = parent.prototype;
+    child.prototype = new ctor;
+    child.__super__ = parent.prototype;
+    return child;
+  };
+  memoriesShowTemplate = require('templates/memories/memories_show');
+  exports.MemoriesShowView = (function() {
+    function MemoriesShowView() {
+      MemoriesShowView.__super__.constructor.apply(this, arguments);
+    }
+    __extends(MemoriesShowView, Backbone.View);
+    MemoriesShowView.prototype.id = 'memories_show';
+    MemoriesShowView.prototype.render = function() {
+      var $view;
+      $view = $(this.el).html(memoriesShowTemplate());
+      return this;
+    };
+    return MemoriesShowView;
   })();
 }).call(this);
 }});

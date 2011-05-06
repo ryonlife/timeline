@@ -27,12 +27,12 @@ h1{
   margin:0 0 0.5em 0;
 }
 
-select {
+/*select {
   border:1px solid #BDC7D8;
   font-size:11px;
   padding:0 4px;
   margin:0 2px;
-}
+}*/
 
 a,
 a:visited{
@@ -43,12 +43,12 @@ a:visited{
   }
 }
 
-input{
+/*input{
   font-size:85%;
   border:1px solid #BDC7D8;
   padding:3px;
   outline:none;
-}
+}*/
 
 /*.hide{
   display:none;
@@ -257,7 +257,7 @@ input.location{
 
 /* COMPONENTS */
 
-a.form_button,
+/*a.form_button,
 input.submit{
   font-size:13px;
   display:inline-block;
@@ -311,7 +311,7 @@ a.button{
   &:hover{
     text-decoration:none;
   }
-}
+}*/
 
 /*#dialog{
   display:inline-block;

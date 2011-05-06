@@ -6,6 +6,7 @@ class exports.MemoriesNewView extends Backbone.View
   events:
     'click #end_date a'  : 'enableDateRange'
     'click #tag_friends' : 'showFriendSelector'
+    'submit form'        : 'createMemory'
   
   render: ->
     $view = $(@.el).html(memoriesNewTemplate())
@@ -41,8 +42,7 @@ class exports.MemoriesNewView extends Backbone.View
       date = $this.datepicker('getDate')
       endDate = $view.find('.datepicker').last()
       endDate.datepicker('option', 'minDate', date)
-      endDate.datepicket('option', 'yearRange', date.getFullYear().toString()+':-nn+nn')
-      $('.ui-datepicker-trigger').show() # WTF: calendar trigger icon disappears
+      endDate.datepicker('option', 'yearRange', date.getFullYear().toString()+':-nn+nn')
     )
     
     # In an error state, populate the visible datepickers with dates from the hidden (actual) date fields
@@ -79,5 +79,11 @@ class exports.MemoriesNewView extends Backbone.View
     
   showFriendSelector: (e) ->
     e.preventDefault()
-    $('<p>test</p>').dialog('Test')
+    $('<div id="friend_selector"></div>')
+      .friendSelector($(e.currentTarget), $('#friends'), [{'id': 1, 'name': 'Ryan McKillen'}])
+      .dialog('Tag Friends')
+      
+  createMemory: (e) ->
+    e.preventDefault()
+    console.log('create')
     

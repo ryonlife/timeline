@@ -1,7 +1,7 @@
 $(function() {
   
-  // Orientation via data-attrs
-  var where = {controller: $('h1.data').attr('data-controller'), action: $('h1.data').attr('data-action'), id: $('h1.data').attr('data-id')};
+  // // Orientation via data-attrs
+  // var where = {controller: $('h1.data').attr('data-controller'), action: $('h1.data').attr('data-action'), id: $('h1.data').attr('data-id')};
   
   // // jQuery UI datepicker
   // $('.datepicker').each(function() {
@@ -56,23 +56,23 @@ $(function() {
   //   $('span#end_date a').trigger('click');
   // }
   
-  // Display a friend selector
-  var friends;
-  var $friendInput = $('#event_friends');
-  $('#select_friends').click(function() {
-    $this = $(this);
-    if(!friends) {
-      $.ajax({
-        url: '/graph/friends',
-        success: function(data) {
-          friends = data;
-          $('#friend_selector').friendSelector($this, $friendInput, friends).dialog('Tag Friends');
-        }
-      });
-    } else {
-      $('#friend_selector').friendSelector($this, $friendInput, friends).dialog('Tag Friends');
-    }
-  });
+  // // Display a friend selector
+  // var friends;
+  // var $friendInput = $('#event_friends');
+  // $('#select_friends').click(function() {
+  //   $this = $(this);
+  //   if(!friends) {
+  //     $.ajax({
+  //       url: '/graph/friends',
+  //       success: function(data) {
+  //         friends = data;
+  //         $('#friend_selector').friendSelector($this, $friendInput, friends).dialog('Tag Friends');
+  //       }
+  //     });
+  //   } else {
+  //     $('#friend_selector').friendSelector($this, $friendInput, friends).dialog('Tag Friends');
+  //   }
+  // });
   
   // Default state for friend selector button
   if($friendInput.val()) {
@@ -94,11 +94,11 @@ $(function() {
     });
   });
   
-  // Cheat for centering stuff
-  $('.center_cheat').each(function() {
-    $this = $(this);
-    $this.css({width: $this.width(), display: 'block'});
-  });
+  // // Cheat for centering stuff
+  // $('.center_cheat').each(function() {
+  //   $this = $(this);
+  //   $this.css({width: $this.width(), display: 'block'});
+  // });
   
 });
 

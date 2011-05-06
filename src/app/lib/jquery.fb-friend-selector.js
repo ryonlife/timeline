@@ -5,11 +5,12 @@
     
     // $button - jQuery object (button) that launches the friendSelector onClick
     // $input - jQuery object (text input) that a comma seperated list of friend IDs is injected into
-    // friends - array of friend IDs
+    // friends - array of friends from the Facebook Graph API
     
     // Setup
-      
-    var $fs = this;
+    
+    var $fs = $(this);
+    $('body').append($fs);
     
     $fs
       .append('<div id="friend_selector_controls"></div>')
@@ -82,7 +83,7 @@
       var name = this.name.replace(/ /, '<br />');
       $fsf.append('<li data-friend-id="'+this.id+'" class="'+className+'"><span class="frame"><fb:profile-pic class="image" facebook-logo="false" linked="false" size="square" uid="'+this.id+'"></fb:profile-pic><span class="check"></span></span><span class="name">'+name+'</span></li>');
     });
-    FB.XFBML.parse(document.getElementById($fsf.attr('id'))); // Newly raising unsafe JS frame access when parsing pictures
+    // FB.XFBML.parse(document.getElementById($fsf.attr('id'))); // Newly raising unsafe JS frame access when parsing pictures
     updateSelectedCount();
     
     // Search for friends
@@ -114,11 +115,7 @@
     
     // Close button
     $fs.find('.form_button').click(function() {
-      
-      // Remove dialog
-      $('<div id="friend_selector">').insertAfter('#select_friends');
-      $('#dialog').remove();
-      
+            
       // Serialize friend selections to hidden input
       $input.val('');
       var numFriendsSelected = 0;
@@ -137,6 +134,9 @@
         $button.html('<span class="tag"></span>Tag Friends');
       }
       
+      // Remove dialog
+      $('#dialog').remove();
+      
       return false;
     });
     
@@ -145,7 +145,7 @@
       $showSelected.text('Selected ('+$fsf.find('li.selected').length+')');
     }
     
-    return this;
+    return $fs;
     
   };
     
