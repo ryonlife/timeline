@@ -79,9 +79,9 @@ class exports.MemoriesNewView extends Backbone.View
     
   showFriendSelector: (e) ->
     e.preventDefault()
-    $('<div id="friend_selector"></div>')
-      .friendSelector($(e.currentTarget), $('#friends'), [{'id': 1, 'name': 'Ryan McKillen'}])
-      .dialog('Tag Friends')
+      
+    # $.friendSelector([{'id': 1, 'name': 'Ryan McKillen'}])
+    $('<div id="friend_selector"></div>').friendSelector([{'id': 1, 'name': 'Ryan McKillen'}]).dialog('Tag Friends')
       
   createMemory: (e) ->
     e.preventDefault()

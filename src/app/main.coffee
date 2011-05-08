@@ -22,6 +22,3 @@ $(document).ready ->
   
   app.initialize()
   Backbone.history.start()
-
-require('lib/jquery.fb-dialog')
-require('lib/jquery.fb-friend-selector')

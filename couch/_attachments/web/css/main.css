@@ -60,6 +60,46 @@ a.self_tag{font-size:93%;font-weight:bold}
 #photos ul{margin:0 0 5px -2px;}
 #photos ul li{float:left;padding:0;display:block;list-style:none;width:108px;height:68px;background-color:#eceff5;border-left:2px solid #fff;}
 #photos ul li a.add_photos{background:transparent url("/web/img/add_photo_small.png") no-repeat center center;display:block;height:68px}
+.datepicker{width:110px !important;cursor:text}
+.ui-datepicker-trigger{position:relative;left:-20px;top:2px;cursor:text}
+.ui-datepicker{padding:0;-webkit-border-radius:0;-moz-border-radiius:0;border-radius:0;width:189px;margin-top:3px;border-top:1px solid #3a589b;border-bottom:2px solid #3a589b;}
+.ui-datepicker .ui-widget-header{background:#6d84b4;color:#555;border:0;-webkit-border-radius:0;-moz-border-radiius:0;border-radius:0;aaa}
+.ui-datepicker .ui-widget-header .ui-datepicker-prev,.ui-datepicker .ui-widget-header a.ui-datepicker-next{border-color:#ff0;-webkit-border-radius:0;-moz-border-radiius:0;border-radius:0;width:6px;height:11px;border:1px solid transparent;}
+.ui-datepicker .ui-widget-header .ui-datepicker-prev:hover,.ui-datepicker .ui-widget-header a.ui-datepicker-next:hover{background:transparent;cursor:pointer}
+.ui-datepicker .ui-widget-header .ui-datepicker-prev span,.ui-datepicker .ui-widget-header a.ui-datepicker-next span{display:none}
+.ui-datepicker .ui-widget-header .ui-datepicker-prev,.ui-datepicker .ui-widget-header a.ui-datepicker-prev:hover{background:transparent url("/web/img/arrows.png") no-repeat 0 -35px;left:8px;top:8px}
+.ui-datepicker .ui-widget-header .ui-datepicker-next,.ui-datepicker .ui-widget-header a.ui-datepicker-next:hover{background:transparent url("/web/img/arrows.png") no-repeat -7px -35px;right:8px;top:8px}
+.ui-datepicker .ui-widget-header select{font-size:10px;font-weight:bold;width:60px;position:relative;top:-2px;text-align:center}
+.ui-datepicker .ui-widget-header select.ui-datepicker-month{margin-right:2px}
+.ui-datepicker .ui-widget-header select.ui-datepicker-year{margin-left:2px}
+.ui-datepicker .ui-datepicker-calendar{margin-bottom:0;}
+.ui-datepicker .ui-datepicker-calendar thead{background-color:#f2f2f2;border-bottom:1px solid #c1c1c1;text-align:center;font-size:69.3%;}
+.ui-datepicker .ui-datepicker-calendar thead th{width:25px !important;padding:3px 0 3px 0;color:#555}
+.ui-datepicker .ui-datepicker-calendar a{border:1px solid #fff;background:transparent;text-align:center;font-size:85%;color:#555;padding:3px 1px;}
+.ui-datepicker .ui-datepicker-calendar a:hover{color:#3b5998;border-color:#bec8dd;background-color:#dfe4ee}
+.ui-datepicker .ui-datepicker-calendar a.ui-state-active{background-color:#ddd;font-weight:bold}
+.ui-datepicker .ui-datepicker-calendar .ui-datepicker-unselectable span{font-size:85%;text-align:center;padding:3px 0 2px 0}
 #dialog{display:inline-block;border:8px solid #868686;-moz-border-radius:8px;-webkit-border-radius:8px;border-radius:8px;position:fixed;top:50%;left:50%;}
 #dialog > div{border:1px solid #3b5998;}
 #dialog > div h3{font-size:108%;color:#fff;background-color:#6d84b4;padding:5px 10px;margin:0}
+#friend_selector{width:450px;background-color:#f7f7f7;overflow:hidden;}
+#friend_selector #friend_selector_controls{padding:10px;}
+#friend_selector #friend_selector_controls input{background:#fff url("/web/img/sprite1.png") no-repeat 0 4px;padding-left:17px;padding-bottom:4px;width:270px}
+#friend_selector #friend_selector_controls a{font-size:85%;font-weight:bold;float:right;height:20px;line-height:20px;padding:0 4px;border:1px solid #f7f7f7}
+#friend_selector #friend_selector_controls a.highlight{background-color:#6d84b4;-webkit-border-radius:5px;-moz-border-radiius:5px;border-radius:5px;color:#fff;cursor:default;border:1px solid #6d84b4;}
+#friend_selector #friend_selector_controls a.highlight:hover{text-decoration:none}
+#friend_selector #friend_selector_controls a.clear_search{background:url("/web/img/sprite1.png") no-repeat -846px -67px;display:block;width:9px;height:9px;margin-top:6px;position:relative;padding:0;}
+#friend_selector #friend_selector_controls a.clear_search:hover{background:url("/web/img/sprite1.png") no-repeat -834px -67px}
+#friend_selector ul{margin:0;padding:3px 3px 0 3px;font-size:85%;height:210px;overflow-y:auto;border-top:1px solid #c1c1c1;border-bottom:1px solid #c1c1c1;background-color:#fff;}
+#friend_selector ul li{list-style-type:none;width:134px;height:64px;margin:3px;float:left;}
+#friend_selector ul li:hover{background-image:url("/web/img/friend_selector_hover.gif");cursor:pointer;}
+#friend_selector ul li:hover span.frame img{border-color:#3b5998}
+#friend_selector ul li span.frame{float:left;width:56px;height:56px;margin:4px 0 0 4px;position:relative;}
+#friend_selector ul li span.frame img{padding:2px;border:1px solid #e0e0e0}
+#friend_selector ul li span.frame span.check{display:none;width:14px;height:14px;position:absolute;left:3px;bottom:3px;background-image:url("/web/img/friend_selector_check.gif")}
+#friend_selector ul li span.name{display:inline-block;padding:8px 8px 0 8px;width:54px;overflow:hidden;text-overflow:ellipsis}
+#friend_selector ul li.selected,#friend_selector ul li.selected:hover{background-image:url("/web/img/friend_selector_selected.gif");color:#fff;}
+#friend_selector ul li.selected span.frame,#friend_selector ul li.selected:hover span.frame{background-color:#8497c0;}
+#friend_selector ul li.selected span.frame img,#friend_selector ul li.selected:hover span.frame img{border-color:#b1c1e1}
+#friend_selector ul li.selected span.frame span.check,#friend_selector ul li.selected:hover span.frame span.check{display:block}
+#friend_selector a.form_button{float:right;margin:10px}

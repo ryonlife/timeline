@@ -24,4 +24,5 @@ class exports.MemoriesController extends Backbone.Controller
       $this = $(this)
       $this.css({'width': $this.width(), 'display': 'block'})
     )
+    
   

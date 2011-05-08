@@ -11,7 +11,6 @@
     <span class="tag"></span>
     Tag Friends
   </a>
-  <input type="hidden" id="friends" class="update" value="" />
   
   <ul class="friends">
     <li class="count">3 people were there</li>

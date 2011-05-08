@@ -1,0 +1,99 @@
+#friend_selector
+  width 450px
+  background-color #F7F7F7
+  overflow hidden
+  
+  #friend_selector_controls
+    padding 10px
+    input
+      background #FFF url(/web/img/sprite1.png) no-repeat 0% 4px
+      padding-left 17px
+      padding-bottom 4px
+      width 270px
+    a
+      font-size 85%
+      font-weight bold
+      float right
+      height 20px
+      line-height 20px
+      padding 0 4px
+      border 1px solid #F7F7F7
+    a.highlight
+      background-color #6d84b4
+      -webkit-border-radius 5px
+      -moz-border-radiius 5px
+      border-radius 5px
+      color #FFF
+      cursor default
+      border 1px solid #6d84b4
+      &:hover
+        text-decoration none
+    a.clear_search
+      background url(/web/img/sprite1.png) no-repeat -846px -67px
+      display block
+      width 9px
+      height 9px
+      margin-top 6px
+      position relative
+      padding 0
+      &:hover
+        background url(/web/img/sprite1.png) no-repeat -834px -67px
+        
+  ul
+    margin 0
+    padding 3px 3px 0 3px
+    font-size 85%
+    height 210px
+    overflow-y auto
+    border-top 1px solid #C1C1C1
+    border-bottom 1px solid #C1C1C1
+    background-color #FFF
+    li
+      list-style-type none
+      width 134px
+      height 64px
+      margin 3px
+      float left
+      &:hover
+        background-image url(/web/img/friend_selector_hover.gif)
+        cursor pointer
+        span.frame img
+          border-color #3B5998
+      span.frame
+        float left
+        width 56px
+        height 56px
+        margin 4px 0 0 4px
+        position relative
+        img
+          padding 2px
+          border 1px solid #E0E0E0
+        span.check
+          display none
+          width 14px
+          height 14px
+          position absolute
+          left 3px
+          bottom 3px
+          background-image url(/web/img/friend_selector_check.gif)
+      span.name
+        display inline-block
+        padding 8px 8px 0 8px
+        width 54px
+        overflow hidden
+        text-overflow ellipsis
+    li.selected,
+    li.selected:hover
+      background-image url(/web/img/friend_selector_selected.gif)
+      color #FFF
+      span.frame
+        background-color #8497C0
+        img
+          border-color #B1C1E1
+        span.check
+          display block
+  
+  a.form_button
+    float right
+    margin 10px
+    

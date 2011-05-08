@@ -1,11 +1,9 @@
 (function($) {
   
   // Facebook-looking friend selector widget
-  $.fn.friendSelector = function($button, $input, friends) {
+  $.fn.friendSelector = function(friends) {
     
-    // $button - jQuery object (button) that launches the friendSelector onClick
-    // $input - jQuery object (text input) that a comma seperated list of friend IDs is injected into
-    // friends - array of friends from the Facebook Graph API
+    $button = $('#tag_friends');
     
     // Setup
     
@@ -74,14 +72,14 @@
     });
     
     // Put all friends in the list
-    var selectedFriends = $input.val().split(',');
+    var selectedFriends = [1]
     $.each(friends, function() {
       var className = '';
       if($.inArray(this.id.toString(), selectedFriends) != -1) {
         var className = 'selected';
       }      
       var name = this.name.replace(/ /, '<br />');
-      $fsf.append('<li data-friend-id="'+this.id+'" class="'+className+'"><span class="frame"><fb:profile-pic class="image" facebook-logo="false" linked="false" size="square" uid="'+this.id+'"></fb:profile-pic><span class="check"></span></span><span class="name">'+name+'</span></li>');
+      $fsf.append('<li data-friend-id="'+this.id+'" class="'+className+'"><span class="frame"><fb:profile-pic class="image" facebook-logo="false" linked="false" size="square" uid="'+this.id+'"></fb:profile-pic><span class="check"></span></span><span class="name"><fb:name uid="'+this.id+'" /></span></li>');
     });
     // FB.XFBML.parse(document.getElementById($fsf.attr('id'))); // Newly raising unsafe JS frame access when parsing pictures
     updateSelectedCount();
@@ -115,20 +113,16 @@
     
     // Close button
     $fs.find('.form_button').click(function() {
-            
-      // Serialize friend selections to hidden input
-      $input.val('');
-      var numFriendsSelected = 0;
+      
+      friend_ids = [];
       $fsf.find('li.selected').each(function() {
-        $input.val($input.val()+$(this).attr('data-friend-id')+',');
-        numFriendsSelected++;
+        friend_ids.push($(this).attr('data-friend-id'));
       });
-      var friendString = $input.val()
-      $input.val(friendString.substr(0, friendString.length - 1));
-      $input.trigger('change'); // onChange event not firing on its own for some reason
+      
+      // TODO: fire an event with the friend IDs
       
       // Button text
-      var tagged = numFriendsSelected ? ' ('+numFriendsSelected+')' : ''
+      var tagged = friend_ids.length ? ' ('+friend_ids.length+')' : ''
       $button
         .html('<span class="tag"></span> Tag Friends'+tagged)
         .css({'width': 'auto', 'display': 'inline-block'});

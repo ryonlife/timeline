@@ -34,9 +34,7 @@
     </div>
   
     <div class="field">
-      <label for="friends">Who was there?</label>
-      <input type="hidden" name="friends" id="friends" />
-    
+      <label>Who was there?</label>
       <a href="#" id="tag_friends" class="button">
         <span class="tag"></span>
         Tag Friends
