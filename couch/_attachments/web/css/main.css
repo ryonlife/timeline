@@ -79,7 +79,6 @@ a.self_tag{font-size:93%;font-weight:bold}
 .ui-datepicker .ui-datepicker-calendar a:hover{color:#3b5998;border-color:#bec8dd;background-color:#dfe4ee}
 .ui-datepicker .ui-datepicker-calendar a.ui-state-active{background-color:#ddd;font-weight:bold}
 .ui-datepicker .ui-datepicker-calendar .ui-datepicker-unselectable span{font-size:85%;text-align:center;padding:3px 0 2px 0}
-@import url(/web/css/vendor/jquery_ui/jquery.ui.all.css);
 #dialog{display:inline-block;border:8px solid #868686;-moz-border-radius:8px;-webkit-border-radius:8px;border-radius:8px;position:fixed;top:50%;left:50%;}
 #dialog > div{border:1px solid #3b5998;}
 #dialog > div h3{font-size:108%;color:#fff;background-color:#6d84b4;padding:5px 10px;margin:0}
@@ -104,3 +103,13 @@ a.self_tag{font-size:93%;font-weight:bold}
 #friend_selector ul li.selected span.frame img,#friend_selector ul li.selected:hover span.frame img{border-color:#b1c1e1}
 #friend_selector ul li.selected span.frame span.check,#friend_selector ul li.selected:hover span.frame span.check{display:block}
 #friend_selector a.form_button{float:right;margin:10px}
+#fb_gallery{background:rgba(0,0,0,0.5);height:100%;left:0;overflow-x:auto;overflow-y:scroll;position:fixed;top:0;width:100%;z-index:101;zoom:1;}
+#fb_gallery > div{width:734px;margin:0 auto;padding:50px 0;background-color:#000;position:fixed;top:0;}
+#fb_gallery > div:after{content:".";display:block;height:0;clear:both;visibility:hidden}
+#fb_gallery > div a{display:inline-block;opacity:.7;}
+#fb_gallery > div a:hover{opacity:1}
+#fb_gallery > div a.left{background:transparent url("/web/img/left_arrow.png") no-repeat center center;padding-left:15px;width:32px}
+#fb_gallery > div a.right{background:transparent url("/web/img/right_arrow.png") no-repeat center center;padding-right:15px;width:32px}
+#fb_gallery > div a.close{background:transparent url("/web/img/sprite4.png") no-repeat left -49px;width:15px;height:15px;position:absolute;top:15px;right:15px}
+#fb_gallery > div span{display:inline-block;margin:0 auto;width:640px;}
+#fb_gallery > div span img{display:block;margin:0 auto}

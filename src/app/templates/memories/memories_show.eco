@@ -41,13 +41,11 @@
   
   <div id="photos" class="clearfix">
     <ul class="clearfix">
+      <li><a href="/web/img/add_photo.png" class="fb_gallery">test</a></li>
       <li></li>
       <li></li>
       <li></li>
-      <li></li>
-      <li>
-        <a href="#" class="add_photos"></a>
-      </li>
+      <li><a href="/web/img/add_photo.png" class="add_photos"></a></li>
     </ul>
     
     <a href="#" class="fl">Show All Photos (22)</a>

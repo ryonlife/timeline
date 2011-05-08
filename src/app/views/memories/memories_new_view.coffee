@@ -11,10 +11,11 @@ class exports.MemoriesNewView extends Backbone.View
   render: ->
     $view = $(@.el).html(memoriesNewTemplate())
     
+    birthdayParts = ME.birthday.split('/');
     birthday =
-      'year'  : 1982
-      'month' : 11
-      'day'   : 27
+      'year'  : birthdayParts[2]
+      'month' : birthdayParts[0] - 1
+      'day'   : birthdayParts[1]
     
     $view.find('.datepicker').each(->
       $this = $(this)
@@ -79,9 +80,7 @@ class exports.MemoriesNewView extends Backbone.View
     
   showFriendSelector: (e) ->
     e.preventDefault()
-      
-    # $.friendSelector([{'id': 1, 'name': 'Ryan McKillen'}])
-    $('<div id="friend_selector"></div>').friendSelector([{'id': 1, 'name': 'Ryan McKillen'}]).dialog('Tag Friends')
+    $.fbFriendSelector(ME.friends)
       
   createMemory: (e) ->
     e.preventDefault()

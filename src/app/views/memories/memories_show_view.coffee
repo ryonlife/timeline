@@ -5,6 +5,7 @@ class exports.MemoriesShowView extends Backbone.View
   
   events:
     'click #tag_friends' : 'showFriendSelector'
+    'click .fb_gallery'  : 'showGallery'
   
   render: ->
     $view = $(@.el).html(memoriesShowTemplate())
@@ -17,7 +18,11 @@ class exports.MemoriesShowView extends Backbone.View
     
   showFriendSelector: (e) ->
     e.preventDefault()
+    $.fbFriendSelector(ME.friends)
     
-    # $.friendSelector([{'id': 1, 'name': 'Ryan McKillen'}])
-    $('<div id="friend_selector"></div>').friendSelector([{'id': 1, 'name': 'Ryan McKillen'}]).dialog('Tag Friends')
+  showGallery: (e) ->
+    e.preventDefault()
+    
+    $pic = $(e.target)
+    $pic.fbGallery()
     

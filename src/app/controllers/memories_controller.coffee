@@ -25,4 +25,5 @@ class exports.MemoriesController extends Backbone.Controller
       $this.css({'width': $this.width(), 'display': 'block'})
     )
     
+    # $('.fb_gallery:first').trigger('click')
   
