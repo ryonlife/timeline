@@ -58,7 +58,7 @@ ul.friends li .name{margin-top:5px;float:left;width:95px;font-weight:normal}
 a.self_tag{font-size:93%;font-weight:bold}
 #photos{font-size:85%;margin-bottom:2em;}
 #photos ul{margin:0 0 5px -2px;}
-#photos ul li{float:left;padding:0;display:block;list-style:none;width:108px;height:68px;background-color:#eceff5;border-left:2px solid #fff;}
+#photos ul li{float:left;padding:0;display:block;list-style:none;width:108px;height:68px;background-color:#eceff5;border-left:2px solid #fff;border-bottom:2px solid #fff;}
 #photos ul li a.add_photos{background:transparent url("/web/img/add_photo_small.png") no-repeat center center;display:block;height:68px}
 .datepicker{width:110px !important;cursor:text}
 .ui-datepicker-trigger{position:relative;left:-20px;top:2px;cursor:text}

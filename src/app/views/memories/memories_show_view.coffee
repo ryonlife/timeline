@@ -6,6 +6,7 @@ class exports.MemoriesShowView extends Backbone.View
   events:
     'click #tag_friends' : 'showFriendSelector'
     'click .fb_gallery'  : 'showGallery'
+    'click #show_photos' : 'showPhotos'
   
   render: ->
     $view = $(@.el).html(memoriesShowTemplate())
@@ -25,4 +26,9 @@ class exports.MemoriesShowView extends Backbone.View
     
     $pic = $(e.target)
     $pic.fbGallery()
+    
+  showPhotos: (e) ->
+    e.preventDefault()
+    console.log('clicked')
+    $('#photos span.hide').slideDown()
     
