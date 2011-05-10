@@ -10294,6 +10294,98 @@ window.jQuery = window.$ = jQuery;
 
 }).call(this);
 
+/*jslint browser: true */ /*global jQuery: true */
+
+/**
+ * jQuery Cookie plugin
+ *
+ * Copyright (c) 2010 Klaus Hartl (stilbuero.de)
+ * Dual licensed under the MIT and GPL licenses:
+ * http://www.opensource.org/licenses/mit-license.php
+ * http://www.gnu.org/licenses/gpl.html
+ *
+ */
+
+// TODO JsDoc
+
+/**
+ * Create a cookie with the given key and value and other optional parameters.
+ *
+ * @example $.cookie('the_cookie', 'the_value');
+ * @desc Set the value of a cookie.
+ * @example $.cookie('the_cookie', 'the_value', { expires: 7, path: '/', domain: 'jquery.com', secure: true });
+ * @desc Create a cookie with all available options.
+ * @example $.cookie('the_cookie', 'the_value');
+ * @desc Create a session cookie.
+ * @example $.cookie('the_cookie', null);
+ * @desc Delete a cookie by passing null as value. Keep in mind that you have to use the same path and domain
+ *       used when the cookie was set.
+ *
+ * @param String key The key of the cookie.
+ * @param String value The value of the cookie.
+ * @param Object options An object literal containing key/value pairs to provide optional cookie attributes.
+ * @option Number|Date expires Either an integer specifying the expiration date from now on in days or a Date object.
+ *                             If a negative value is specified (e.g. a date in the past), the cookie will be deleted.
+ *                             If set to null or omitted, the cookie will be a session cookie and will not be retained
+ *                             when the the browser exits.
+ * @option String path The value of the path atribute of the cookie (default: path of page that created the cookie).
+ * @option String domain The value of the domain attribute of the cookie (default: domain of page that created the cookie).
+ * @option Boolean secure If true, the secure attribute of the cookie will be set and the cookie transmission will
+ *                        require a secure protocol (like HTTPS).
+ * @type undefined
+ *
+ * @name $.cookie
+ * @cat Plugins/Cookie
+ * @author Klaus Hartl/klaus.hartl@stilbuero.de
+ */
+
+/**
+ * Get the value of a cookie with the given key.
+ *
+ * @example $.cookie('the_cookie');
+ * @desc Get the value of a cookie.
+ *
+ * @param String key The key of the cookie.
+ * @return The value of the cookie.
+ * @type String
+ *
+ * @name $.cookie
+ * @cat Plugins/Cookie
+ * @author Klaus Hartl/klaus.hartl@stilbuero.de
+ */
+jQuery.cookie = function (key, value, options) {
+    
+    // key and at least value given, set cookie...
+    if (arguments.length > 1 && String(value) !== "[object Object]") {
+        options = jQuery.extend({}, options);
+
+        if (value === null || value === undefined) {
+            options.expires = -1;
+        }
+
+        if (typeof options.expires === 'number') {
+            var days = options.expires, t = options.expires = new Date();
+            t.setDate(t.getDate() + days);
+        }
+        
+        value = String(value);
+        
+        return (document.cookie = [
+            encodeURIComponent(key), '=',
+            options.raw ? value : encodeURIComponent(value),
+            options.expires ? '; expires=' + options.expires.toUTCString() : '', // use expires attribute, max-age is not supported by IE
+            options.path ? '; path=' + options.path : '',
+            options.domain ? '; domain=' + options.domain : '',
+            options.secure ? '; secure' : ''
+        ].join(''));
+    }
+
+    // key and possibly options given, get cookie...
+    options = value || {};
+    var result, decode = options.raw ? function (s) { return s; } : decodeURIComponent;
+    return (result = new RegExp('(?:^|; )' + encodeURIComponent(key) + '=([^;]*)').exec(document.cookie)) ? decode(result[1]) : null;
+};
+
 (function($) {
     
   // Facebook-looking dialog widget
@@ -12573,6 +12665,165 @@ window['DP_jQuery_' + dpuuid] = $;
 
 })(jQuery);
 
+// JQuery URL Parser plugin - https://github.com/allmarkedup/jQuery-URL-Parser
+// Written by Mark Perkins, mark@allmarkedup.com
+// License: http://unlicense.org/ (i.e. do what you want with it!)
+
+;(function($, undefined) {
+    
+    var tag2attr = {
+        a       : 'href',
+        img     : 'src',
+        form    : 'action',
+        base    : 'href',
+        script  : 'src',
+        iframe  : 'src',
+        link    : 'href'
+    },
+    
+	key = ["source","protocol","authority","userInfo","user","password","host","port","relative","path","directory","file","query","fragment"], // keys available to query
+	
+	aliases = { "anchor" : "fragment" }, // aliases for backwards compatability
+
+	parser = {
+		strict  : /^(?:([^:\/?#]+):)?(?:\/\/((?:(([^:@]*):?([^:@]*))?@)?([^:\/?#]*)(?::(\d*))?))?((((?:[^?#\/]*\/)*)([^?#]*))(?:\?([^#]*))?(?:#(.*))?)/,  //less intuitive, more accurate to the specs
+		loose   :  /^(?:(?![^:@]+:[^:@\/]*@)([^:\/?#.]+):)?(?:\/\/)?((?:(([^:@]*):?([^:@]*))?@)?([^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/ // more intuitive, fails on relative paths and deviates from specs
+	},
+	
+	querystring_parser = /(?:^|&|;)([^&=;]*)=?([^&;]*)/g, // supports both ampersand and semicolon-delimted query string key/value pairs
+	
+	fragment_parser = /(?:^|&|;)([^&=;]*)=?([^&;]*)/g; // supports both ampersand and semicolon-delimted fragment key/value pairs
+	
+	function parseUri( url, strictMode )
+	{
+		var str = decodeURI( url ),
+		    res   = parser[ strictMode || false ? "strict" : "loose" ].exec( str ),
+		    uri = { attr : {}, param : {}, seg : {} },
+		    i   = 14;
+		
+		while ( i-- )
+		{
+			uri.attr[ key[i] ] = res[i] || "";
+		}
+		
+		// build query and fragment parameters
+		
+		uri.param['query'] = {};
+		uri.param['fragment'] = {};
+		
+		uri.attr['query'].replace( querystring_parser, function ( $0, $1, $2 ){
+			if ($1)
+			{
+				uri.param['query'][$1] = $2;
+			}
+		});
+		
+		uri.attr['fragment'].replace( fragment_parser, function ( $0, $1, $2 ){
+			if ($1)
+			{
+				uri.param['fragment'][$1] = $2;
+			}
+		});
+				
+		// split path and fragement into segments
+		
+        uri.seg['path'] = uri.attr.path.replace(/^\/+|\/+$/g,'').split('/');
+        
+        uri.seg['fragment'] = uri.attr.fragment.replace(/^\/+|\/+$/g,'').split('/');
+        
+        // compile a 'base' domain attribute
+        
+        uri.attr['base'] = uri.attr.host ? uri.attr.protocol+"://"+uri.attr.host + (uri.attr.port ? ":"+uri.attr.port : '') : '';
+        
+		return uri;
+	};
+	
+	function getAttrName( elm )
+	{
+		var tn = elm.tagName;
+		if ( tn !== undefined ) return tag2attr[tn.toLowerCase()];
+		return tn;
+	}
+	
+	$.fn.url = function( strictMode )
+	{
+	    var url = '';
+	    
+	    if ( this.length )
+	    {
+	        url = $(this).attr( getAttrName(this[0]) ) || '';
+	    }
+	    
+        return $.url( url, strictMode );
+	};
+	
+	$.url = function( url, strictMode )
+	{
+	    if ( arguments.length === 1 && url === true )
+        {
+            strictMode = true;
+            url = undefined;
+        }
+        
+        strictMode = strictMode || false;
+        url = url || window.location.toString();
+        	    	            
+        return {
+            
+            data : parseUri(url, strictMode),
+            
+            // get various attributes from the URI
+            attr : function( attr )
+            {
+                attr = aliases[attr] || attr;
+                return attr !== undefined ? this.data.attr[attr] : this.data.attr;
+            },
+            
+            // return query string parameters
+            param : function( param )
+            {
+                return param !== undefined ? this.data.param.query[param] : this.data.param.query;
+            },
+            
+            // return fragment parameters
+            fparam : function( param )
+            {
+                return param !== undefined ? this.data.param.fragment[param] : this.data.param.fragment;
+            },
+            
+            // return path segments
+            segment : function( seg )
+            {
+                if ( seg === undefined )
+                {
+                    return this.data.seg.path;                    
+                }
+                else
+                {
+                    seg = seg < 0 ? this.data.seg.path.length + seg : seg - 1; // negative segments count from the end
+                    return this.data.seg.path[seg];                    
+                }
+            },
+            
+            // return fragment segments
+            fsegment : function( seg )
+            {
+                if ( seg === undefined )
+                {
+                    return this.data.seg.fragment;                    
+                }
+                else
+                {
+                    seg = seg < 0 ? this.data.seg.fragment.length + seg : seg - 1; // negative segments count from the end
+                    return this.data.seg.fragment[seg];                    
+                }
+            }
+            
+        };
+        
+	};
+	
+})(jQuery);
 /*
  * Modernizr v1.6
  * http://www.modernizr.com
@@ -12665,13 +12916,30 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
   exports.HomeController = (function() {
     __extends(HomeController, Backbone.Controller);
     HomeController.prototype.routes = {
-      'home': ''
+      '': 'oauth',
+      'access_token=:params': 'access_token'
     };
     function HomeController() {
       HomeController.__super__.constructor.apply(this, arguments);
     }
     HomeController.prototype.home = function() {
       return $('#fb_wrapper').html(app.views.home_index.render().el);
+    };
+    HomeController.prototype.oauth = function() {
+      var error;
+      error = $.url().param('error');
+      if (error === 'access_denied') {
+        return $.cookie('access_token', null);
+      } else {
+        return top.location = 'http://www.facebook.com/dialog/oauth/?scope=publish_stream,user_birthday&client_id=121822724510409&redirect_uri=http://ryonlife.dyndns.org:8080/&response_type=token';
+      }
+    };
+    HomeController.prototype.access_token = function(params) {
+      var values;
+      console.log(params);
+      values = params.split('&expires_in=');
+      $.cookie('access_token', values[0]);
+      return location.hash = '/memories/new';
     };
     return HomeController;
   })();
