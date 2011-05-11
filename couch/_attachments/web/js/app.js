@@ -10560,14 +10560,12 @@ jQuery.cookie = function (key, value, options) {
 })(jQuery);
 
 (function($) {
-    
+  
   // Facebook-looking gallery widget
   $.fn.fbGallery = function() {
     
     // Setup
-    
     var $this = $(this);
-    
     var $gallery = $('<div id="fb_gallery"><div></div></div>');
     $gallery.appendTo('body');
     
@@ -10581,16 +10579,51 @@ jQuery.cookie = function (key, value, options) {
         .append($('<span><img src="'+$this.attr('href')+'" /></span>'))
         .append($('<a href="#" class="right"></a>'))
         .append($('<a href="#" class="close"></a>'))
-        
+    
     // Horizontally center the image and vertically center the arrows
-    var $img = $gallery.find('img');
-    $img.css({'width': $img.width(), 'height': $img.height()});
-    $gallery.find('a.left, a.right').css({'height': $img.height()});
+    function center() {
+      var img = new Image;
+      img.onload = function() {
+        $gallery.find('img').css({'width': this.width, 'height': this.height});
+        $gallery.find('a.left, a.right').css({'height': this.height});
+        console.log(this.width);
+        console.log(this.height);
+      }
+      img.src = $this.attr('href');
+    }
+    center();
     
     // Close button
     $gallery.find('.close').click(function() {
       $gallery.remove();
       return false;
+    });
+    
+    // Create an array of pictures in the gallery, and determine the starting position based on the pic that launched the gallery
+    var $pics = $this.parents('ul').find('a.fb_gallery');
+    var pos;
+    picUrls = [];
+    $pics.each(function() {
+      var picUrl = $(this).attr('href');
+      var length = picUrls.push(picUrl);
+      if (picUrl == $this.attr('href')) {
+        pos = length - 1;
+      }
+    });
+    
+    $gallery.find('a.left, a.right').each(function() {
+      $(this).click(function() {
+        if ($(this).hasClass('right')) {
+          var showPos = pos + 1 >= picUrls.length ? 0 : pos + 1;
+        } else {
+          var showPos = pos - 1 < 0 ? picUrls.length - 1 : pos - 1;
+        }
+        $gallery.find('img').remove();
+        $gallery.find('span').html('<img src="'+picUrls[showPos]+'" />');
+        pos = showPos;
+        center();
+        return false;
+      });
     });
     
     return this;
@@ -13111,7 +13144,7 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
       return _safe(result);
     };
     (function() {
-      _print(_safe('<div id="sidebar">\n  <div id="photo">\n    <a href="#" class="add_photos"></a>\n  </div>\n  \n  <p class="center">\n    <a href="#" class="self_tag">I wasn\'t there!</a>\n  </p>\n  \n  <a href="#" id="tag_friends" class="button center_cheat">\n    <span class="tag"></span>\n    Tag Friends\n  </a>\n  \n  <ul class="friends">\n    <li class="count">3 people were there</li>\n    <li>\n      <div class="profile_pic">\n        <fb:profile-pic class="image" facebook-logo="false" linked="false" size="square" uid="1" />\n      </div>\n      <div class="name">\n        <fb:name uid="1" />\n      </div>\n    </li>\n  </ul>\n</div>\n\n<div id="main">\n  <header>\n    <div id="header" class="clearfix">\n      <div class="fl">\n        <h1>Memory</h1>\n        <p class="date_line">January 1, 2010 &mdash; January 3, 2010</p>\n      </div>\n      \n      <div class="fr">\n        <fb:like layout="box_count" show_faces="false" />\n      </div>\n    </div>\n  </header>\n  \n  <div id="photos" class="clearfix">\n    <ul class="clearfix">\n      <li><a href="/web/img/add_photo.png" class="fb_gallery">test</a></li>\n      <li></li>\n      <li></li>\n      <li></li>\n      <li><a href="/web/img/add_photo.png" class="add_photos"></a></li>\n      \n      <span class="hide">\n        <li></li>\n        <li></li>\n        <li></li>\n        <li></li>\n        <li></li>\n      \n        <li></li>\n        <li></li>\n        <li></li>\n        <li></li>\n        <li></li>\n      </span>\n    </ul>\n    \n    <a href="#" id="show_photos" class="fl">Show All Photos (22)</a>\n    <a href="#" class="add_photos fr">Add Photos</a>\n  </div>\n  \n  <div id="fb_comments">\n    <fb:comments href="http://localhost:8080/#/memories/1" width="550" num_posts="25" />\n  </div>\n    \n</div>\n'));
+      _print(_safe('<div id="sidebar">\n  <div id="photo">\n    <a href="#" class="add_photos"></a>\n  </div>\n  \n  <p class="center">\n    <a href="#" class="self_tag">I wasn\'t there!</a>\n  </p>\n  \n  <a href="#" id="tag_friends" class="button center_cheat">\n    <span class="tag"></span>\n    Tag Friends\n  </a>\n  \n  <ul class="friends">\n    <li class="count">3 people were there</li>\n    <li>\n      <div class="profile_pic">\n        <fb:profile-pic class="image" facebook-logo="false" linked="false" size="square" uid="1" />\n      </div>\n      <div class="name">\n        <fb:name uid="1" />\n      </div>\n    </li>\n  </ul>\n</div>\n\n<div id="main">\n  <header>\n    <div id="header" class="clearfix">\n      <div class="fl">\n        <h1>Memory</h1>\n        <p class="date_line">January 1, 2010 &mdash; January 3, 2010</p>\n      </div>\n      \n      <div class="fr">\n        <fb:like layout="box_count" show_faces="false" />\n      </div>\n    </div>\n  </header>\n  \n  <div id="photos" class="clearfix">\n    <ul class="clearfix">\n      <li><a href="/web/img/add_photo.png" class="fb_gallery">test</a></li>\n      <li><a href="/web/img/ice_hockey.jpg" class="fb_gallery">test</a></li>\n      <li></li>\n      <li></li>\n      <li><a href="/web/img/add_photo.png" class="add_photos"></a></li>\n      \n      <span class="hide">\n        <li></li>\n        <li></li>\n        <li></li>\n        <li></li>\n        <li></li>\n      \n        <li></li>\n        <li></li>\n        <li></li>\n        <li></li>\n        <li></li>\n      </span>\n    </ul>\n    \n    <a href="#" id="show_photos" class="fl">Show All Photos (22)</a>\n    <a href="#" class="add_photos fr">Add Photos</a>\n  </div>\n  \n  <div id="fb_comments">\n    <fb:comments href="http://localhost:8080/#/memories/1" width="550" num_posts="25" />\n  </div>\n    \n</div>\n'));
     }).call(this);
     
     return __out.join('');
