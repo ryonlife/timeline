@@ -9,28 +9,15 @@
     $gallery.appendTo('body');
     
     // Hack to get the dark mat horizontally centered
-    $gallery.find('div').css({'left': $('#fb_wrapper').offset().left + 2});
+    $gallery.find('div').css({'left': $('#fb_wrapper').offset().left});
     
     // Markup for image and arrows
     $gallery
       .find('div')
         .append($('<a href="#" class="left"></a>'))
-        .append($('<span><img src="'+$this.attr('href')+'" /></span>'))
+        .append($('<div style="background-image: url('+$this.attr('href')+');"></div>'))
         .append($('<a href="#" class="right"></a>'))
         .append($('<a href="#" class="close"></a>'))
-    
-    // Horizontally center the image and vertically center the arrows
-    function center() {
-      var img = new Image;
-      img.onload = function() {
-        $gallery.find('img').css({'width': this.width, 'height': this.height});
-        $gallery.find('a.left, a.right').css({'height': this.height});
-        console.log(this.width);
-        console.log(this.height);
-      }
-      img.src = $this.attr('href');
-    }
-    center();
     
     // Close button
     $gallery.find('.close').click(function() {
@@ -57,10 +44,9 @@
         } else {
           var showPos = pos - 1 < 0 ? picUrls.length - 1 : pos - 1;
         }
-        $gallery.find('img').remove();
-        $gallery.find('span').html('<img src="'+picUrls[showPos]+'" />');
+        $gallery.find('div div').css({backgroundImage: 'url('+picUrls[showPos]+')'});
         pos = showPos;
-        center();
+        // center();
         return false;
       });
     });

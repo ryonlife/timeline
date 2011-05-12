@@ -29,6 +29,6 @@ class exports.MemoriesShowView extends Backbone.View
     
   showPhotos: (e) ->
     e.preventDefault()
-    console.log('clicked')
-    $('#photos span.hide').slideDown()
+    $(e.currentTarget).remove()
+    $('#photos span').removeClass('hide').hide().fadeIn(1000)
     

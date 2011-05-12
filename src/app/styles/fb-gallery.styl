@@ -11,12 +11,13 @@
   zoom 1
   
   > div
-    width 734px
+    width 760px
     margin 0 auto
     padding 50px 0
     background-color #000
     position fixed
     top 0
+    
     &:after
       content "."
       display block
@@ -24,6 +25,12 @@
       clear both
       visibility hidden
     
+    > div
+      width 656px
+      height 500px
+      display inline-block
+      background transparent url() no-repeat center center
+      
     a
       display inline-block
       opacity 0.7
@@ -31,12 +38,14 @@
         opacity 1
     a.left
       background transparent url(/web/img/left_arrow.png) no-repeat center center
-      padding-left 15px
+      padding 0 10px
       width 32px
+      height 500px
     a.right
       background transparent url(/web/img/right_arrow.png) no-repeat center center
-      padding-right 15px
+      padding 0 10px
       width 32px
+      height 500px
     a.close
       background transparent url(/web/img/sprite4.png) no-repeat left -49px
       width 15px
@@ -52,3 +61,4 @@
       img
         display block
         margin 0 auto
+        

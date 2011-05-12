@@ -10494,7 +10494,7 @@ jQuery.cookie = function (key, value, options) {
         var name = this.name.replace(/ /, '<br />');
         $fsf.append('<li data-friend-id="'+this.id+'" class="'+className+'"><span class="frame"><fb:profile-pic class="image" facebook-logo="false" linked="false" size="square" uid="'+this.id+'"></fb:profile-pic><span class="check"></span></span><span class="name">'+name+'</span></li>');
       });
-      // FB.XFBML.parse(document.getElementById($fsf.attr('id'))); // Newly raising unsafe JS frame access when parsing pictures
+      FB.XFBML.parse(document.getElementById($fsf.attr('id'))); // Newly raising unsafe JS frame access when parsing pictures
       updateSelectedCount();
 
       // Search for friends
@@ -10570,28 +10570,15 @@ jQuery.cookie = function (key, value, options) {
     $gallery.appendTo('body');
     
     // Hack to get the dark mat horizontally centered
-    $gallery.find('div').css({'left': $('#fb_wrapper').offset().left + 2});
+    $gallery.find('div').css({'left': $('#fb_wrapper').offset().left});
     
     // Markup for image and arrows
     $gallery
       .find('div')
         .append($('<a href="#" class="left"></a>'))
-        .append($('<span><img src="'+$this.attr('href')+'" /></span>'))
+        .append($('<div style="background-image: url('+$this.attr('href')+');"></div>'))
         .append($('<a href="#" class="right"></a>'))
         .append($('<a href="#" class="close"></a>'))
-    
-    // Horizontally center the image and vertically center the arrows
-    function center() {
-      var img = new Image;
-      img.onload = function() {
-        $gallery.find('img').css({'width': this.width, 'height': this.height});
-        $gallery.find('a.left, a.right').css({'height': this.height});
-        console.log(this.width);
-        console.log(this.height);
-      }
-      img.src = $this.attr('href');
-    }
-    center();
     
     // Close button
     $gallery.find('.close').click(function() {
@@ -10618,10 +10605,9 @@ jQuery.cookie = function (key, value, options) {
         } else {
           var showPos = pos - 1 < 0 ? picUrls.length - 1 : pos - 1;
         }
-        $gallery.find('img').remove();
-        $gallery.find('span').html('<img src="'+picUrls[showPos]+'" />');
+        $gallery.find('div div').css({backgroundImage: 'url('+picUrls[showPos]+')'});
         pos = showPos;
-        center();
+        // center();
         return false;
       });
     });
@@ -13144,7 +13130,7 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
       return _safe(result);
     };
     (function() {
-      _print(_safe('<div id="sidebar">\n  <div id="photo">\n    <a href="#" class="add_photos"></a>\n  </div>\n  \n  <p class="center">\n    <a href="#" class="self_tag">I wasn\'t there!</a>\n  </p>\n  \n  <a href="#" id="tag_friends" class="button center_cheat">\n    <span class="tag"></span>\n    Tag Friends\n  </a>\n  \n  <ul class="friends">\n    <li class="count">3 people were there</li>\n    <li>\n      <div class="profile_pic">\n        <fb:profile-pic class="image" facebook-logo="false" linked="false" size="square" uid="1" />\n      </div>\n      <div class="name">\n        <fb:name uid="1" />\n      </div>\n    </li>\n  </ul>\n</div>\n\n<div id="main">\n  <header>\n    <div id="header" class="clearfix">\n      <div class="fl">\n        <h1>Memory</h1>\n        <p class="date_line">January 1, 2010 &mdash; January 3, 2010</p>\n      </div>\n      \n      <div class="fr">\n        <fb:like layout="box_count" show_faces="false" />\n      </div>\n    </div>\n  </header>\n  \n  <div id="photos" class="clearfix">\n    <ul class="clearfix">\n      <li><a href="/web/img/add_photo.png" class="fb_gallery">test</a></li>\n      <li><a href="/web/img/ice_hockey.jpg" class="fb_gallery">test</a></li>\n      <li></li>\n      <li></li>\n      <li><a href="/web/img/add_photo.png" class="add_photos"></a></li>\n      \n      <span class="hide">\n        <li></li>\n        <li></li>\n        <li></li>\n        <li></li>\n        <li></li>\n      \n        <li></li>\n        <li></li>\n        <li></li>\n        <li></li>\n        <li></li>\n      </span>\n    </ul>\n    \n    <a href="#" id="show_photos" class="fl">Show All Photos (22)</a>\n    <a href="#" class="add_photos fr">Add Photos</a>\n  </div>\n  \n  <div id="fb_comments">\n    <fb:comments href="http://localhost:8080/#/memories/1" width="550" num_posts="25" />\n  </div>\n    \n</div>\n'));
+      _print(_safe('<div id="sidebar">\n  <div id="photo">\n    <a href="#" class="add_photos"></a>\n  </div>\n  \n  <p class="center">\n    <a href="#" class="self_tag">I wasn\'t there!</a>\n  </p>\n  \n  <a href="#" id="tag_friends" class="button center_cheat">\n    <span class="tag"></span>\n    Tag Friends\n  </a>\n  \n  <ul class="friends">\n    <li class="count">3 people were there</li>\n    <li>\n      <div class="profile_pic">\n        <fb:profile-pic class="image" facebook-logo="false" linked="false" size="square" uid="1" />\n      </div>\n      <div class="name">\n        <fb:name uid="1" />\n      </div>\n    </li>\n  </ul>\n</div>\n\n<div id="main">\n  <header>\n    <div id="header" class="clearfix">\n      <div class="fl">\n        <h1>Memory</h1>\n        <p class="date_line">January 1, 2010 &mdash; January 3, 2010</p>\n      </div>\n      \n      <div class="fr">\n        <fb:like layout="box_count" show_faces="false" />\n      </div>\n    </div>\n  </header>\n  \n  <div id="photos" class="clearfix">\n    <ul class="clearfix">\n      <li><a href="/web/img/add_photo.png" class="fb_gallery"></a></li>\n      <li><a href="/web/img/ice_hockey.jpg" class="fb_gallery"></a></li>\n      <li></li>\n      <li></li>\n      <li><a href="/web/img/add_photo.png" class="add_photos"></a></li>\n      \n      <span class="hide">\n        <li></li>\n        <li></li>\n        <li></li>\n        <li></li>\n        <li></li>\n      \n        <li></li>\n        <li></li>\n        <li></li>\n        <li></li>\n        <li></li>\n      </span>\n    </ul>\n    \n    <a href="#" id="show_photos" class="fl">Show All Photos (22)</a>\n    <a href="#" class="add_photos fr">Add Photos</a>\n  </div>\n  \n  <p id="description">\n    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eu orci nisi. Vivamus feugiat purus vel ipsum vestibulum sagittis. Donec et enim sed enim tempor aliquam. Vivamus id nisi tortor. Proin tempus, enim quis commodo euismod, orci eros elementum quam, eu fringilla mi tortor et velit.\n  </p>\n  \n  <div id="fb_comments" class="mtop3">\n    <fb:comments href="http://localhost:8080/#/memories/1" width="550" num_posts="25" />\n  </div>\n    \n</div>\n'));
     }).call(this);
     
     return __out.join('');
@@ -13339,8 +13325,8 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
     };
     MemoriesShowView.prototype.showPhotos = function(e) {
       e.preventDefault();
-      console.log('clicked');
-      return $('#photos span.hide').slideDown();
+      $(e.currentTarget).remove();
+      return $('#photos span').removeClass('hide').hide().fadeIn(1000);
     };
     return MemoriesShowView;
   })();

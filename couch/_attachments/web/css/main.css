@@ -24,6 +24,9 @@ a:hover,a:visited:hover{text-decoration:underline}
 .center_cheat{margin:0 auto}
 .fl{float:left}
 .fr{float:right}
+.mtop{margin-top:1em}
+.mtop2{margin-top:2em}
+.mtop3{margin-top:3em}
 a.button,a.button:visited{white-space:nowrap;font-size:85%;border:1px solid #888;background:#eee url("/web/img/sprite2.png") repeat 0 0;height:20px;line-height:20px;padding:0 6px;display:inline-block;color:#333;font-weight:bold;-webkit-box-shadow:rgba(0,0,0,0.0976562) 0 1px 0 0;}
 a.button span.plus,a.button:visited span.plus{display:inline-block;width:10px;height:10px;background:transparent url("/web/img/sprite3.png") no-repeat center -49px}
 a.button span.tag,a.button:visited span.tag{display:inline-block;position:relative;top:3px;width:15px;height:13px;background:transparent url("/web/img/sprite3.png") no-repeat -10px -15px}
@@ -59,7 +62,9 @@ a.self_tag{font-size:93%;font-weight:bold}
 #photos{font-size:85%;margin-bottom:2em;}
 #photos ul{margin:0 0 5px -2px;}
 #photos ul li{float:left;padding:0;display:block;list-style:none;width:108px;height:68px;background-color:#eceff5;border-left:2px solid #fff;border-bottom:2px solid #fff;}
-#photos ul li a.add_photos{background:transparent url("/web/img/add_photo_small.png") no-repeat center center;display:block;height:68px}
+#photos ul li a{display:block;height:68px}
+#photos ul li a.add_photos{background:transparent url("/web/img/add_photo_small.png") no-repeat center center}
+#photos ul span{display:block}
 .datepicker{width:110px !important;cursor:text}
 .ui-datepicker-trigger{position:relative;left:-20px;top:2px;cursor:text}
 .ui-datepicker{padding:0;-webkit-border-radius:0;-moz-border-radiius:0;border-radius:0;width:189px;margin-top:3px;border-top:1px solid #3a589b;border-bottom:2px solid #3a589b;}
@@ -104,12 +109,13 @@ a.self_tag{font-size:93%;font-weight:bold}
 #friend_selector ul li.selected span.frame span.check,#friend_selector ul li.selected:hover span.frame span.check{display:block}
 #friend_selector a.form_button{float:right;margin:10px}
 #fb_gallery{background:rgba(0,0,0,0.5);height:100%;left:0;overflow-x:auto;overflow-y:scroll;position:fixed;top:0;width:100%;z-index:101;zoom:1;}
-#fb_gallery > div{width:734px;margin:0 auto;padding:50px 0;background-color:#000;position:fixed;top:0;}
+#fb_gallery > div{width:760px;margin:0 auto;padding:50px 0;background-color:#000;position:fixed;top:0;}
 #fb_gallery > div:after{content:".";display:block;height:0;clear:both;visibility:hidden}
+#fb_gallery > div > div{width:656px;height:500px;display:inline-block;background:transparent url("") no-repeat center center}
 #fb_gallery > div a{display:inline-block;opacity:.7;}
 #fb_gallery > div a:hover{opacity:1}
-#fb_gallery > div a.left{background:transparent url("/web/img/left_arrow.png") no-repeat center center;padding-left:15px;width:32px}
-#fb_gallery > div a.right{background:transparent url("/web/img/right_arrow.png") no-repeat center center;padding-right:15px;width:32px}
+#fb_gallery > div a.left{background:transparent url("/web/img/left_arrow.png") no-repeat center center;padding:0 10px;width:32px;height:500px}
+#fb_gallery > div a.right{background:transparent url("/web/img/right_arrow.png") no-repeat center center;padding:0 10px;width:32px;height:500px}
 #fb_gallery > div a.close{background:transparent url("/web/img/sprite4.png") no-repeat left -49px;width:15px;height:15px;position:absolute;top:15px;right:15px}
 #fb_gallery > div span{display:inline-block;margin:0 auto;width:640px;}
 #fb_gallery > div span img{display:block;margin:0 auto}
