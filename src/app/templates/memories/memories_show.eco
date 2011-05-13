@@ -66,6 +66,20 @@
     <a href="#" class="add_photos fr">Add Photos</a>
   </div>
   
+  <div id="photo_selector">
+    <span class="nub"></span>
+    <div>
+      <a href="#">
+        <span>Select from:</span>
+        Photos I'm Tagged In
+      </a>
+      <a href="#">
+        <span>Select from:</span>
+        My Albums
+      </a>
+    </div>
+  </div>
+  
   <p id="description">
     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eu orci nisi. Vivamus feugiat purus vel ipsum vestibulum sagittis. Donec et enim sed enim tempor aliquam. Vivamus id nisi tortor. Proin tempus, enim quis commodo euismod, orci eros elementum quam, eu fringilla mi tortor et velit.
   </p>

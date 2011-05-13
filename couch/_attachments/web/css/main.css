@@ -65,6 +65,8 @@ a.self_tag{font-size:93%;font-weight:bold}
 #photos ul li a{display:block;height:68px}
 #photos ul li a.add_photos{background:transparent url("/web/img/add_photo_small.png") no-repeat center center}
 #photos ul span{display:block}
+#photo_selector{margin:-1em 0 1em 0;padding:1em;border:1px solid #b4bbcd;position:relative;}
+#photo_selector span.nub{position:absolute;top:-7px;right:10px;display:inline-block;width:11px;height:7px;background:transparent url("/web/img/nub.gif") no-repeat right top;border-bottom:1px solid #fff}
 .datepicker{width:110px !important;cursor:text}
 .ui-datepicker-trigger{position:relative;left:-20px;top:2px;cursor:text}
 .ui-datepicker{padding:0;-webkit-border-radius:0;-moz-border-radiius:0;border-radius:0;width:189px;margin-top:3px;border-top:1px solid #3a589b;border-bottom:2px solid #3a589b;}
