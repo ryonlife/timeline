@@ -18,12 +18,5 @@ class exports.MemoriesController extends Backbone.Controller
     
   show: ->
     $('#fb_wrapper').html(app.views.memories_show.render().el)
-    
-    # Cheat for centering stuff
-    $('#fb_wrapper').find('.center_cheat').each(->
-      $this = $(this)
-      $this.css({'width': $this.width(), 'display': 'block'})
-    )
-    
-    # $('.fb_gallery:first').trigger('click')
+    $.centerCheat()
   

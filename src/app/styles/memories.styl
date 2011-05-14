@@ -111,10 +111,12 @@ a.self_tag
       display block
       
 #photo_selector
+  display:none
   margin -1em 0 1em 0
-  padding 1em
+  padding 5px
   border 1px solid #B4BBCD
   position relative
+  
   span.nub
     position absolute
     top -7px
@@ -124,4 +126,41 @@ a.self_tag
     height 7px
     background transparent url(/web/img/nub.gif) no-repeat right top
     border-bottom 1px solid #FFF
+  
+  #select_from_container
+    background transparent url(/web/img/gray_px.png) repeat-y center top
+    > div.fr
+      width 263px
+    > div.selected
+      background-color #ECEFF5
+      a:hover
+      &:hover
+        cursor default
+    > div
+      width 264px
+      height 52px
+      overflow hidden
+      &:hover
+        background-color #ECEFF5
+        cursor pointer  
+      a
+        width 244px
+        display inline-block
+        text-align center
+        padding 10px
+        font-weight bold
+        text-decoration none
+        height 32px
+        span
+          display block
+          color #808080
+          font-weight normal
+      select
+        display none
+  
+  #photo_choices
+    margin 5px 0 0 0
+    padding 1em 0
+    display none
+    border-top 1px solid rgb(229, 229, 229)
     

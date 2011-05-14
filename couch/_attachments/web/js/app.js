@@ -10294,6 +10294,22 @@ window.jQuery = window.$ = jQuery;
 
 }).call(this);
 
+(function($) {
+  jQuery.centerCheat = function() {
+    
+    $('.h_center_cheat:visible').each(function() {
+      $this = $(this);
+      $this.css({width: $this.width(), display: 'block', margin: '0 auto'});
+    });
+    
+    $('.v_center_cheat:visible').each(function() {
+      $this = $(this);
+      $this.css({'margin-top': $this.parent().height() / 2 - $this.height() / 2});
+    });
+      
+  }
+})(jQuery);
+
 /*jslint browser: true */ /*global jQuery: true */
 
 /**
@@ -12995,14 +13011,7 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
     };
     MemoriesController.prototype.show = function() {
       $('#fb_wrapper').html(app.views.memories_show.render().el);
-      return $('#fb_wrapper').find('.center_cheat').each(function() {
-        var $this;
-        $this = $(this);
-        return $this.css({
-          'width': $this.width(),
-          'display': 'block'
-        });
-      });
+      return $.centerCheat();
     };
     return MemoriesController;
   })();
@@ -13130,7 +13139,7 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
       return _safe(result);
     };
     (function() {
-      _print(_safe('<div id="sidebar">\n  <div id="photo">\n    <a href="#" class="add_photos"></a>\n  </div>\n  \n  <p class="center">\n    <a href="#" class="self_tag">I wasn\'t there!</a>\n  </p>\n  \n  <a href="#" id="tag_friends" class="button center_cheat">\n    <span class="tag"></span>\n    Tag Friends\n  </a>\n  \n  <ul class="friends">\n    <li class="count">3 people were there</li>\n    <li>\n      <div class="profile_pic">\n        <fb:profile-pic class="image" facebook-logo="false" linked="false" size="square" uid="1" />\n      </div>\n      <div class="name">\n        <fb:name uid="1" />\n      </div>\n    </li>\n  </ul>\n</div>\n\n<div id="main">\n  <header>\n    <div id="header" class="clearfix">\n      <div class="fl">\n        <h1>Memory</h1>\n        <p class="date_line">January 1, 2010 &mdash; January 3, 2010</p>\n      </div>\n      \n      <div class="fr">\n        <fb:like layout="box_count" show_faces="false" />\n      </div>\n    </div>\n  </header>\n  \n  <div id="photos" class="clearfix">\n    <ul class="clearfix">\n      <li><a href="/web/img/add_photo.png" class="fb_gallery"></a></li>\n      <li><a href="/web/img/ice_hockey.jpg" class="fb_gallery"></a></li>\n      <li></li>\n      <li></li>\n      <li><a href="/web/img/add_photo.png" class="add_photos"></a></li>\n      \n      <span class="hide">\n        <li></li>\n        <li></li>\n        <li></li>\n        <li></li>\n        <li></li>\n      \n        <li></li>\n        <li></li>\n        <li></li>\n        <li></li>\n        <li></li>\n      </span>\n    </ul>\n    \n    <a href="#" id="show_photos" class="fl">Show All Photos (22)</a>\n    <a href="#" class="add_photos fr">Add Photos</a>\n  </div>\n  \n  <div id="photo_selector">\n    <span class="nub"></span>\n    <div>\n      <a href="#">\n        <span>Select from:</span>\n        Photos I\'m Tagged In\n      </a>\n      <a href="#">\n        <span>Select from:</span>\n        My Albums\n      </a>\n    </div>\n  </div>\n  \n  <p id="description">\n    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eu orci nisi. Vivamus feugiat purus vel ipsum vestibulum sagittis. Donec et enim sed enim tempor aliquam. Vivamus id nisi tortor. Proin tempus, enim quis commodo euismod, orci eros elementum quam, eu fringilla mi tortor et velit.\n  </p>\n  \n  <div id="fb_comments" class="mtop3">\n    <fb:comments href="http://localhost:8080/#/memories/1" width="550" num_posts="25" />\n  </div>\n    \n</div>\n'));
+      _print(_safe('<div id="sidebar">\n  <div id="photo">\n    <a href="#" class="add_photos"></a>\n  </div>\n  \n  <p class="center">\n    <a href="#" class="self_tag">I wasn\'t there!</a>\n  </p>\n  \n  <a href="#" id="tag_friends" class="button h_center_cheat">\n    <span class="tag"></span>\n    Tag Friends\n  </a>\n  \n  <ul class="friends">\n    <li class="count">3 people were there</li>\n    <li>\n      <div class="profile_pic">\n        <fb:profile-pic class="image" facebook-logo="false" linked="false" size="square" uid="1" />\n      </div>\n      <div class="name">\n        <fb:name uid="1" />\n      </div>\n    </li>\n  </ul>\n</div>\n\n<div id="main">\n  <header>\n    <div id="header" class="clearfix">\n      <div class="fl">\n        <h1>Memory</h1>\n        <p class="date_line">January 1, 2010 &mdash; January 3, 2010</p>\n      </div>\n      \n      <div class="fr">\n        <fb:like layout="box_count" show_faces="false" />\n      </div>\n    </div>\n  </header>\n  \n  <div id="photos" class="clearfix">\n    <ul class="clearfix">\n      <li><a href="/web/img/add_photo.png" class="fb_gallery"></a></li>\n      <li><a href="/web/img/ice_hockey.jpg" class="fb_gallery"></a></li>\n      <li></li>\n      <li></li>\n      <li><a href="/web/img/add_photo.png" class="add_photos"></a></li>\n      \n      <span class="hide">\n        <li></li>\n        <li></li>\n        <li></li>\n        <li></li>\n        <li></li>\n      \n        <li></li>\n        <li></li>\n        <li></li>\n        <li></li>\n        <li></li>\n      </span>\n    </ul>\n    \n    <a href="#" id="show_photos" class="fl">Show All Photos (22)</a>\n    <a href="#" class="add_photos fr">Add Photos</a>\n  </div>\n  \n  <div id="photo_selector">\n    <span class="nub"></span>\n    \n    <div id="select_from_container" class="clearfix">\n      <div class="fl">\n        <a href="#" id="select_from_tagged"><span>Select From</span> Photos I\'m Tagged In</a>\n      </div>\n      <div class="fr">\n        <a href="#" id="select_from_albums"><span>Select From</span> Photos In My Albums</a>\n        <select class="h_center_cheat v_center_cheat">\n          <option value="">Select an album:&nbsp;</option>\n          <option value="1">Profile Pictures</option>\n          <option value="2">Mobile Uploads</option>\n        </select>\n      </div>\n    </div>\n    \n    <div id="photo_choices">\n    </div>\n  </div>\n  \n  <p id="description">\n    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eu orci nisi. Vivamus feugiat purus vel ipsum vestibulum sagittis. Donec et enim sed enim tempor aliquam. Vivamus id nisi tortor. Proin tempus, enim quis commodo euismod, orci eros elementum quam, eu fringilla mi tortor et velit.\n  </p>\n  \n  <div id="fb_comments" class="mtop3">\n    <fb:comments href="http://ryonlife.dyndns.org:8080/#/memories/1" width="550" num_posts="25" />\n  </div>\n    \n</div>\n'));
     }).call(this);
     
     return __out.join('');
@@ -13297,7 +13306,10 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
     MemoriesShowView.prototype.events = {
       'click #tag_friends': 'showFriendSelector',
       'click .fb_gallery': 'showGallery',
-      'click #show_photos': 'showPhotos'
+      'click #show_photos': 'showPhotos',
+      'click .add_photos': 'photoSelectorShow',
+      'click #select_from_container a': 'photoSelectorPickSource',
+      'click #select_from_albums': 'photoSelectorShowAlbums'
     };
     MemoriesShowView.prototype.render = function() {
       var $view, friends;
@@ -13326,7 +13338,38 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
     MemoriesShowView.prototype.showPhotos = function(e) {
       e.preventDefault();
       $(e.currentTarget).remove();
-      return $('#photos span').removeClass('hide').hide().fadeIn(1000);
+      return $('#photos span').removeClass('hide').hide().fadeIn();
+    };
+    MemoriesShowView.prototype.photoSelectorShow = function(e) {
+      var $ps;
+      e.preventDefault();
+      $ps = $('#photo_selector');
+      if ($ps.is(':visible')) {
+        return $ps.fadeOut();
+      } else {
+        this.photoSelectorReset();
+        return $ps.fadeIn();
+      }
+    };
+    MemoriesShowView.prototype.photoSelectorPickSource = function(e) {
+      var $link;
+      e.preventDefault();
+      $link = $(e.currentTarget);
+      if (!$link.hasClass('selected')) {
+        this.photoSelectorReset();
+        $link.parent().addClass('selected');
+        return $('#photo_choices').show();
+      }
+    };
+    MemoriesShowView.prototype.photoSelectorShowAlbums = function(e) {
+      var $link;
+      e.preventDefault();
+      $link = $(e.currentTarget);
+      $link.hide().siblings().show();
+      return $.centerCheat();
+    };
+    MemoriesShowView.prototype.photoSelectorReset = function(e) {
+      return $('#select_from_container').find('div').removeClass('selected').end().find('a').show().end().find('select').hide().find('option:first').attr('selected', 'selected').end().end().find('#photo_choices').hide();
     };
     return MemoriesShowView;
   })();
