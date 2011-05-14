@@ -84,6 +84,7 @@
     </div>
     
     <div id="photo_choices">
+      <ul class="clearfix"></ul>
     </div>
   </div>
   

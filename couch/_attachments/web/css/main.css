@@ -65,7 +65,7 @@ a.self_tag{font-size:93%;font-weight:bold}
 #photos ul li a{display:block;height:68px}
 #photos ul li a.add_photos{background:transparent url("/web/img/add_photo_small.png") no-repeat center center}
 #photos ul span{display:block}
-#photo_selector{display:none;margin:-1em 0 1em 0;padding:5px;border:1px solid #b4bbcd;position:relative;}
+#photo_selector{margin:-1em 0 1em 0;padding:5px;border:1px solid #b4bbcd;position:relative;}
 #photo_selector span.nub{position:absolute;top:-7px;right:10px;display:inline-block;width:11px;height:7px;background:transparent url("/web/img/nub.gif") no-repeat right top;border-bottom:1px solid #fff}
 #photo_selector #select_from_container{background:transparent url("/web/img/gray_px.png") repeat-y center top;}
 #photo_selector #select_from_container > div.fr{width:263px}
@@ -76,7 +76,10 @@ a.self_tag{font-size:93%;font-weight:bold}
 #photo_selector #select_from_container > div a{width:244px;display:inline-block;text-align:center;padding:10px;font-weight:bold;text-decoration:none;height:32px;}
 #photo_selector #select_from_container > div a span{display:block;color:#808080;font-weight:normal}
 #photo_selector #select_from_container > div select{display:none}
-#photo_selector #photo_choices{margin:5px 0 0 0;padding:1em 0;display:none;border-top:1px solid #e5e5e5}
+#photo_selector #photo_choices{margin:5px 0 0 0;padding-top:5px;display:none;border-top:1px solid #e5e5e5;}
+#photo_selector #photo_choices ul{margin:0;height:415px;overflow-x:hidden;overflow-y:scroll;}
+#photo_selector #photo_choices ul li{display:block;width:168px;height:135px;list-style:none;float:left;margin-bottom:5px}
+#photo_selector #photo_choices ul li.middle{margin:0 5px}
 .datepicker{width:110px !important;cursor:text}
 .ui-datepicker-trigger{position:relative;left:-20px;top:2px;cursor:text}
 .ui-datepicker{padding:0;-webkit-border-radius:0;-moz-border-radiius:0;border-radius:0;width:189px;margin-top:3px;border-top:1px solid #3a589b;border-bottom:2px solid #3a589b;}
