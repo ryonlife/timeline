@@ -10633,85 +10633,6 @@ jQuery.cookie = function (key, value, options) {
   
 })(jQuery);
 
-// Infinite Scroll
-(function($) {
-    $.fn.infinitescroll = function(options) {
-        return $(this).each(function() {
-            var el = $(this);
-            var settings = $.extend({
-                    url: null,
-                    params: null,
-                    triggerAt: 300,
-                    page: 2,
-                    appendTo: '.list tbody',
-                    container: $(document)
-                }, options);
-            var req = null;
-            var maxReached = false;
-
-            var infinityRunner = function() {
-                if (settings.url !== null) {
-                    if  (settings.force || (settings.triggerAt >= (settings.container.height() - el.height() - el.scrollTop()))) {
-                        settings.force = false;
-                        // if the request is in progress, exit and wait for it to finish
-                        if (req && req.readyState < 4 && req.readyState > 0) {
-                            return;
-                        }
-                        $(settings.appendTo).trigger('infinitescroll.beforesend');
-                        // req = $.get(settings.url, 'page='+settings.page, function(data) {
-                        //     if (data !== '') {
-                        //         if (settings.page > 1) {
-                        //             $(settings.appendTo).append(data);
-                        //         } else {
-                        //             $(settings.appendTo).html(data);
-                        //         }
-                        //         settings.page++;
-                        //         $(settings.appendTo).trigger('infinitescroll.finish');
-                        //     } else {
-                        //         maxReached = true;
-                        //         $(settings.appendTo).trigger('infinitescroll.maxreached');
-                        //     }
-                        // }, 'html');
-                        // console.log(settings.url, settings.params);
-                        req = {readyState: 1};
-                        FB.api('/me/photos', {limit: 60, offset: (settings.page - 1) * 60}, function(response) {
-                          $.each(response.data, function() {
-                            $.each(this.images, function() {
-                              if (this.width <= 180) {
-                                $photo = $('<li></li>').css('background', '#000 url('+this.source+') no-repeat center center');
-                                $(settings.appendTo).append($photo);
-                                return false;
-                              }
-                            });
-                          });
-                          if (response.paging && response.paging.next) {
-                            settings.page++;
-                          } else {
-                            maxReached = true;
-                          }
-                          req = null;
-                        });
-                    }
-                }
-            };
-            
-            el.bind('infinitescroll.scrollpage', function(e, page) {
-                settings.page = page;
-                settings.force = true;
-                infinityRunner();
-            });
-
-            el.scroll(function(e) {
-                if (!maxReached) {
-                    infinityRunner();
-                }
-            });
-
-            // Test initial page layout for trigger
-            infinityRunner();
-        });
-    };
-})(jQuery);
 /*!
  * jQuery UI 1.8.7
  *
@@ -13096,7 +13017,7 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
   })();
 }).call(this);
 }, "main": function(exports, require, module) {(function() {
-  var HomeController, HomeIndexView, MemoriesController, MemoriesNewView, MemoriesShowView;
+  var HomeController, HomeIndexView, MemoriesController, MemoriesNewView, MemoriesShowPhotoSelectorView, MemoriesShowView;
   window.app = {};
   app.controllers = {};
   app.models = {};
@@ -13107,13 +13028,15 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
   MemoriesController = require('controllers/memories_controller').MemoriesController;
   MemoriesNewView = require('views/memories/memories_new_view').MemoriesNewView;
   MemoriesShowView = require('views/memories/memories_show_view').MemoriesShowView;
+  MemoriesShowPhotoSelectorView = require('views/memories/memories_show_photo_selector_view').MemoriesShowPhotoSelectorView;
   $(document).ready(function() {
     app.initialize = function() {
       app.controllers.home = new HomeController;
       app.views.home_index = new HomeIndexView;
       app.controllers.memories = new MemoriesController;
       app.views.memories_new = new MemoriesNewView;
-      return app.views.memories_show = new MemoriesShowView;
+      app.views.memories_show = new MemoriesShowView;
+      return app.views.memories_show_photo_selector = new MemoriesShowPhotoSelectorView;
     };
     app.initialize();
     return Backbone.history.start();
@@ -13218,7 +13141,46 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
       return _safe(result);
     };
     (function() {
-      _print(_safe('<div id="sidebar">\n  <div id="photo">\n    <a href="#" class="add_photos"></a>\n  </div>\n  \n  <p class="center">\n    <a href="#" class="self_tag">I wasn\'t there!</a>\n  </p>\n  \n  <a href="#" id="tag_friends" class="button h_center_cheat">\n    <span class="tag"></span>\n    Tag Friends\n  </a>\n  \n  <ul class="friends">\n    <li class="count">3 people were there</li>\n    <li>\n      <div class="profile_pic">\n        <fb:profile-pic class="image" facebook-logo="false" linked="false" size="square" uid="1" />\n      </div>\n      <div class="name">\n        <fb:name uid="1" />\n      </div>\n    </li>\n  </ul>\n</div>\n\n<div id="main">\n  <header>\n    <div id="header" class="clearfix">\n      <div class="fl">\n        <h1>Memory</h1>\n        <p class="date_line">January 1, 2010 &mdash; January 3, 2010</p>\n      </div>\n      \n      <div class="fr">\n        <fb:like layout="box_count" show_faces="false" />\n      </div>\n    </div>\n  </header>\n  \n  <div id="photos" class="clearfix">\n    <ul class="clearfix">\n      <li><a href="/web/img/add_photo.png" class="fb_gallery"></a></li>\n      <li><a href="/web/img/ice_hockey.jpg" class="fb_gallery"></a></li>\n      <li></li>\n      <li></li>\n      <li><a href="/web/img/add_photo.png" class="add_photos"></a></li>\n      \n      <span class="hide">\n        <li></li>\n        <li></li>\n        <li></li>\n        <li></li>\n        <li></li>\n      \n        <li></li>\n        <li></li>\n        <li></li>\n        <li></li>\n        <li></li>\n      </span>\n    </ul>\n    \n    <a href="#" id="show_photos" class="fl">Show All Photos (22)</a>\n    <a href="#" class="add_photos fr">Add Photos</a>\n  </div>\n  \n  <div id="photo_selector">\n    <span class="nub"></span>\n    \n    <div id="select_from_container" class="clearfix">\n      <div class="fl">\n        <a href="#" id="select_from_tagged"><span>Select From</span> Photos I\'m Tagged In</a>\n      </div>\n      <div class="fr">\n        <a href="#" id="select_from_albums"><span>Select From</span> Photos In My Albums</a>\n        <select class="h_center_cheat v_center_cheat">\n          <option value="">Select an album:&nbsp;</option>\n          <option value="1">Profile Pictures</option>\n          <option value="2">Mobile Uploads</option>\n        </select>\n      </div>\n    </div>\n    \n    <div id="photo_choices">\n      <ul class="clearfix"></ul>\n    </div>\n  </div>\n  \n  <p id="description">\n    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eu orci nisi. Vivamus feugiat purus vel ipsum vestibulum sagittis. Donec et enim sed enim tempor aliquam. Vivamus id nisi tortor. Proin tempus, enim quis commodo euismod, orci eros elementum quam, eu fringilla mi tortor et velit.\n  </p>\n  \n  <div id="fb_comments" class="mtop3">\n    <fb:comments href="http://ryonlife.dyndns.org:8080/#/memories/1" width="550" num_posts="25" />\n  </div>\n    \n</div>\n'));
+      _print(_safe('<div id="sidebar">\n  <div id="photo">\n    <a href="#" class="add_photos"></a>\n  </div>\n  \n  <p class="center">\n    <a href="#" class="self_tag">I wasn\'t there!</a>\n  </p>\n  \n  <a href="#" id="tag_friends" class="button h_center_cheat">\n    <span class="tag"></span>\n    Tag Friends (1)\n  </a>\n  \n  <ul class="friends">\n    <li class="count">3 people were there</li>\n    <li>\n      <div class="profile_pic">\n        <fb:profile-pic class="image" facebook-logo="false" linked="false" size="square" uid="1" />\n      </div>\n      <div class="name">\n        <fb:name uid="1" />\n      </div>\n    </li>\n  </ul>\n</div>\n\n<div id="main">\n  <header>\n    <div id="header" class="clearfix">\n      <div class="fl">\n        <h1>Memory</h1>\n        <p class="date_line">January 1, 2010 &mdash; January 3, 2010</p>\n      </div>\n      \n      <div class="fr">\n        <fb:like layout="box_count" show_faces="false" />\n      </div>\n    </div>\n  </header>\n  \n  <div id="photos" class="clearfix">\n    <ul class="clearfix">\n      <li><a href="/web/img/add_photo.png" class="fb_gallery"></a></li>\n      <li><a href="/web/img/ice_hockey.jpg" class="fb_gallery"></a></li>\n      <li></li>\n      <li></li>\n      <li><a href="/web/img/add_photo.png" class="add_photos"></a></li>\n      \n      <span class="hide">\n        <li></li>\n        <li></li>\n        <li></li>\n        <li></li>\n        <li></li>\n      \n        <li></li>\n        <li></li>\n        <li></li>\n        <li></li>\n        <li></li>\n      </span>\n    </ul>\n    \n    <a href="#" id="show_photos" class="fl">Show All Photos (22)</a>\n    <a href="#" class="add_photos fr">Add Photos</a>\n  </div>\n  \n  <p id="description">\n    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eu orci nisi. Vivamus feugiat purus vel ipsum vestibulum sagittis. Donec et enim sed enim tempor aliquam. Vivamus id nisi tortor. Proin tempus, enim quis commodo euismod, orci eros elementum quam, eu fringilla mi tortor et velit.\n  </p>\n  \n  <div id="fb_comments" class="mtop3">\n    <fb:comments href="http://ryonlife.dyndns.org:8080/#/memories/1" width="550" num_posts="25" />\n  </div>\n    \n</div>\n'));
+    }).call(this);
+    
+    return __out.join('');
+  }).call((function() {
+    var obj = {
+      escape: function(value) {
+        return ('' + value)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;');
+      },
+      safe: _safe
+    }, key;
+    for (key in __obj) obj[key] = __obj[key];
+    return obj;
+  })());
+};}, "templates/memories/memories_show_photo_selector": function(exports, require, module) {module.exports = function(__obj) {
+  var _safe = function(value) {
+    if (typeof value === 'undefined' && value == null)
+      value = '';
+    var result = new String(value);
+    result.ecoSafe = true;
+    return result;
+  };
+  return (function() {
+    var __out = [], __self = this, _print = function(value) {
+      if (typeof value !== 'undefined' && value != null)
+        __out.push(value.ecoSafe ? value : __self.escape(value));
+    }, _capture = function(callback) {
+      var out = __out, result;
+      __out = [];
+      callback.call(this);
+      result = __out.join('');
+      __out = out;
+      return _safe(result);
+    };
+    (function() {
+      _print(_safe('<span class="nub"></span>\n\n<div id="select_from_container" class="clearfix">\n  <div class="fl">\n    <a href="#" id="select_from_tagged"><span>Select From</span> Photos I\'m Tagged In</a>\n  </div>\n  <div class="fr">\n    <a href="#" id="select_from_albums"><span>Select From</span> Photos In My Albums</a>\n    <select class="h_center_cheat v_center_cheat">\n      <option value="">Select an album:&nbsp;</option>\n      <option value="1">Profile Pictures</option>\n      <option value="2">Mobile Uploads</option>\n    </select>\n  </div>\n</div>\n\n<div id="photo_choices">\n  <ul class="clearfix"></ul>\n</div>\n'));
     }).call(this);
     
     return __out.join('');
@@ -13365,6 +13327,109 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
     return MemoriesNewView;
   })();
 }).call(this);
+}, "views/memories/memories_show_photo_selector_view": function(exports, require, module) {(function() {
+  var memoriesShowPhotoSelectorTemplate;
+  var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
+    for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
+    function ctor() { this.constructor = child; }
+    ctor.prototype = parent.prototype;
+    child.prototype = new ctor;
+    child.__super__ = parent.prototype;
+    return child;
+  }, __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+  memoriesShowPhotoSelectorTemplate = require('templates/memories/memories_show_photo_selector');
+  exports.MemoriesShowPhotoSelectorView = (function() {
+    function MemoriesShowPhotoSelectorView() {
+      MemoriesShowPhotoSelectorView.__super__.constructor.apply(this, arguments);
+    }
+    __extends(MemoriesShowPhotoSelectorView, Backbone.View);
+    MemoriesShowPhotoSelectorView.prototype.id = 'photo_selector_view';
+    MemoriesShowPhotoSelectorView.prototype.state = {
+      limit: 60,
+      page: 1,
+      maxReached: false,
+      pendingRequest: false
+    };
+    MemoriesShowPhotoSelectorView.prototype.events = {
+      'click #select_from_container a': 'selectSource',
+      'click #select_from_albums': 'showAlbums',
+      'click #select_from_tagged': 'showTaggedPhotos',
+      'change select': 'showAlbumPhotos'
+    };
+    MemoriesShowPhotoSelectorView.prototype.render = function() {
+      $(this.el).html(memoriesShowPhotoSelectorTemplate());
+      return this;
+    };
+    MemoriesShowPhotoSelectorView.prototype.selectSource = function(e) {
+      var $el;
+      e.preventDefault();
+      $el = $(e.currentTarget);
+      if (!$el.hasClass('selected')) {
+        this.reset();
+        return $el.parent().addClass('selected');
+      }
+    };
+    MemoriesShowPhotoSelectorView.prototype.showAlbums = function(e) {
+      e.preventDefault();
+      $(e.currentTarget).hide().siblings().show();
+      return $.centerCheat();
+    };
+    MemoriesShowPhotoSelectorView.prototype.showTaggedPhotos = function(e) {
+      return $('#photo_choices').show().find('ul').scroll(__bind(function(e) {
+        this.infinityScroll(e);
+        return this;
+      }, this)).trigger('scroll');
+    };
+    MemoriesShowPhotoSelectorView.prototype.infinityScroll = function(e) {
+      var $el;
+      $el = $(e.currentTarget);
+      if ((this.state.page === 1 || 700 >= Math.ceil($el.find('li').length / 3) * 140 - $el.scrollTop()) && !this.state.pendingRequest && !this.state.maxReached) {
+        this.state.pendingRequest = true;
+        return FB.api('/me/photos', {
+          limit: this.state.limit,
+          offset: (this.state.page - 1) * this.state.limit
+        }, __bind(function(response) {
+          var $photo, photo, photoList, _i, _j, _len, _len2, _ref, _ref2;
+          console.log('api ' + (this.state.page - 1) * this.state.limit);
+          _ref = response.data;
+          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+            photoList = _ref[_i];
+            _ref2 = photoList.images;
+            for (_j = 0, _len2 = _ref2.length; _j < _len2; _j++) {
+              photo = _ref2[_j];
+              if (photo.width <= 180) {
+                $photo = $('<li></li>').css('background', '#000 url(' + photo.source + ') no-repeat center center');
+                $('#photo_choices ul').append($photo);
+                break;
+              }
+            }
+          }
+          $('#photo_choices ul li:nth-child(3n+2)').addClass('middle');
+          if (response.paging && response.paging.next) {
+            this.state.page++;
+          } else {
+            this.state.maxReached = true;
+          }
+          $('#photo_choices ul').css('background-image', 'none');
+          return this.state.pendingRequest = false;
+        }, this));
+      }
+    };
+    MemoriesShowPhotoSelectorView.prototype.showAlbumPhotos = function(e) {
+      return console.log('albums');
+    };
+    MemoriesShowPhotoSelectorView.prototype.reset = function(e) {
+      $('#select_from_container').find('div').removeClass('selected').end().find('a').show().end().find('select').hide().find('option:first').attr('selected', 'selected');
+      $('#photo_choices').hide().find('ul').css('background', 'transparent url(/web/img/spinner.gif) no-repeat center center').find('li').remove();
+      return this.state = _.extend(this.state, {
+        page: 1,
+        maxReached: false,
+        pendingRequest: false
+      });
+    };
+    return MemoriesShowPhotoSelectorView;
+  })();
+}).call(this);
 }, "views/memories/memories_show_view": function(exports, require, module) {(function() {
   var memoriesShowTemplate;
   var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
@@ -13374,7 +13439,7 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
     child.prototype = new ctor;
     child.__super__ = parent.prototype;
     return child;
-  }, __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+  };
   memoriesShowTemplate = require('templates/memories/memories_show');
   exports.MemoriesShowView = (function() {
     function MemoriesShowView() {
@@ -13382,135 +13447,45 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
     }
     __extends(MemoriesShowView, Backbone.View);
     MemoriesShowView.prototype.id = 'memories_show';
-    MemoriesShowView.prototype.page = 2;
-    MemoriesShowView.prototype.maxReached = false;
-    MemoriesShowView.prototype.pendingRequest = false;
     MemoriesShowView.prototype.events = {
       'click #tag_friends': 'showFriendSelector',
-      'click .fb_gallery': 'showGallery',
       'click #show_photos': 'showPhotos',
-      'click .add_photos': 'photoSelectorShow',
-      'click #select_from_container a': 'photoSelectorPickSource',
-      'click #select_from_albums': 'photoSelectorShowAlbums',
-      'click #select_from_tagged': 'photoSelectorShowTaggedPhotos',
-      'scroll #photo_choices ul': 'infinityScroll'
+      'click .add_photos': 'showPhotoSelector',
+      'click .fb_gallery': 'showGallery'
     };
     MemoriesShowView.prototype.render = function() {
-      var $view, friends;
+      var $view;
       $view = $(this.el).html(memoriesShowTemplate());
-      friends = [
-        {
-          'id': 1,
-          'name': 'Ryan McKillen'
-        }
-      ];
-      if (friends.length) {
-        $view.find('#tag_friends').html('<span class="tag"></span> Tag Friends (' + parseInt(friends.length) + ')');
-      }
+      $view.find('#photos').after(app.views.memories_show_photo_selector.render().el);
       return this;
     };
     MemoriesShowView.prototype.showFriendSelector = function(e) {
       e.preventDefault();
-      return $.fbFriendSelector(ME.friends);
-    };
-    MemoriesShowView.prototype.showGallery = function(e) {
-      var $pic;
-      e.preventDefault();
-      $pic = $(e.target);
-      return $pic.fbGallery();
+      return FB.api('/me/friends', function(response) {
+        return $.fbFriendSelector(response.data);
+      });
     };
     MemoriesShowView.prototype.showPhotos = function(e) {
       e.preventDefault();
       $(e.currentTarget).remove();
       return $('#photos span').removeClass('hide').hide().fadeIn();
     };
-    MemoriesShowView.prototype.photoSelectorShow = function(e) {
+    MemoriesShowView.prototype.showPhotoSelector = function(e) {
       var $ps;
       e.preventDefault();
-      $ps = $('#photo_selector');
+      $ps = $('#photo_selector_view');
       if ($ps.is(':visible')) {
+        app.views.memories_show_photo_selector.reset();
         return $ps.fadeOut();
       } else {
-        this.photoSelectorReset();
         return $ps.fadeIn();
       }
     };
-    MemoriesShowView.prototype.photoSelectorPickSource = function(e) {
-      var $link;
+    MemoriesShowView.prototype.showGallery = function(e) {
+      var $pic;
       e.preventDefault();
-      $link = $(e.currentTarget);
-      if (!$link.hasClass('selected')) {
-        this.photoSelectorReset();
-        return $link.parent().addClass('selected');
-      }
-    };
-    MemoriesShowView.prototype.photoSelectorShowAlbums = function(e) {
-      var $link;
-      e.preventDefault();
-      $link = $(e.currentTarget);
-      $link.hide().siblings().show();
-      return $.centerCheat();
-    };
-    MemoriesShowView.prototype.photoSelectorReset = function(e) {
-      return $('#select_from_container').find('div').removeClass('selected').end().find('a').show().end().find('select').hide().find('option:first').attr('selected', 'selected').end().end().find('#photo_choices').hide();
-    };
-    MemoriesShowView.prototype.photoSelectorShowTaggedPhotos = function(e) {
-      var $photo, i, image, photo, _i, _j, _len, _len2, _ref, _ref2;
-      $('#photo_choices').show();
-      i = 0;
-      _ref = ME.photos.data;
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        photo = _ref[_i];
-        _ref2 = photo.images;
-        for (_j = 0, _len2 = _ref2.length; _j < _len2; _j++) {
-          image = _ref2[_j];
-          if (image.width <= 180) {
-            $photo = $('<li></li>').css('background', '#000 url(' + image.source + ') no-repeat center center');
-            if (i === 1) {
-              $photo.addClass('middle');
-            }
-            $('#photo_choices ul').append($photo);
-            i = i === 2 ? 0 : i + 1;
-            break;
-          }
-        }
-      }
-      this.delegateEvents();
-      return $('#photo_choices ul').scroll(__bind(function(e) {
-        return this.infinityScroll(e);
-      }, this));
-    };
-    MemoriesShowView.prototype.infinityScroll = function(e) {
-      var $el;
-      $el = $(e.currentTarget);
-      if (140 >= $(document).height() - $el.height() - $el.scrollTop() && !this.pendingRequest) {
-        this.pendingRequest = true;
-        return FB.api('/me/photos', {
-          limit: 60,
-          offset: (this.page - 1) * 60
-        }, function(response) {
-          var $photo, image, photo, _i, _j, _len, _len2, _ref, _ref2;
-          _ref = response.data;
-          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-            photo = _ref[_i];
-            _ref2 = photo.images;
-            for (_j = 0, _len2 = _ref2.length; _j < _len2; _j++) {
-              image = _ref2[_j];
-              if (image.width <= 180) {
-                $photo = $('<li></li>').css('background', '#000 url(' + image.source + ') no-repeat center center');
-                $('#photo_choices ul').append($photo);
-                break;
-              }
-            }
-          }
-          if (response.paging && response.paging.next) {
-            this.page++;
-          } else {
-            this.maxReached = true;
-          }
-          return this.pendingRequest = false;
-        });
-      }
+      $pic = $(e.target);
+      return $pic.fbGallery();
     };
     return MemoriesShowView;
   })();

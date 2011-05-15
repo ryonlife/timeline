@@ -1,0 +1,19 @@
+<span class="nub"></span>
+
+<div id="select_from_container" class="clearfix">
+  <div class="fl">
+    <a href="#" id="select_from_tagged"><span>Select From</span> Photos I'm Tagged In</a>
+  </div>
+  <div class="fr">
+    <a href="#" id="select_from_albums"><span>Select From</span> Photos In My Albums</a>
+    <select class="h_center_cheat v_center_cheat">
+      <option value="">Select an album:&nbsp;</option>
+      <option value="1">Profile Pictures</option>
+      <option value="2">Mobile Uploads</option>
+    </select>
+  </div>
+</div>
+
+<div id="photo_choices">
+  <ul class="clearfix"></ul>
+</div>

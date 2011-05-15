@@ -17,6 +17,6 @@ class exports.MemoriesController extends Backbone.Controller
     )
     
   show: ->
-    $('#fb_wrapper').html(app.views.memories_show.render().el)
+    $('#fb_wrapper').html app.views.memories_show.render().el
     $.centerCheat()
   
