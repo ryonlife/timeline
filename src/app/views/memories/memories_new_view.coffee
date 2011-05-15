@@ -4,36 +4,36 @@ class exports.MemoriesNewView extends Backbone.View
   id: 'memories_new'
   
   events:
-    'click #end_date a'  : 'enableDateRange'
-    'click #tag_friends' : 'showFriendSelector'
-    'submit form'        : 'createMemory'
+    'click #end_date a': 'enableDateRange'
+    'click #tag_friends': 'showFriendSelector'
+    'submit form': 'createMemory'
   
   render: ->
     $view = $(@.el).html(memoriesNewTemplate())
     
     birthdayParts = ME.birthday.split('/');
     birthday =
-      'year'  : birthdayParts[2]
-      'month' : birthdayParts[0] - 1
-      'day'   : birthdayParts[1]
+      year: birthdayParts[2]
+      month: birthdayParts[0] - 1
+      day: birthdayParts[1]
     
     $view.find('.datepicker').each(->
       $this = $(this)
       
       # Invoke the jQuery UI datepickers
       options =
-        'showOn'          : 'both'
-        'buttonImage'     : '/web/img/calendar.gif'
-        'buttonImageOnly' : true
-        'changeMonth'     : true
-        'changeYear'      : true
-        'dayNamesMin'     : ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-        'showAnim'        : ''
-        'altFormat'       : 'yy-mm-dd'
-        'altField'        : '#'+$(this).attr('id').slice(0, -6)
-        'maxDate'         : 0
-        'minDate'         : new Date(birthday.year, birthday.month, birthday.day)
-        'yearRange'       : birthday.year.toString()+':-nn:+nn'
+        showOn: 'both'
+        buttonImage: '/web/img/calendar.gif'
+        buttonImageOnly: true
+        changeMonth: true
+        changeYear: true
+        dayNamesMin: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+        showAnim: ''
+        altFormat: 'yy-mm-dd'
+        altField: '#'+$(this).attr('id').slice(0, -6)
+        maxDate: 0
+        minDate: new Date(birthday.year, birthday.month, birthday.day)
+        yearRange: birthday.year.toString()+':-nn:+nn'
       $this.datepicker(options)
     )
     
@@ -80,7 +80,7 @@ class exports.MemoriesNewView extends Backbone.View
     
   showFriendSelector: (e) ->
     e.preventDefault()
-    $.fbFriendSelector(ME.friends)
+    FB.api '/me/friends', (response) -> $.fbFriendSelector(response.data)
       
   createMemory: (e) ->
     e.preventDefault()

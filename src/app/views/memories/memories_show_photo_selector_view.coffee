@@ -28,6 +28,13 @@ class exports.MemoriesShowPhotoSelectorView extends Backbone.View
   
   showAlbums: (e) ->
     e.preventDefault()
+    
+    $el = $(@el)
+    FB.api '/me/albums', (response) =>
+      $el.find('option:gt(0)').remove()
+      for album in response.data
+        $el.find('select').append($('<option value="'+album.id+'">'+album.name+'</option>'))
+    
     $(e.currentTarget).hide().siblings().show()
     $.centerCheat()
           
@@ -46,8 +53,6 @@ class exports.MemoriesShowPhotoSelectorView extends Backbone.View
       
       @state.pendingRequest = true  
       FB.api '/me/photos', {limit: @state.limit, offset: (@state.page - 1) * @state.limit}, (response) =>
-    
-        console.log('api '+(@state.page - 1) * @state.limit)
 
         for photoList in response.data
           for photo in photoList.images

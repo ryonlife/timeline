@@ -8,8 +8,6 @@
     <a href="#" id="select_from_albums"><span>Select From</span> Photos In My Albums</a>
     <select class="h_center_cheat v_center_cheat">
       <option value="">Select an album:&nbsp;</option>
-      <option value="1">Profile Pictures</option>
-      <option value="2">Mobile Uploads</option>
     </select>
   </div>
 </div>

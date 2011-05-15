@@ -27,9 +27,9 @@ class exports.MemoriesShowView extends Backbone.View
     e.preventDefault()
     $ps = $('#photo_selector_view')
     if $ps.is(':visible')
-      app.views.memories_show_photo_selector.reset()
       $ps.fadeOut()
     else
+      app.views.memories_show_photo_selector.reset()
       $ps.fadeIn()
         
   showGallery: (e) ->

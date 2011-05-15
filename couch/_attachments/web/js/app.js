@@ -13180,7 +13180,7 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
       return _safe(result);
     };
     (function() {
-      _print(_safe('<span class="nub"></span>\n\n<div id="select_from_container" class="clearfix">\n  <div class="fl">\n    <a href="#" id="select_from_tagged"><span>Select From</span> Photos I\'m Tagged In</a>\n  </div>\n  <div class="fr">\n    <a href="#" id="select_from_albums"><span>Select From</span> Photos In My Albums</a>\n    <select class="h_center_cheat v_center_cheat">\n      <option value="">Select an album:&nbsp;</option>\n      <option value="1">Profile Pictures</option>\n      <option value="2">Mobile Uploads</option>\n    </select>\n  </div>\n</div>\n\n<div id="photo_choices">\n  <ul class="clearfix"></ul>\n</div>\n'));
+      _print(_safe('<span class="nub"></span>\n\n<div id="select_from_container" class="clearfix">\n  <div class="fl">\n    <a href="#" id="select_from_tagged"><span>Select From</span> Photos I\'m Tagged In</a>\n  </div>\n  <div class="fr">\n    <a href="#" id="select_from_albums"><span>Select From</span> Photos In My Albums</a>\n    <select class="h_center_cheat v_center_cheat">\n      <option value="">Select an album:&nbsp;</option>\n    </select>\n  </div>\n</div>\n\n<div id="photo_choices">\n  <ul class="clearfix"></ul>\n</div>\n'));
     }).call(this);
     
     return __out.join('');
@@ -13249,26 +13249,26 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
       $view = $(this.el).html(memoriesNewTemplate());
       birthdayParts = ME.birthday.split('/');
       birthday = {
-        'year': birthdayParts[2],
-        'month': birthdayParts[0] - 1,
-        'day': birthdayParts[1]
+        year: birthdayParts[2],
+        month: birthdayParts[0] - 1,
+        day: birthdayParts[1]
       };
       $view.find('.datepicker').each(function() {
         var $this, options;
         $this = $(this);
         options = {
-          'showOn': 'both',
-          'buttonImage': '/web/img/calendar.gif',
-          'buttonImageOnly': true,
-          'changeMonth': true,
-          'changeYear': true,
-          'dayNamesMin': ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-          'showAnim': '',
-          'altFormat': 'yy-mm-dd',
-          'altField': '#' + $(this).attr('id').slice(0, -6),
-          'maxDate': 0,
-          'minDate': new Date(birthday.year, birthday.month, birthday.day),
-          'yearRange': birthday.year.toString() + ':-nn:+nn'
+          showOn: 'both',
+          buttonImage: '/web/img/calendar.gif',
+          buttonImageOnly: true,
+          changeMonth: true,
+          changeYear: true,
+          dayNamesMin: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+          showAnim: '',
+          altFormat: 'yy-mm-dd',
+          altField: '#' + $(this).attr('id').slice(0, -6),
+          maxDate: 0,
+          minDate: new Date(birthday.year, birthday.month, birthday.day),
+          yearRange: birthday.year.toString() + ':-nn:+nn'
         };
         return $this.datepicker(options);
       });
@@ -13318,7 +13318,9 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
     };
     MemoriesNewView.prototype.showFriendSelector = function(e) {
       e.preventDefault();
-      return $.fbFriendSelector(ME.friends);
+      return FB.api('/me/friends', function(response) {
+        return $.fbFriendSelector(response.data);
+      });
     };
     MemoriesNewView.prototype.createMemory = function(e) {
       e.preventDefault();
@@ -13370,7 +13372,20 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
       }
     };
     MemoriesShowPhotoSelectorView.prototype.showAlbums = function(e) {
+      var $el;
       e.preventDefault();
+      $el = $(this.el);
+      FB.api('/me/albums', __bind(function(response) {
+        var album, _i, _len, _ref, _results;
+        $el.find('option:gt(0)').remove();
+        _ref = response.data;
+        _results = [];
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          album = _ref[_i];
+          _results.push($el.find('select').append($('<option value="' + album.id + '">' + album.name + '</option>')));
+        }
+        return _results;
+      }, this));
       $(e.currentTarget).hide().siblings().show();
       return $.centerCheat();
     };
@@ -13390,7 +13405,6 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
           offset: (this.state.page - 1) * this.state.limit
         }, __bind(function(response) {
           var $photo, photo, photoList, _i, _j, _len, _len2, _ref, _ref2;
-          console.log('api ' + (this.state.page - 1) * this.state.limit);
           _ref = response.data;
           for (_i = 0, _len = _ref.length; _i < _len; _i++) {
             photoList = _ref[_i];
@@ -13475,9 +13489,9 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
       e.preventDefault();
       $ps = $('#photo_selector_view');
       if ($ps.is(':visible')) {
-        app.views.memories_show_photo_selector.reset();
         return $ps.fadeOut();
       } else {
+        app.views.memories_show_photo_selector.reset();
         return $ps.fadeIn();
       }
     };
