@@ -4,10 +4,11 @@ class exports.MemoriesShowView extends Backbone.View
   id: 'memories_show'
   
   events:
-    'click #tag_friends': 'showFriendSelector'
-    'click #show_photos': 'showPhotos'
-    'click .add_photos': 'showPhotoSelector'
-    'click .fb_gallery': 'showGallery'
+    'click a#tag_friends': 'showFriendSelector'
+    'click a#show_photos': 'showPhotos'
+    'click a.add_photos': 'showPhotoSelector'
+    'click a.fb_gallery': 'showGallery'
+    'click a.fb_gallery label': 'removePhoto'
   
   render: ->
     $view = $(@.el).html memoriesShowTemplate()
@@ -22,10 +23,6 @@ class exports.MemoriesShowView extends Backbone.View
     e.preventDefault()
     $el = $(e.currentTarget)
     $p = $('#photos li')
-    
-    console.log $p.filter(':visible').length
-    console.log $p.length
-    
     if $p.length > 5 and $p.filter(':visible').length < $p.length
       $el.text('Hide Photos')
       $('#photos li').fadeIn()
@@ -48,5 +45,10 @@ class exports.MemoriesShowView extends Backbone.View
   showGallery: (e) ->
     e.preventDefault()
     $pic = $(e.target)
-    $pic.fbGallery()
+    $pic.fbGallery() if $pic.filter('a').length # Do not open the gallery if the close button was clicked
     
+  removePhoto: (e) ->
+    $(e.currentTarget).parents('li')
+      .css('background', '#ECEFF5')
+      .html('')
+      

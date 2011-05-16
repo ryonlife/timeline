@@ -105,13 +105,26 @@ a.self_tag
       a
         display block
         height 68px
+        position relative
+        &:hover
+          label
+            position absolute
+            top 3px
+            right 3px
+            display block
+            width 11px
+            height 11px
+            background transparent url(/web/img/sprite_close.png) no-repeat -11px right
+            cursor pointer
+            &:hover
+              background transparent url(/web/img/sprite_close.png) no-repeat -22px right
       a.add_photos
         background transparent url(/web/img/add_photo_small.png) no-repeat center center
     span
       display block
       
 #photo_selector_view
-  /*display none*/
+  display none
   margin -1em 0 1em 0
   padding 5px
   border 1px solid #B4BBCD
@@ -180,4 +193,4 @@ a.self_tag
         cursor pointer
       li.middle
         margin 0 5px
-    
+        

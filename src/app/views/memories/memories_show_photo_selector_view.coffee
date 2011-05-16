@@ -103,7 +103,7 @@ class exports.MemoriesShowPhotoSelectorView extends Backbone.View
     if not $photos.find('a[href="'+$el.attr('data-large')+'"]').length
     
       background = '#000 url('+$el.attr('data-small')+') no-repeat center center'
-      $link = $('<a href="'+$el.attr('data-large')+'" class="fb_gallery"></a>')
+      $link = $('<a href="'+$el.attr('data-large')+'" class="fb_gallery"><label></label></a>')
     
       if $photos.find('a.fb_gallery').length < $photos.length
         # Replace placeholder with a thumbnail

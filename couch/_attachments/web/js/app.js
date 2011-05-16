@@ -13010,6 +13010,7 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
     };
     MemoriesController.prototype.show = function() {
       $('#fb_wrapper').html(app.views.memories_show.render().el);
+      $('#add_photos').trigger('click');
       return $.centerCheat();
     };
     return MemoriesController;
@@ -13452,7 +13453,7 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
       $photos = $('#photos li');
       if (!$photos.find('a[href="' + $el.attr('data-large') + '"]').length) {
         background = '#000 url(' + $el.attr('data-small') + ') no-repeat center center';
-        $link = $('<a href="' + $el.attr('data-large') + '" class="fb_gallery"></a>');
+        $link = $('<a href="' + $el.attr('data-large') + '" class="fb_gallery"><label></label></a>');
         if ($photos.find('a.fb_gallery').length < $photos.length) {
           $photos.each(function() {
             var $this;
@@ -13512,10 +13513,11 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
     __extends(MemoriesShowView, Backbone.View);
     MemoriesShowView.prototype.id = 'memories_show';
     MemoriesShowView.prototype.events = {
-      'click #tag_friends': 'showFriendSelector',
-      'click #show_photos': 'showPhotos',
-      'click .add_photos': 'showPhotoSelector',
-      'click .fb_gallery': 'showGallery'
+      'click a#tag_friends': 'showFriendSelector',
+      'click a#show_photos': 'showPhotos',
+      'click a.add_photos': 'showPhotoSelector',
+      'click a.fb_gallery': 'showGallery',
+      'click a.fb_gallery label': 'removePhoto'
     };
     MemoriesShowView.prototype.render = function() {
       var $view;
@@ -13534,8 +13536,6 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
       e.preventDefault();
       $el = $(e.currentTarget);
       $p = $('#photos li');
-      console.log($p.filter(':visible').length);
-      console.log($p.length);
       if ($p.length > 5 && $p.filter(':visible').length < $p.length) {
         $el.text('Hide Photos');
         return $('#photos li').fadeIn();
@@ -13562,7 +13562,12 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
       var $pic;
       e.preventDefault();
       $pic = $(e.target);
-      return $pic.fbGallery();
+      if ($pic.filter('a').length) {
+        return $pic.fbGallery();
+      }
+    };
+    MemoriesShowView.prototype.removePhoto = function(e) {
+      return $(e.currentTarget).parents('li').css('background', '#ECEFF5').html('');
     };
     return MemoriesShowView;
   })();
