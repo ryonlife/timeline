@@ -13382,7 +13382,7 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
         _results = [];
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           album = _ref[_i];
-          _results.push($el.find('select').append($('<option value="' + album.id + '">' + album.name + '</option>')));
+          _results.push($el.find('select').append($('<option value="' + album.id + '">' + album.name + '&nbsp;</option>')));
         }
         return _results;
       }, this));
@@ -13390,17 +13390,17 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
       return $.centerCheat();
     };
     MemoriesShowPhotoSelectorView.prototype.showTaggedPhotos = function(e) {
-      return $('#photo_choices').show().find('ul').scroll(__bind(function(e) {
-        this.infinityScroll(e);
+      return $('#photo_choices').show().find('ul').unbind().scroll(__bind(function(e) {
+        this.infinityScroll(e, '/me/photos');
         return this;
       }, this)).trigger('scroll');
     };
-    MemoriesShowPhotoSelectorView.prototype.infinityScroll = function(e) {
+    MemoriesShowPhotoSelectorView.prototype.infinityScroll = function(e, url) {
       var $el;
       $el = $(e.currentTarget);
       if ((this.state.page === 1 || 700 >= Math.ceil($el.find('li').length / 3) * 140 - $el.scrollTop()) && !this.state.pendingRequest && !this.state.maxReached) {
         this.state.pendingRequest = true;
-        return FB.api('/me/photos', {
+        return FB.api(url, {
           limit: this.state.limit,
           offset: (this.state.page - 1) * this.state.limit
         }, __bind(function(response) {
@@ -13430,10 +13430,23 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
       }
     };
     MemoriesShowPhotoSelectorView.prototype.showAlbumPhotos = function(e) {
-      return console.log('albums');
+      var partial, url;
+      this.reset(partial = true);
+      url = $(e.currentTarget).val() + '/photos';
+      if (url.length > 7) {
+        return $('#photo_choices').show().find('ul').unbind().scroll(__bind(function(e) {
+          this.infinityScroll(e, url);
+          return this;
+        }, this)).trigger('scroll');
+      }
     };
-    MemoriesShowPhotoSelectorView.prototype.reset = function(e) {
-      $('#select_from_container').find('div').removeClass('selected').end().find('a').show().end().find('select').hide().find('option:first').attr('selected', 'selected');
+    MemoriesShowPhotoSelectorView.prototype.reset = function(partial) {
+      if (partial == null) {
+        partial = false;
+      }
+      if (!partial) {
+        $('#select_from_container').find('div').removeClass('selected').end().find('a').show().end().find('select').hide().find('option:first').attr('selected', 'selected');
+      }
       $('#photo_choices').hide().find('ul').css('background', 'transparent url(/web/img/spinner.gif) no-repeat center center').find('li').remove();
       return this.state = _.extend(this.state, {
         page: 1,

@@ -33,7 +33,7 @@ class exports.MemoriesShowPhotoSelectorView extends Backbone.View
     FB.api '/me/albums', (response) =>
       $el.find('option:gt(0)').remove()
       for album in response.data
-        $el.find('select').append($('<option value="'+album.id+'">'+album.name+'</option>'))
+        $el.find('select').append($('<option value="'+album.id+'">'+album.name+'&nbsp;</option>'))
     
     $(e.currentTarget).hide().siblings().show()
     $.centerCheat()
@@ -42,18 +42,19 @@ class exports.MemoriesShowPhotoSelectorView extends Backbone.View
     $('#photo_choices')
       .show()
       .find('ul')
+        .unbind()
         .scroll (e) =>
-          @infinityScroll(e) # Binding a listender to the the scroll event Backbone-style doesn't work
+          @infinityScroll(e, '/me/photos')
           @
         .trigger('scroll')
 
-  infinityScroll: (e) ->    
+  infinityScroll: (e, url) ->
     $el = $(e.currentTarget)
     if (@state.page == 1 or 700 >= Math.ceil($el.find('li').length / 3) * 140 - $el.scrollTop()) and not @state.pendingRequest and not @state.maxReached
       
       @state.pendingRequest = true  
-      FB.api '/me/photos', {limit: @state.limit, offset: (@state.page - 1) * @state.limit}, (response) =>
-
+      FB.api url, {limit: @state.limit, offset: (@state.page - 1) * @state.limit}, (response) =>
+        
         for photoList in response.data
           for photo in photoList.images
             if photo.width <= 180
@@ -72,13 +73,24 @@ class exports.MemoriesShowPhotoSelectorView extends Backbone.View
         @state.pendingRequest = false
   
   showAlbumPhotos: (e) ->
-    console.log('albums')
+    @reset(partial=true)
+    url = $(e.currentTarget).val()+'/photos'
+    if url.length > 7
+      $('#photo_choices')
+        .show()
+        .find('ul')
+          .unbind()
+          .scroll (e) =>
+            @infinityScroll(e, url)
+            @
+          .trigger('scroll')
   
-  reset: (e) ->
-    $('#select_from_container')
-      .find('div').removeClass('selected').end()
-      .find('a').show().end()
-      .find('select').hide().find('option:first').attr('selected', 'selected')
+  reset: (partial=false)->
+    if not partial
+      $('#select_from_container')
+        .find('div').removeClass('selected').end()
+        .find('a').show().end()
+        .find('select').hide().find('option:first').attr('selected', 'selected')
     $('#photo_choices')
       .hide()
       .find('ul').css('background', 'transparent url(/web/img/spinner.gif) no-repeat center center')
