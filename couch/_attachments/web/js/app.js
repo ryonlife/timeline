@@ -12966,12 +12966,11 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
       if (error === 'access_denied') {
         return $.cookie('access_token', null);
       } else {
-        return top.location = 'http://www.facebook.com/dialog/oauth/?scope=publish_stream,user_birthday,user_photo_video_tags,user_photos&client_id=121822724510409&redirect_uri=http://ryonlife.dyndns.org:8080/&response_type=token';
+        return top.location = 'http://www.facebook.com/dialog/oauth/?scope=user_birthday,user_photo_video_tags,user_photos&client_id=121822724510409&redirect_uri=http://ryonlife.dyndns.org:8080/&response_type=token';
       }
     };
     HomeController.prototype.access_token = function(params) {
       var values;
-      console.log(params);
       values = params.split('&expires_in=');
       $.cookie('access_token', values[0]);
       return location.hash = '/memories/new';
@@ -13141,7 +13140,7 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
       return _safe(result);
     };
     (function() {
-      _print(_safe('<div id="sidebar">\n  <div id="photo">\n    <a href="#" class="add_photos"></a>\n  </div>\n  \n  <p class="center">\n    <a href="#" class="self_tag">I wasn\'t there!</a>\n  </p>\n  \n  <a href="#" id="tag_friends" class="button h_center_cheat">\n    <span class="tag"></span>\n    Tag Friends (1)\n  </a>\n  \n  <ul class="friends">\n    <li class="count">3 people were there</li>\n    <li>\n      <div class="profile_pic">\n        <fb:profile-pic class="image" facebook-logo="false" linked="false" size="square" uid="1" />\n      </div>\n      <div class="name">\n        <fb:name uid="1" />\n      </div>\n    </li>\n  </ul>\n</div>\n\n<div id="main">\n  <header>\n    <div id="header" class="clearfix">\n      <div class="fl">\n        <h1>Memory</h1>\n        <p class="date_line">January 1, 2010 &mdash; January 3, 2010</p>\n      </div>\n      \n      <div class="fr">\n        <fb:like layout="box_count" show_faces="false" />\n      </div>\n    </div>\n  </header>\n  \n  <div id="photos" class="clearfix">\n    <ul class="clearfix">\n      <li><a href="/web/img/add_photo.png" class="fb_gallery"></a></li>\n      <li><a href="/web/img/ice_hockey.jpg" class="fb_gallery"></a></li>\n      <li></li>\n      <li></li>\n      <li><a href="/web/img/add_photo.png" class="add_photos"></a></li>\n      \n      <span class="hide">\n        <li></li>\n        <li></li>\n        <li></li>\n        <li></li>\n        <li></li>\n      \n        <li></li>\n        <li></li>\n        <li></li>\n        <li></li>\n        <li></li>\n      </span>\n    </ul>\n    \n    <a href="#" id="show_photos" class="fl">Show All Photos (22)</a>\n    <a href="#" class="add_photos fr">Add Photos</a>\n  </div>\n  \n  <p id="description">\n    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eu orci nisi. Vivamus feugiat purus vel ipsum vestibulum sagittis. Donec et enim sed enim tempor aliquam. Vivamus id nisi tortor. Proin tempus, enim quis commodo euismod, orci eros elementum quam, eu fringilla mi tortor et velit.\n  </p>\n  \n  <div id="fb_comments" class="mtop3">\n    <fb:comments href="http://ryonlife.dyndns.org:8080/#/memories/1" width="550" num_posts="25" />\n  </div>\n    \n</div>\n'));
+      _print(_safe('<div id="sidebar">\n  <div id="photo">\n    <a href="#" class="add_photos"></a>\n  </div>\n  \n  <p class="center">\n    <a href="#" class="self_tag">I wasn\'t there!</a>\n  </p>\n  \n  <a href="#" id="tag_friends" class="button h_center_cheat">\n    <span class="tag"></span>\n    Tag Friends (1)\n  </a>\n  \n  <ul class="friends">\n    <li class="count">3 people were there</li>\n    <li>\n      <div class="profile_pic">\n        <fb:profile-pic class="image" facebook-logo="false" linked="false" size="square" uid="1" />\n      </div>\n      <div class="name">\n        <fb:name uid="1" />\n      </div>\n    </li>\n  </ul>\n</div>\n\n<div id="main">\n  <header>\n    <div id="header" class="clearfix">\n      <div class="fl">\n        <h1>Memory</h1>\n        <p class="date_line">January 1, 2010 &mdash; January 3, 2010</p>\n      </div>\n      \n      <div class="fr">\n        <fb:like layout="box_count" show_faces="false" />\n      </div>\n    </div>\n  </header>\n  \n  <div id="photos" class="clearfix">\n    <ul class="clearfix">\n      <li></li>\n      <li></li>\n      <li></li>\n      <li></li>\n      <li><a href="/web/img/add_photo.png" class="add_photos"></a></li>\n    </ul>\n    \n    <a href="#" id="show_photos" class="fl"></a>\n    <a href="#" id="add_photos" class="add_photos fr">Add Photos</a>\n  </div>\n  \n  <p id="description">\n    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eu orci nisi. Vivamus feugiat purus vel ipsum vestibulum sagittis. Donec et enim sed enim tempor aliquam. Vivamus id nisi tortor. Proin tempus, enim quis commodo euismod, orci eros elementum quam, eu fringilla mi tortor et velit.\n  </p>\n  \n  <div id="fb_comments" class="mtop3">\n    <fb:comments href="http://ryonlife.dyndns.org:8080/#/memories/1" width="550" num_posts="25" />\n  </div>\n    \n</div>\n'));
     }).call(this);
     
     return __out.join('');
@@ -13247,7 +13246,7 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
     MemoriesNewView.prototype.render = function() {
       var $dateField, $endDate, $startDate, $view, birthday, birthdayParts, date, defaultDate, _i, _len, _ref;
       $view = $(this.el).html(memoriesNewTemplate());
-      birthdayParts = ME.birthday.split('/');
+      birthdayParts = '11/27/1982'.split('/');
       birthday = {
         year: birthdayParts[2],
         month: birthdayParts[0] - 1,
@@ -13356,7 +13355,8 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
       'click #select_from_container a': 'selectSource',
       'click #select_from_albums': 'showAlbums',
       'click #select_from_tagged': 'showTaggedPhotos',
-      'change select': 'showAlbumPhotos'
+      'change select': 'showAlbumPhotos',
+      'click li[data-id]': 'selectPhoto'
     };
     MemoriesShowPhotoSelectorView.prototype.render = function() {
       $(this.el).html(memoriesShowPhotoSelectorTemplate());
@@ -13404,19 +13404,25 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
           limit: this.state.limit,
           offset: (this.state.page - 1) * this.state.limit
         }, __bind(function(response) {
-          var $photo, photo, photoList, _i, _j, _len, _len2, _ref, _ref2;
+          var $photo, p, photo, photos, _i, _j, _len, _len2, _ref, _ref2;
           _ref = response.data;
           for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-            photoList = _ref[_i];
-            _ref2 = photoList.images;
+            photos = _ref[_i];
+            p = {};
+            _ref2 = photos.images;
             for (_j = 0, _len2 = _ref2.length; _j < _len2; _j++) {
               photo = _ref2[_j];
-              if (photo.width <= 180) {
-                $photo = $('<li></li>').css('background', '#000 url(' + photo.source + ') no-repeat center center');
-                $('#photo_choices ul').append($photo);
+              if (photo.width <= 720 && !p.large) {
+                p.large = photo;
+              } else if (photo.width <= 180 && !p.medium) {
+                p.medium = photo;
+              } else if (photo.width <= 130 && !p.small) {
+                p.small = photo;
                 break;
               }
             }
+            $photo = $('<li></li>').attr('data-id', photos.id).attr('data-small', p.small.source).attr('data-large', p.large.source).css('background', '#000 url(' + p.medium.source + ') no-repeat center center');
+            $('#photo_choices ul').append($photo);
           }
           $('#photo_choices ul li:nth-child(3n+2)').addClass('middle');
           if (response.paging && response.paging.next) {
@@ -13438,6 +13444,37 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
           this.infinityScroll(e, url);
           return this;
         }, this)).trigger('scroll');
+      }
+    };
+    MemoriesShowPhotoSelectorView.prototype.selectPhoto = function(e) {
+      var $el, $link, $newPhoto, $photos, background, i, _ref;
+      $el = $(e.currentTarget);
+      $photos = $('#photos li');
+      if (!$photos.find('a[href="' + $el.attr('data-large') + '"]').length) {
+        background = '#000 url(' + $el.attr('data-small') + ') no-repeat center center';
+        $link = $('<a href="' + $el.attr('data-large') + '" class="fb_gallery"></a>');
+        if ($photos.find('a.fb_gallery').length < $photos.length) {
+          $photos.each(function() {
+            var $this;
+            $this = $(this);
+            if (!$this.find('a.fb_gallery').length) {
+              $this.find('a').remove().end().css('background', background).append($link);
+              return false;
+            }
+          });
+        } else {
+          $newPhoto = $('<li></li>').css('background', background).append($link);
+          $('#photos ul').append($newPhoto);
+        }
+        if ($('a.fb_gallery').length > 5 && $('#photos ul li').length % 5) {
+          for (i = 1, _ref = 5 - $('a.fb_gallery').length % 5; (1 <= _ref ? i <= _ref : i >= _ref); (1 <= _ref ? i += 1 : i -= 1)) {
+            $('#photos ul').append($('<li></li>'));
+          }
+        }
+        $('#photos li').fadeIn();
+        if ($('a.fb_gallery').length > 5) {
+          return $('#show_photos').text('Hide Photos');
+        }
       }
     };
     MemoriesShowPhotoSelectorView.prototype.reset = function(partial) {
@@ -13493,18 +13530,31 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
       });
     };
     MemoriesShowView.prototype.showPhotos = function(e) {
+      var $el, $p;
       e.preventDefault();
-      $(e.currentTarget).remove();
-      return $('#photos span').removeClass('hide').hide().fadeIn();
+      $el = $(e.currentTarget);
+      $p = $('#photos li');
+      console.log($p.filter(':visible').length);
+      console.log($p.length);
+      if ($p.length > 5 && $p.filter(':visible').length < $p.length) {
+        $el.text('Hide Photos');
+        return $('#photos li').fadeIn();
+      } else {
+        $el.text('Show All Photos (' + $p.find('a.fb_gallery').length + ')');
+        return $('#photos li:gt(4)').fadeOut();
+      }
     };
     MemoriesShowView.prototype.showPhotoSelector = function(e) {
-      var $ps;
+      var $add, $ps;
       e.preventDefault();
+      $add = $('#add_photos');
       $ps = $('#photo_selector_view');
       if ($ps.is(':visible')) {
+        $add.text('Add Photos');
         return $ps.fadeOut();
       } else {
         app.views.memories_show_photo_selector.reset();
+        $add.text('Close');
         return $ps.fadeIn();
       }
     };

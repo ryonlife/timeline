@@ -20,16 +20,29 @@ class exports.MemoriesShowView extends Backbone.View
     
   showPhotos: (e) ->
     e.preventDefault()
-    $(e.currentTarget).remove()
-    $('#photos span').removeClass('hide').hide().fadeIn()
+    $el = $(e.currentTarget)
+    $p = $('#photos li')
+    
+    console.log $p.filter(':visible').length
+    console.log $p.length
+    
+    if $p.length > 5 and $p.filter(':visible').length < $p.length
+      $el.text('Hide Photos')
+      $('#photos li').fadeIn()
+    else
+      $el.text('Show All Photos ('+$p.find('a.fb_gallery').length+')')
+      $('#photos li:gt(4)').fadeOut()
   
   showPhotoSelector: (e) ->
     e.preventDefault()
+    $add = $('#add_photos')
     $ps = $('#photo_selector_view')
     if $ps.is(':visible')
+      $add.text('Add Photos')
       $ps.fadeOut()
     else
       app.views.memories_show_photo_selector.reset()
+      $add.text('Close')
       $ps.fadeIn()
         
   showGallery: (e) ->

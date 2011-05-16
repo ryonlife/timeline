@@ -11,7 +11,7 @@ class exports.MemoriesNewView extends Backbone.View
   render: ->
     $view = $(@.el).html(memoriesNewTemplate())
     
-    birthdayParts = ME.birthday.split('/');
+    birthdayParts = '11/27/1982'.split('/');
     birthday =
       year: birthdayParts[2]
       month: birthdayParts[0] - 1

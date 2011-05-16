@@ -78,7 +78,7 @@ a.self_tag{font-size:93%;font-weight:bold}
 #photo_selector_view #select_from_container > div select{display:none}
 #photo_selector_view #photo_choices{margin:5px 0 0 0;padding-top:5px;display:none;border-top:1px solid #e5e5e5;}
 #photo_selector_view #photo_choices ul{margin:0;min-height:140px;max-height:415px;overflow-x:hidden;overflow-y:scroll;background:transparent url("/web/img/spinner.gif") no-repeat center center;}
-#photo_selector_view #photo_choices ul li{display:block;width:168px;height:135px;list-style:none;float:left;margin-bottom:5px}
+#photo_selector_view #photo_choices ul li{display:block;width:168px;height:135px;list-style:none;float:left;margin-bottom:5px;cursor:pointer}
 #photo_selector_view #photo_choices ul li.middle{margin:0 5px}
 .datepicker{width:110px !important;cursor:text}
 .ui-datepicker-trigger{position:relative;left:-20px;top:2px;cursor:text}
