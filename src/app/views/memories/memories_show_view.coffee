@@ -52,3 +52,20 @@ class exports.MemoriesShowView extends Backbone.View
       .css('background', '#ECEFF5')
       .html('')
       
+    squares = Math.ceil($('a.fb_gallery').length / 5) * 5 - 1
+    $('#photos ul li:gt('+squares+')').remove()
+
+    $photos = $('a.fb_gallery')
+
+    $photos.each (i) ->
+      $this = $(@)
+      $priorPhotoContainer = $this.parent().prev().filter('li')
+      if $priorPhotoContainer.length and not $priorPhotoContainer.find('a').length
+        bg = $this.parent().css('background-image')
+        $this.parent().css('background', '#ECEFF5')
+        $priorPhotoContainer
+          .css('background-image', bg)
+          .append($this)
+
+    $('a#show_photos').text('') if $photos.length <= 5
+    

@@ -13567,7 +13567,24 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
       }
     };
     MemoriesShowView.prototype.removePhoto = function(e) {
-      return $(e.currentTarget).parents('li').css('background', '#ECEFF5').html('');
+      var $photos, squares;
+      $(e.currentTarget).parents('li').css('background', '#ECEFF5').html('');
+      squares = Math.ceil($('a.fb_gallery').length / 5) * 5 - 1;
+      $('#photos ul li:gt(' + squares + ')').remove();
+      $photos = $('a.fb_gallery');
+      $photos.each(function(i) {
+        var $priorPhotoContainer, $this, bg;
+        $this = $(this);
+        $priorPhotoContainer = $this.parent().prev().filter('li');
+        if ($priorPhotoContainer.length && !$priorPhotoContainer.find('a').length) {
+          bg = $this.parent().css('background-image');
+          $this.parent().css('background', '#ECEFF5');
+          return $priorPhotoContainer.css('background-image', bg).append($this);
+        }
+      });
+      if ($photos.length <= 5) {
+        return $('a#show_photos').text('');
+      }
     };
     return MemoriesShowView;
   })();
