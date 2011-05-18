@@ -61,24 +61,38 @@ class exports.MemoriesShowView extends Backbone.View
     $pic.fbGallery() if $pic.filter('a').length # Do not open the gallery if the close button was clicked
     
   removePhoto: (e) ->
-    $(e.currentTarget).parents('li')
-      .css('background', '#ECEFF5')
-      .html('')
+    $el = $(e.currentTarget)
+    
+    if $el.parents('#photo').length
+      # Removing main photo
       
-    squares = Math.ceil($('a.fb_gallery').length / 5) * 5 - 1
-    $('#photos ul li:gt('+squares+')').remove()
+      $el
+        .removeClass('fb_gallery')
+        .addClass('add_photos')
+        .css({backgroundImage: '/web/img/add_photo.png', height: 120})
+        .attr('href', '#')
+    
+    else
+      # Removing photo from the gallery
+      
+      $el.parents('li')
+        .css('background', '#ECEFF5')
+        .html('')
+      
+      squares = Math.ceil($('#photos a.fb_gallery').length / 5) * 5 - 1
+      $('#photos ul li:gt('+squares+')').remove()
 
-    $photos = $('a.fb_gallery')
+      $photos = $('#photos a.fb_gallery')
 
-    $photos.each (i) ->
-      $this = $(@)
-      $priorPhotoContainer = $this.parent().prev().filter('li')
-      if $priorPhotoContainer.length and not $priorPhotoContainer.find('a').length
-        bg = $this.parent().css('background-image')
-        $this.parent().css('background', '#ECEFF5')
-        $priorPhotoContainer
-          .css('background-image', bg)
-          .append($this)
+      $photos.each (i) ->
+        $this = $(@)
+        $priorPhotoContainer = $this.parent().prev().filter('li')
+        if $priorPhotoContainer.length and not $priorPhotoContainer.find('a').length
+          bg = $this.parent().css('background-image')
+          $this.parent().css('background', '#ECEFF5')
+          $priorPhotoContainer
+            .css('background-image', bg)
+            .append($this)
 
-    $('a#show_photos').text('') if $photos.length <= 5
+      $('a#show_photos').text('') if $photos.length <= 5
     

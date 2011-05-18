@@ -10589,7 +10589,7 @@ jQuery.cookie = function (key, value, options) {
     });
     
     // Create an array of pictures in the gallery, and determine the starting position based on the pic that launched the gallery
-    var $pics = $this.parents('ul').find('a.fb_gallery');
+    var $pics = $('a.fb_gallery');
     var pos;
     picUrls = [];
     $pics.each(function() {
@@ -13127,7 +13127,7 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
       return _safe(result);
     };
     (function() {
-      _print(_safe('<div id="sidebar">\n  <div id="photo">\n    <a href="#" class="add_photos"></a>\n  </div>\n  \n  <p class="center">\n    <a href="#" class="self_tag">I wasn\'t there!</a>\n  </p>\n  \n  <a href="#" id="tag_friends" class="button h_center_cheat">\n    <span class="tag"></span>\n    Tag Friends (1)\n  </a>\n  \n  <ul class="friends">\n    <li class="count">3 people were there</li>\n    <li>\n      <div class="profile_pic">\n        <fb:profile-pic class="image" facebook-logo="false" linked="false" size="square" uid="1" />\n      </div>\n      <div class="name">\n        <fb:name uid="1" />\n      </div>\n    </li>\n  </ul>\n</div>\n\n<div id="main">\n  <header>\n    <div id="header" class="clearfix">\n      <div class="fl">\n        <h1>Memory</h1>\n        <p class="date_line">January 1, 2010 &mdash; January 3, 2010</p>\n      </div>\n      \n      <div class="fr">\n        <fb:like layout="box_count" show_faces="false" />\n      </div>\n    </div>\n  </header>\n  \n  <div id="photos" class="clearfix">\n    <ul class="clearfix">\n      <li></li>\n      <li></li>\n      <li></li>\n      <li></li>\n      <li><a href="/web/img/add_photo.png" class="add_photos"></a></li>\n    </ul>\n    \n    <a href="#" id="show_photos" class="fl"></a>\n    <a href="#" id="add_photos" class="add_photos fr">Add Photos</a>\n  </div>\n  \n  <p id="description">\n    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eu orci nisi. Vivamus feugiat purus vel ipsum vestibulum sagittis. Donec et enim sed enim tempor aliquam. Vivamus id nisi tortor. Proin tempus, enim quis commodo euismod, orci eros elementum quam, eu fringilla mi tortor et velit.\n  </p>\n  \n  <div id="fb_comments" class="mtop3">\n    <fb:comments href="http://ryonlife.dyndns.org:8080/#/memories/1" width="550" num_posts="25" />\n  </div>\n    \n</div>\n'));
+      _print(_safe('<div id="sidebar">\n  <div id="photo">\n    <a href="#" class="add_photos">\n      <label></label>\n    </a>\n  </div>\n  \n  <p class="center">\n    <a href="#" class="self_tag">I wasn\'t there!</a>\n  </p>\n  \n  <a href="#" id="tag_friends" class="button h_center_cheat">\n    <span class="tag"></span>\n    Tag Friends (1)\n  </a>\n  \n  <ul class="friends">\n    <li class="count">3 people were there</li>\n    <li>\n      <div class="profile_pic">\n        <fb:profile-pic class="image" facebook-logo="false" linked="false" size="square" uid="1" />\n      </div>\n      <div class="name">\n        <fb:name uid="1" />\n      </div>\n    </li>\n  </ul>\n</div>\n\n<div id="main">\n  <header>\n    <div id="header" class="clearfix">\n      <div class="fl">\n        <h1>Memory</h1>\n        <p class="date_line">January 1, 2010 &mdash; January 3, 2010</p>\n      </div>\n      \n      <div class="fr">\n        <fb:like layout="box_count" show_faces="false" />\n      </div>\n    </div>\n  </header>\n  \n  <div id="photos" class="clearfix">\n    <ul class="clearfix">\n      <li></li>\n      <li></li>\n      <li></li>\n      <li></li>\n      <li><a href="/web/img/add_photo.png" class="add_photos"></a></li>\n    </ul>\n    \n    <a href="#" id="show_photos" class="fl"></a>\n    <a href="#" id="add_photos" class="add_photos fr">Add Photos</a>\n  </div>\n  \n  <p id="description">\n    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eu orci nisi. Vivamus feugiat purus vel ipsum vestibulum sagittis. Donec et enim sed enim tempor aliquam. Vivamus id nisi tortor. Proin tempus, enim quis commodo euismod, orci eros elementum quam, eu fringilla mi tortor et velit.\n  </p>\n  \n  <div id="fb_comments" class="mtop3">\n    <fb:comments href="http://ryonlife.dyndns.org:8080/#/memories/1" width="550" num_posts="25" />\n  </div>\n    \n</div>\n'));
     }).call(this);
     
     return __out.join('');
@@ -13408,7 +13408,7 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
                 break;
               }
             }
-            $photo = $('<li></li>').attr('data-id', photos.id).attr('data-small', p.small.source).attr('data-large', p.large.source).css('background', '#000 url(' + p.medium.source + ') no-repeat center center');
+            $photo = $('<li></li>').attr('data-id', photos.id).attr('data-small', p.small.source).attr('data-medium', p.medium.source).attr('data-large', p.large.source).css('background', '#000 url(' + p.medium.source + ') no-repeat center center');
             $('#photo_choices ul').append($photo);
           }
           $('#photo_choices ul li:nth-child(3n+2)').addClass('middle');
@@ -13434,10 +13434,20 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
       }
     };
     MemoriesShowPhotoSelectorView.prototype.selectPhoto = function(e) {
-      var $el, $link, $newPhoto, $photos, background, i, _ref;
+      var $el, $link, $newPhoto, $photo, $photos, background, i, image, _ref;
       $el = $(e.currentTarget);
+      $photo = $('#photo a.add_photos');
       $photos = $('#photos li');
-      if (!$photos.find('a[href="' + $el.attr('data-large') + '"]').length) {
+      if ($photo.length) {
+        image = new Image();
+        image.onload = function() {
+          return $photo.removeClass('add_photos').addClass('fb_gallery').css({
+            backgroundImage: $el.attr('data-medium'),
+            height: image.height
+          }).attr('href', $el.attr('data-large'));
+        };
+        return image.src = $el.attr('data-medium');
+      } else if (!$photos.find('a[href="' + $el.attr('data-large') + '"]').length) {
         background = '#000 url(' + $el.attr('data-small') + ') no-repeat center center';
         $link = $('<a href="' + $el.attr('data-large') + '" class="fb_gallery"><label></label></a>');
         if ($photos.find('a.fb_gallery').length < $photos.length) {
@@ -13569,23 +13579,31 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
       }
     };
     MemoriesShowView.prototype.removePhoto = function(e) {
-      var $photos, squares;
-      $(e.currentTarget).parents('li').css('background', '#ECEFF5').html('');
-      squares = Math.ceil($('a.fb_gallery').length / 5) * 5 - 1;
-      $('#photos ul li:gt(' + squares + ')').remove();
-      $photos = $('a.fb_gallery');
-      $photos.each(function(i) {
-        var $priorPhotoContainer, $this, bg;
-        $this = $(this);
-        $priorPhotoContainer = $this.parent().prev().filter('li');
-        if ($priorPhotoContainer.length && !$priorPhotoContainer.find('a').length) {
-          bg = $this.parent().css('background-image');
-          $this.parent().css('background', '#ECEFF5');
-          return $priorPhotoContainer.css('background-image', bg).append($this);
+      var $el, $photos, squares;
+      $el = $(e.currentTarget);
+      if ($el.parents('#photo').length) {
+        return $el.removeClass('fb_gallery').addClass('add_photos').css({
+          backgroundImage: '/web/img/add_photo.png',
+          height: 120
+        }).attr('href', '#');
+      } else {
+        $el.parents('li').css('background', '#ECEFF5').html('');
+        squares = Math.ceil($('#photos a.fb_gallery').length / 5) * 5 - 1;
+        $('#photos ul li:gt(' + squares + ')').remove();
+        $photos = $('#photos a.fb_gallery');
+        $photos.each(function(i) {
+          var $priorPhotoContainer, $this, bg;
+          $this = $(this);
+          $priorPhotoContainer = $this.parent().prev().filter('li');
+          if ($priorPhotoContainer.length && !$priorPhotoContainer.find('a').length) {
+            bg = $this.parent().css('background-image');
+            $this.parent().css('background', '#ECEFF5');
+            return $priorPhotoContainer.css('background-image', bg).append($this);
+          }
+        });
+        if ($photos.length <= 5) {
+          return $('a#show_photos').text('');
         }
-      });
-      if ($photos.length <= 5) {
-        return $('a#show_photos').text('');
       }
     };
     return MemoriesShowView;

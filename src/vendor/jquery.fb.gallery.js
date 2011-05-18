@@ -26,7 +26,7 @@
     });
     
     // Create an array of pictures in the gallery, and determine the starting position based on the pic that launched the gallery
-    var $pics = $this.parents('ul').find('a.fb_gallery');
+    var $pics = $('a.fb_gallery');
     var pos;
     picUrls = [];
     $pics.each(function() {

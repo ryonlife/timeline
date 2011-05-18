@@ -106,22 +106,22 @@ a.self_tag
         display block
         height 68px
         position relative
-        &:hover
-          label
-            position absolute
-            top 3px
-            right 3px
-            display block
-            width 11px
-            height 11px
-            background transparent url(/web/img/sprite_close.png) no-repeat -11px right
-            cursor pointer
-            &:hover
-              background transparent url(/web/img/sprite_close.png) no-repeat -22px right
       a.add_photos
         background transparent url(/web/img/add_photo_small.png) no-repeat center center
     span
       display block
+
+a.fb_gallery:hover label
+  position absolute
+  top 3px
+  right 3px
+  display block
+  width 11px
+  height 11px
+  background transparent url(/web/img/sprite_close.png) no-repeat -11px right
+  cursor pointer
+  &:hover
+    background transparent url(/web/img/sprite_close.png) no-repeat -22px right
       
 #photo_selector_view
   display none

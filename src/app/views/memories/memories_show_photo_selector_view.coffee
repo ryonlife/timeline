@@ -43,6 +43,7 @@ class exports.MemoriesShowPhotoSelectorView extends Backbone.View
     $('#photo_choices')
       .show()
       .find('ul')
+        # Backbone scroll listener not working ???
         .unbind()
         .scroll (e) =>
           @infinityScroll(e, '/me/photos')
@@ -69,6 +70,7 @@ class exports.MemoriesShowPhotoSelectorView extends Backbone.View
           $photo = $('<li></li>')
             .attr('data-id', photos.id)
             .attr('data-small', p.small.source)
+            .attr('data-medium', p.medium.source)
             .attr('data-large', p.large.source)
             .css('background', '#000 url('+p.medium.source+') no-repeat center center')
           $('#photo_choices ul').append($photo)
@@ -98,9 +100,23 @@ class exports.MemoriesShowPhotoSelectorView extends Backbone.View
   
   selectPhoto: (e) ->
     $el = $(e.currentTarget)
+    $photo = $('#photo a.add_photos')
     $photos = $('#photos li')
     
-    if not $photos.find('a[href="'+$el.attr('data-large')+'"]').length
+    if $photo.length
+      # There is no main photo for the memory, so add it
+
+      image = new Image()
+      image.onload = ->
+        $photo
+          .removeClass('add_photos')
+          .addClass('fb_gallery')
+          .css({backgroundImage: $el.attr('data-medium'), height: image.height})
+          .attr('href', $el.attr('data-large'))
+      image.src = $el.attr('data-medium')
+    
+    else if not $photos.find('a[href="'+$el.attr('data-large')+'"]').length
+      # This photo is not already in the gallery, so add it
     
       background = '#000 url('+$el.attr('data-small')+') no-repeat center center'
       $link = $('<a href="'+$el.attr('data-large')+'" class="fb_gallery"><label></label></a>')
@@ -132,11 +148,13 @@ class exports.MemoriesShowPhotoSelectorView extends Backbone.View
       $('#show_photos').text('Hide Photos') if $('a.fb_gallery').length > 5
   
   reset: (partial=false)->
+    # Resets the widget in its entirety
     if not partial
       $('#select_from_container')
         .find('div').removeClass('selected').end()
         .find('a').show().end()
         .find('select').hide().find('option:first').attr('selected', 'selected')
+    # Resets the actual display of photos
     $('#photo_choices')
       .hide()
       .find('ul').css('background', 'transparent url(/web/img/spinner.gif) no-repeat center center')
