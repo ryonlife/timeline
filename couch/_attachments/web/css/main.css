@@ -55,10 +55,10 @@ a.form_button:hover,a.form_button:visited:hover,input.submit:hover{text-decorati
 #header .fr{position:relative;left:3px}
 ul.friends{border-top:1px solid #d8dfea;margin:1.5em 0 0 0;padding:1em 0 0 0;font-size:85%;font-weight:bold;}
 ul.friends li.count{color:#808080;margin-bottom:10px}
+ul.friends li.tag_button a{font-size:11px;margin-bottom:2em}
 ul.friends li{list-style:none;clear:both;}
 ul.friends li .profile_pic{width:50px;float:left;margin:0 10px 5px 0}
 ul.friends li .name{margin-top:5px;float:left;width:95px;font-weight:normal}
-a.self_tag{font-size:93%;font-weight:bold}
 #photos{font-size:85%;margin-bottom:2em;}
 #photos ul{margin:0 0 5px -2px;}
 #photos ul li{float:left;padding:0;display:block;list-style:none;width:108px;height:68px;background-color:#eceff5;border-left:2px solid #fff;border-bottom:2px solid #fff;}
