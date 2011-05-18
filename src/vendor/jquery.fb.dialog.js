@@ -17,6 +17,6 @@
     });
       
     return this;
-  }
+  };
   
 })(jQuery);

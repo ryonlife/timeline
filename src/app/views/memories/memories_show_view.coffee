@@ -5,19 +5,32 @@ class exports.MemoriesShowView extends Backbone.View
   
   events:
     'click a#tag_friends': 'showFriendSelector'
+    'friendSelection a#tag_friends': 'updateFriendSelections'
     'click a#show_photos': 'showPhotos'
     'click a.add_photos': 'showPhotoSelector'
     'click a.fb_gallery': 'showGallery'
     'click a.fb_gallery label': 'removePhoto'
   
   render: ->
-    $view = $(@.el).html memoriesShowTemplate()
+    $view = $(@el).html memoriesShowTemplate()
     $view.find('#photos').after app.views.memories_show_photo_selector.render().el
     @
     
   showFriendSelector: (e) ->
     e.preventDefault()
-    FB.api '/me/friends', (response) -> $.fbFriendSelector(response.data)
+    FB.api '/me/friends', (response) -> $(e.currentTarget).fbFriendSelector(response.data, [])
+  
+  updateFriendSelections: (e, friends) ->
+    $el = $(e.currentTarget)
+    
+    present = if friends.length == 1 then '1 person was there' else friends.length+' people were there'
+    $('.friends .count').text(present)
+    
+    tagged = if friends.length then ' ('+friends.length+')' else ''
+    $el
+      .html('<span class="tag"></span> Tag Friends'+tagged)
+      .css({'width': 'auto', 'display': 'inline-block'})
+    $el.css({'width': $el.width(), 'display': 'block'})
     
   showPhotos: (e) ->
     e.preventDefault()
