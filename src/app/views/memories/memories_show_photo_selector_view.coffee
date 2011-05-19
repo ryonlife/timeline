@@ -111,7 +111,7 @@ class exports.MemoriesShowPhotoSelectorView extends Backbone.View
         $photo
           .removeClass('add_photos')
           .addClass('fb_gallery')
-          .css({backgroundImage: $el.attr('data-medium'), height: image.height})
+          .css({backgroundImage: 'url('+$el.attr('data-medium')+')', height: image.height})
           .attr('href', $el.attr('data-large'))
       image.src = $el.attr('data-medium')
     
@@ -136,16 +136,13 @@ class exports.MemoriesShowPhotoSelectorView extends Backbone.View
         $newPhoto = $('<li></li>')
           .css('background', background)
           .append($link)
-        $('#photos ul').append($newPhoto)
-    
-      # Add light blue placeholders so there are 5 squares per row
-      if $('a.fb_gallery').length > 5 and $('#photos ul li').length % 5
-        for i in [1..(5 - $('a.fb_gallery').length % 5)]
-          $('#photos ul').append($('<li></li>'))
+        $('#photos ul')
+          .append($newPhoto)
+          .append($('<li></li><li></li><li></li><li></li>'))
     
       # Ensure all thumbnails in the gallery are displayed
       $('#photos li').fadeIn()
-      $('#show_photos').text('Hide Photos') if $('a.fb_gallery').length > 5
+      $('#show_photos').text('Hide Photos') if $photos.find('a.fb_gallery').length > 5
   
   reset: (partial=false)->
     # Resets the widget in its entirety

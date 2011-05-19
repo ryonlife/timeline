@@ -13434,7 +13434,7 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
       }
     };
     MemoriesShowPhotoSelectorView.prototype.selectPhoto = function(e) {
-      var $el, $link, $newPhoto, $photo, $photos, background, i, image, _ref;
+      var $el, $link, $newPhoto, $photo, $photos, background, image;
       $el = $(e.currentTarget);
       $photo = $('#photo a.add_photos');
       $photos = $('#photos li');
@@ -13442,7 +13442,7 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
         image = new Image();
         image.onload = function() {
           return $photo.removeClass('add_photos').addClass('fb_gallery').css({
-            backgroundImage: $el.attr('data-medium'),
+            backgroundImage: 'url(' + $el.attr('data-medium') + ')',
             height: image.height
           }).attr('href', $el.attr('data-large'));
         };
@@ -13461,15 +13461,10 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
           });
         } else {
           $newPhoto = $('<li></li>').css('background', background).append($link);
-          $('#photos ul').append($newPhoto);
-        }
-        if ($('a.fb_gallery').length > 5 && $('#photos ul li').length % 5) {
-          for (i = 1, _ref = 5 - $('a.fb_gallery').length % 5; (1 <= _ref ? i <= _ref : i >= _ref); (1 <= _ref ? i += 1 : i -= 1)) {
-            $('#photos ul').append($('<li></li>'));
-          }
+          $('#photos ul').append($newPhoto).append($('<li></li><li></li><li></li><li></li>'));
         }
         $('#photos li').fadeIn();
-        if ($('a.fb_gallery').length > 5) {
+        if ($photos.find('a.fb_gallery').length > 5) {
           return $('#show_photos').text('Hide Photos');
         }
       }
@@ -13579,15 +13574,19 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
       }
     };
     MemoriesShowView.prototype.removePhoto = function(e) {
-      var $el, $photos, squares;
+      var $el, $fifthSquare, $photos, squares;
       $el = $(e.currentTarget);
       if ($el.parents('#photo').length) {
-        return $el.removeClass('fb_gallery').addClass('add_photos').css({
-          backgroundImage: '/web/img/add_photo.png',
+        return $el.parent().removeClass('fb_gallery').addClass('add_photos').css({
+          backgroundImage: 'url(/web/img/add_photo.png)',
           height: 120
         }).attr('href', '#');
       } else {
         $el.parents('li').css('background', '#ECEFF5').html('');
+        $fifthSquare = $('#photos ul li:nth-child(5)');
+        if (!$fifthSquare.find('a.fb_gallery').length) {
+          $fifthSquare.html('<a href="/web/img/add_photo.png" class="add_photos"></a>');
+        }
         squares = Math.ceil($('#photos a.fb_gallery').length / 5) * 5 - 1;
         $('#photos ul li:gt(' + squares + ')').remove();
         $photos = $('#photos a.fb_gallery');

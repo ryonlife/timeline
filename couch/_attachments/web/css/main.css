@@ -48,12 +48,12 @@ a.form_button:hover,a.form_button:visited:hover,input.submit:hover{text-decorati
 #new_event .field.checkbox label{width:auto}
 #new_event .field.checkbox input{margin-top:2px}
 #new_event .actions{margin:1.5em 0 0 114px}
-#sidebar #photo{height:120px;margin-bottom:10px;border-left:2px solid #fff;background-color:#eceff5;}
-#sidebar #photo a.add_photos{display:block;height:120px;background:#eceff5 url("/web/img/add_photo.png") no-repeat center center}
+#sidebar #photo{margin-bottom:10px;border-left:2px solid #fff;background-color:#eceff5;a}
+#sidebar #photo .add_photos,#sidebar #photo a.fb_gallery{position:relative;display:block;height:120px;background:#eceff5 url("/web/img/add_photo.png") no-repeat center center}
 #header{margin-bottom:1em;}
 #header .date_line{color:#808080;font-size:85%}
 #header .fr{position:relative;left:3px}
-ul.friends{border-top:1px solid #d8dfea;margin:1.5em 0 0 0;padding:1em 0 0 0;font-size:85%;font-weight:bold;}
+ul.friends{margin:1em 0 0 0;font-size:85%;font-weight:bold;}
 ul.friends li.count{color:#808080;margin-bottom:10px}
 ul.friends li.tag_button a{font-size:11px;margin-bottom:2em}
 ul.friends li{list-style:none;clear:both;}
