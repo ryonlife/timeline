@@ -6,6 +6,9 @@ class exports.MemoriesShowView extends Backbone.View
   events:
     'click a#tag_friends': 'showFriendSelector'
     'friendSelection a#tag_friends': 'updateFriendSelections'
+    
+    'click a#self_tag': 'selfTag'
+    
     'click a#show_photos': 'showPhotos'
     'click a.add_photos': 'showPhotoSelector'
     'click a.fb_gallery': 'showGallery'
@@ -18,20 +21,52 @@ class exports.MemoriesShowView extends Backbone.View
     
   showFriendSelector: (e) ->
     e.preventDefault()
-    FB.api '/me/friends', (response) -> $(e.currentTarget).fbFriendSelector(response.data, [])
+    $(e.currentTarget).fbFriendSelector(USER.FRIENDS.data, [])
   
-  updateFriendSelections: (e, friends) ->
+  updateFriendSelections: (e, newFriendIds) ->
     $el = $(e.currentTarget)
+    $friends = $('ul#friends')
     
-    present = if friends.length == 1 then '1 person was there' else friends.length+' people were there'
-    $('.friends .count').text(present)
+    # Friends before the update
+    preFbIds = []
+    $friends.find('[data-fb-id]').each -> preFbIds.push($(@).attr('data-fb-id'))
     
-    tagged = if friends.length then ' ('+friends.length+')' else ''
+    # Insert new friends into the list
+    for friendId in newFriendIds
+      if friendId not in preFbIds
+        picAndName = "
+          <li data-fb-id=\"#{friendId}\">
+            <div class=\"profile_pic\">
+              <fb:profile-pic class=\"image\" facebook-logo=\"false\" linked=\"false\" size=\"square\" uid=\"#{friendId}\" />
+            </div>
+            <div class=\"name\" >
+              <fb:name uid=\"#{friendId}\" useyou=\"false\" />
+            </div>
+          </li>
+        "
+        $friends.find('li.tag_button_container').after(picAndName)
+    FB.XFBML.parse document.getElementById('friends')
+    
+    # Friends after the update
+    postFbIds = []
+    $friends.find('[data-fb-id]').each -> postFbIds.push($(@).attr('data-fb-id'))
+    
+    # Update the friend count
+    friendsPresent = if postFbIds.length == 1 then '1 person was there' else postFbIds.length+' people were there'
+    $friends.find('.count').text(friendsPresent)
+    
+    # Update the tag friends button
+    tagged = if postFbIds.length then ' ('+postFbIds.length+')' else ''
     $el
       .html('<span class="tag"></span> Tag Friends'+tagged)
       .css({'width': 'auto', 'display': 'inline-block'})
     $el.css({'width': $el.width(), 'display': 'block'})
-    
+  
+  selfTag: (e) ->
+    e.preventDefault()
+    $(e.currentTarget).hide()
+    $('a#tag_friends').removeClass('hide').trigger('friendSelection', [[USER.ME.id]])
+  
   showPhotos: (e) ->
     e.preventDefault()
     $el = $(e.currentTarget)

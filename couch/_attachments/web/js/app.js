@@ -12995,9 +12995,7 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
       });
     };
     MemoriesController.prototype.show = function() {
-      $('#fb_wrapper').html(app.views.memories_show.render().el);
-      $('#add_photos').trigger('click');
-      return $.centerCheat();
+      return $('#fb_wrapper').html(app.views.memories_show.render().el);
     };
     return MemoriesController;
   })();
@@ -13127,7 +13125,7 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
       return _safe(result);
     };
     (function() {
-      _print(_safe('<div id="sidebar">\n  <div id="photo">\n    <a href="#" class="add_photos">\n      <label></label>\n    </a>\n  </div>\n    \n  <ul class="friends">\n    <li class="count">3 people were there</li>\n    <li class="tag_button">\n      <a href="#" id="self_tag" class="button">\n        <span class="tag"></span>\n        I was there too!\n      </a>\n      <a href="#" id="tag_friends" class="button hide">\n        <span class="tag"></span>\n        Tag Friends (1)\n      </a>\n    </li>\n    <li>\n      <div class="profile_pic">\n        <fb:profile-pic class="image" facebook-logo="false" linked="false" size="square" uid="1" />\n      </div>\n      <div class="name">\n        <fb:name uid="1" />\n      </div>\n    </li>\n  </ul>\n</div>\n\n<div id="main">\n  <header>\n    <div id="header" class="clearfix">\n      <div class="fl">\n        <h1>Memory</h1>\n        <p class="date_line">January 1, 2010 &mdash; January 3, 2010</p>\n      </div>\n      \n      <div class="fr">\n        <fb:like layout="box_count" show_faces="false" />\n      </div>\n    </div>\n  </header>\n  \n  <div id="photos" class="clearfix">\n    <ul class="clearfix">\n      <li></li>\n      <li></li>\n      <li></li>\n      <li></li>\n      <li><a href="/web/img/add_photo.png" class="add_photos"></a></li>\n    </ul>\n    \n    <a href="#" id="show_photos" class="fl"></a>\n    <a href="#" id="add_photos" class="add_photos fr">Add Photos</a>\n  </div>\n  \n  <p id="description">\n    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eu orci nisi. Vivamus feugiat purus vel ipsum vestibulum sagittis. Donec et enim sed enim tempor aliquam. Vivamus id nisi tortor. Proin tempus, enim quis commodo euismod, orci eros elementum quam, eu fringilla mi tortor et velit.\n  </p>\n  \n  <div id="fb_comments" class="mtop3">\n    <fb:comments href="http://ryonlife.dyndns.org:8080/#/memories/1" width="550" num_posts="25" />\n  </div>\n    \n</div>\n'));
+      _print(_safe('<div id="sidebar">\n  <div id="photo">\n    <a href="#" class="add_photos">\n      <label></label>\n    </a>\n  </div>\n    \n  <ul id="friends">\n    <li class="count">3 people were there</li>\n    <li class="tag_button_container">\n      <a href="#" id="self_tag" class="button">\n        <span class="tag"></span>\n        I was there too!\n      </a>\n      <a href="#" id="tag_friends" class="button hide">\n        <span class="tag"></span>\n        Tag Friends (1)\n      </a>\n    </li>\n  </ul>\n</div>\n\n<div id="main">\n  <header>\n    <div id="header" class="clearfix">\n      <div class="fl">\n        <h1>Memory</h1>\n        <p class="date_line">January 1, 2010 &mdash; January 3, 2010</p>\n      </div>\n      \n      <div class="fr">\n        <fb:like layout="box_count" show_faces="false" />\n      </div>\n    </div>\n  </header>\n  \n  <div id="photos" class="clearfix">\n    <ul class="clearfix">\n      <li></li>\n      <li></li>\n      <li></li>\n      <li></li>\n      <li><a href="/web/img/add_photo.png" class="add_photos"></a></li>\n    </ul>\n    \n    <a href="#" id="show_photos" class="fl"></a>\n    <a href="#" id="add_photos" class="add_photos fr">Add Photos</a>\n  </div>\n  \n  <p id="description">\n    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eu orci nisi. Vivamus feugiat purus vel ipsum vestibulum sagittis. Donec et enim sed enim tempor aliquam. Vivamus id nisi tortor. Proin tempus, enim quis commodo euismod, orci eros elementum quam, eu fringilla mi tortor et velit.\n  </p>\n  \n  <div id="fb_comments" class="mtop3">\n    <fb:comments href="http://ryonlife.dyndns.org:8080/#/memories/1" width="550" num_posts="25" />\n  </div>\n    \n</div>\n'));
     }).call(this);
     
     return __out.join('');
@@ -13359,20 +13357,15 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
       }
     };
     MemoriesShowPhotoSelectorView.prototype.showAlbums = function(e) {
-      var $el;
+      var $el, album, _i, _len, _ref;
       e.preventDefault();
       $el = $(this.el);
-      FB.api('/me/albums', __bind(function(response) {
-        var album, _i, _len, _ref, _results;
-        $el.find('option:gt(0)').remove();
-        _ref = response.data;
-        _results = [];
-        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-          album = _ref[_i];
-          _results.push($el.find('select').append($('<option value="' + album.id + '">' + album.name + '&nbsp;</option>')));
-        }
-        return _results;
-      }, this));
+      $el.find('option:gt(0)').remove();
+      _ref = USER.ALBUMS.data;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        album = _ref[_i];
+        $el.find('select').append($('<option value="' + album.id + '">' + album.name + '&nbsp;</option>'));
+      }
       $(e.currentTarget).hide().siblings().show();
       return $.centerCheat();
     };
@@ -13495,6 +13488,11 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
     child.prototype = new ctor;
     child.__super__ = parent.prototype;
     return child;
+  }, __indexOf = Array.prototype.indexOf || function(item) {
+    for (var i = 0, l = this.length; i < l; i++) {
+      if (this[i] === item) return i;
+    }
+    return -1;
   };
   memoriesShowTemplate = require('templates/memories/memories_show');
   exports.MemoriesShowView = (function() {
@@ -13506,6 +13504,7 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
     MemoriesShowView.prototype.events = {
       'click a#tag_friends': 'showFriendSelector',
       'friendSelection a#tag_friends': 'updateFriendSelections',
+      'click a#self_tag': 'selfTag',
       'click a#show_photos': 'showPhotos',
       'click a.add_photos': 'showPhotoSelector',
       'click a.fb_gallery': 'showGallery',
@@ -13519,16 +13518,31 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
     };
     MemoriesShowView.prototype.showFriendSelector = function(e) {
       e.preventDefault();
-      return FB.api('/me/friends', function(response) {
-        return $(e.currentTarget).fbFriendSelector(response.data, []);
-      });
+      return $(e.currentTarget).fbFriendSelector(USER.FRIENDS.data, []);
     };
-    MemoriesShowView.prototype.updateFriendSelections = function(e, friends) {
-      var $el, present, tagged;
+    MemoriesShowView.prototype.updateFriendSelections = function(e, newFriendIds) {
+      var $el, $friends, friendId, friendsPresent, picAndName, postFbIds, preFbIds, tagged, _i, _len;
       $el = $(e.currentTarget);
-      present = friends.length === 1 ? '1 person was there' : friends.length + ' people were there';
-      $('.friends .count').text(present);
-      tagged = friends.length ? ' (' + friends.length + ')' : '';
+      $friends = $('ul#friends');
+      preFbIds = [];
+      $friends.find('[data-fb-id]').each(function() {
+        return preFbIds.push($(this).attr('data-fb-id'));
+      });
+      for (_i = 0, _len = newFriendIds.length; _i < _len; _i++) {
+        friendId = newFriendIds[_i];
+        if (__indexOf.call(preFbIds, friendId) < 0) {
+          picAndName = "          <li data-fb-id=\"" + friendId + "\">            <div class=\"profile_pic\">              <fb:profile-pic class=\"image\" facebook-logo=\"false\" linked=\"false\" size=\"square\" uid=\"" + friendId + "\" />            </div>            <div class=\"name\" >              <fb:name uid=\"" + friendId + "\" useyou=\"false\" />            </div>          </li>        ";
+          $friends.find('li.tag_button_container').after(picAndName);
+        }
+      }
+      FB.XFBML.parse(document.getElementById('friends'));
+      postFbIds = [];
+      $friends.find('[data-fb-id]').each(function() {
+        return postFbIds.push($(this).attr('data-fb-id'));
+      });
+      friendsPresent = postFbIds.length === 1 ? '1 person was there' : postFbIds.length + ' people were there';
+      $friends.find('.count').text(friendsPresent);
+      tagged = postFbIds.length ? ' (' + postFbIds.length + ')' : '';
       $el.html('<span class="tag"></span> Tag Friends' + tagged).css({
         'width': 'auto',
         'display': 'inline-block'
@@ -13537,6 +13551,11 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
         'width': $el.width(),
         'display': 'block'
       });
+    };
+    MemoriesShowView.prototype.selfTag = function(e) {
+      e.preventDefault();
+      $(e.currentTarget).hide();
+      return $('a#tag_friends').removeClass('hide').trigger('friendSelection', [[USER.ME.id]]);
     };
     MemoriesShowView.prototype.showPhotos = function(e) {
       var $el, $p;

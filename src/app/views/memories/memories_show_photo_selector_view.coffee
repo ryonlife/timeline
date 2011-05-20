@@ -31,10 +31,9 @@ class exports.MemoriesShowPhotoSelectorView extends Backbone.View
     e.preventDefault()
     
     $el = $(@el)
-    FB.api '/me/albums', (response) =>
-      $el.find('option:gt(0)').remove()
-      for album in response.data
-        $el.find('select').append($('<option value="'+album.id+'">'+album.name+'&nbsp;</option>'))
+    $el.find('option:gt(0)').remove()
+    for album in USER.ALBUMS.data
+      $el.find('select').append($('<option value="'+album.id+'">'+album.name+'&nbsp;</option>'))
     
     $(e.currentTarget).hide().siblings().show()
     $.centerCheat()

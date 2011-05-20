@@ -22,14 +22,32 @@
       window.fbAsyncInit = function() {
         FB.init({appId: '121822724510409', status: true, cookie: true, xfbml: true});
         FB.Canvas.setAutoResize();
-        // FB.XFBML.parse(document.body, function() { XfbmlParsed(); });
+        
+        FB.XFBML.parse(document.body, function() { XfbmlParsed(); });
+        
+        window.USER = {};
+        
+        FB.api('/me', function(response) {
+          USER.ME = response;
+        });
+        
+        FB.api('/me/friends', function(response) {
+          USER.FRIENDS = response;
+        });
+        
+        FB.api('/me/albums', function(response) {
+          USER.ALBUMS = response;
+        });
       };
+      
       (function() {
         var e = document.createElement('script');
         e.async = true;
         e.src = document.location.protocol+'//connect.facebook.net/en_US/all.js';
         document.getElementById('fb-root').appendChild(e);
       }());
+      
+      function XfbmlParsed() { }
     </script>
     
   </body>

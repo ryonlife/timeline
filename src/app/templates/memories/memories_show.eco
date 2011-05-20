@@ -5,9 +5,9 @@
     </a>
   </div>
     
-  <ul class="friends">
+  <ul id="friends">
     <li class="count">3 people were there</li>
-    <li class="tag_button">
+    <li class="tag_button_container">
       <a href="#" id="self_tag" class="button">
         <span class="tag"></span>
         I was there too!
@@ -16,14 +16,6 @@
         <span class="tag"></span>
         Tag Friends (1)
       </a>
-    </li>
-    <li>
-      <div class="profile_pic">
-        <fb:profile-pic class="image" facebook-logo="false" linked="false" size="square" uid="1" />
-      </div>
-      <div class="name">
-        <fb:name uid="1" />
-      </div>
     </li>
   </ul>
 </div>
