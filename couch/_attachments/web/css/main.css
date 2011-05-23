@@ -72,7 +72,7 @@ li .profile_pic:hover label{left:3px}
 #photo_selector_view #photo_choices ul{margin:0;min-height:140px;max-height:415px;overflow-x:hidden;overflow-y:scroll;background:transparent url("/web/img/spinner.gif") no-repeat center center;}
 #photo_selector_view #photo_choices ul li{display:block;width:168px;height:135px;list-style:none;float:left;margin-bottom:5px;cursor:pointer}
 #photo_selector_view #photo_choices ul li.middle{margin:0 5px}
-.indicator{display:none;height:18px;padding:0 5px 0 19px;margin-left:3px;position:absolute;background:#3b5998 url("/web/img/edit.png") no-repeat 1px top;font-size:88%;color:#fff !important;line-height:18px;box-shadow:rgba(0,0,0,0.3) 1px 1px 1px 0;-webkit-box-shadow:rgba(0,0,0,0.3) 1px 1px 1px 0;-moz-box-shadow:rgba(0,0,0,0.3) 1px 1px 1px 0;}
+.indicator{display:none;height:18px;padding:1px 5px 1px 19px;margin-left:3px;position:absolute;background:#3b5998 url("/web/img/edit.png") no-repeat 1px 1px;font-size:88%;color:#fff !important;line-height:18px;box-shadow:rgba(0,0,0,0.3) 1px 1px 1px 0;-webkit-box-shadow:rgba(0,0,0,0.3) 1px 1px 1px 0;-moz-box-shadow:rgba(0,0,0,0.3) 1px 1px 1px 0;}
 .indicator:hover{text-decoration:none}
 #new_event{border:1px solid #b3b3b3;background-color:#f2f2f2;padding:20px;}
 #new_event .field{margin-bottom:1em;}
