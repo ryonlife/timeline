@@ -24,11 +24,12 @@
   <header>
     <div id="header" class="clearfix">
       <div class="fl">
-        <h1 class="editable">Memory</h1>
+        <h1 id="title" class="editable">Memory</h1>
+        <input id="edit_title" class="edit_field" type="text" />
         <p class="date_line editable">January 1, 2010 &mdash; January 3, 2010</p>
       </div>
       
-      <div class="fr">
+      <div class="fr hide">
         <fb:like layout="box_count" show_faces="false" />
       </div>
     </div>
@@ -47,9 +48,8 @@
     <a href="#" id="add_photos" class="add_photos fr">Add Photos</a>
   </div>
   
-  <p id="description" class="editable">
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eu orci nisi. Vivamus feugiat purus vel ipsum vestibulum sagittis. Donec et enim sed enim tempor aliquam. Vivamus id nisi tortor. Proin tempus, enim quis commodo euismod, orci eros elementum quam, eu fringilla mi tortor et velit.
-  </p>
+  <p id="description" class="editable">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eu orci nisi. Vivamus feugiat purus vel ipsum vestibulum sagittis. Donec et enim sed enim tempor aliquam. Vivamus id nisi tortor. Proin tempus, enim quis commodo euismod, orci eros elementum quam, eu fringilla mi tortor et velit.</p>
+  <textarea id="edit_description" class="edit_field"></textarea>
   
   <div id="fb_comments" class="mtop3">
     <fb:comments href="http://ryonlife.dyndns.org:8080/#/memories/1" width="550" num_posts="25" />

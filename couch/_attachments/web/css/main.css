@@ -74,6 +74,9 @@ li .profile_pic:hover label{left:3px}
 #photo_selector_view #photo_choices ul li.middle{margin:0 5px}
 .indicator{display:none;height:18px;padding:1px 5px 1px 19px;margin-left:3px;position:absolute;background:#3b5998 url("/web/img/edit.png") no-repeat 1px 1px;font-size:88%;color:#fff !important;line-height:18px;box-shadow:rgba(0,0,0,0.3) 1px 1px 1px 0;-webkit-box-shadow:rgba(0,0,0,0.3) 1px 1px 1px 0;-moz-box-shadow:rgba(0,0,0,0.3) 1px 1px 1px 0;}
 .indicator:hover{text-decoration:none}
+.edit_field{display:none}
+#edit_title{font-size:16px;font-weight:bold;margin-bottom:8px;width:542px}
+#edit_description{width:539px;font-size:13px;height:150px}
 #new_event{border:1px solid #b3b3b3;background-color:#f2f2f2;padding:20px;}
 #new_event .field{margin-bottom:1em;}
 #new_event .field label{font-size:85%;font-weight:bold;color:#666;display:inline-block;width:110px}

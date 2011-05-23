@@ -20,6 +20,9 @@ class exports.MemoriesShowView extends Backbone.View
     
     'mouseover .indicator': 'markHovered'
     'mouseout .indicator': 'markNotHovered'
+    'click .indicator': 'triggerEdit'
+    'click .editable': 'showEdit'
+    'keyup .edit_field': 'saveEdit'
   
   render: ->
     $view = $(@el).html memoriesShowTemplate()
@@ -174,27 +177,29 @@ class exports.MemoriesShowView extends Backbone.View
       $('a#show_photos').text('') if $photos.length <= 5
     
   showIndicator: (e) ->
-    clearTimeout(@timeout)
+    if not $('.edit_field:visible').length
     
-    $el = $(e.currentTarget)
-    $view = $(@el)
-    $indicator = $('.indicator')
+      clearTimeout(@timeout)
     
-    if $el.is('#description')
-      left = $el.offset().left - 3
-      top = $el.offset().top + $el.height() + 2
-    else
-      left = $el.offset().left + $el.width()
-      top =
-        if $el.height() >= 18
-          $el.offset().top + ($el.height() - 18) / 2
-        else
-          $el.offset().top - (18 - $el.height()) / 2
+      $el = $(e.currentTarget)
+      $view = $(@el)
+      $indicator = $('.indicator')
     
-    $indicator
-      .show()
-      .css({left, top})
-      .data('target', e.currentTarget)
+      if $el.is('#description')
+        left = $el.offset().left - 3
+        top = $el.offset().top + $el.height() + 2
+      else
+        left = $el.offset().left + $el.width()
+        top =
+          if $el.height() >= 18
+            $el.offset().top + ($el.height() - 18) / 2
+          else
+            $el.offset().top - (18 - $el.height()) / 2
+    
+      $indicator
+        .show()
+        .css({left, top})
+        .data('target', e.currentTarget)
     
   hideIndicator: (e) ->
     @timeout = setTimeout ->
@@ -207,4 +212,26 @@ class exports.MemoriesShowView extends Backbone.View
     
   markNotHovered: (e) ->
     $(e.currentTarget).data('hovered', false).hide()
+    
+  triggerEdit: (e) ->
+    e.preventDefault()
+    $el = $(e.currentTarget).data('hovered', false).hide()
+    $($el.data('target')).trigger('click')
+    
+  showEdit: (e) ->
+    if not $('.edit_field:visible').length
+      $el = $(e.currentTarget)
+      $el.hide()
+    
+      $('.indicator').trigger('mouseout')
+    
+      $field = $el.next()
+      $field
+        .show()
+        .val($el.text())
+    
+  saveEdit: (e) ->
+    if e.keyCode == 13
+      $el = $(e.currentTarget).hide()
+      $target = $("##{$el.attr('id').substr(5)}").text($el.val()).show()
     
