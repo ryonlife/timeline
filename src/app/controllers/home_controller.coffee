@@ -16,9 +16,8 @@ class exports.HomeController extends Backbone.Controller
     else
       top.location = 'http://www.facebook.com/dialog/oauth/?scope=user_birthday,user_photo_video_tags,user_photos&client_id=121822724510409&redirect_uri=http://ryonlife.dyndns.org:8080/&response_type=token'
       
-
   access_token: (params) ->
     values = params.split('&expires_in=')
     $.cookie('access_token', values[0])
-    location.hash = '/memories/new'
+    location.hash = '/memories/1'
     

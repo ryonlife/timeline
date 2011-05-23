@@ -70,14 +70,12 @@
       return false;
     });
 
-    // Put all friends in the list
+    // Put all friends that haven't previously been tagged in the list
     $.each(friends, function() {
-      var className = '';
-      if($.inArray(this.id.toString(), selectedFriends) != -1) {
-        var className = 'selected';
+      if($.inArray(this.id.toString(), selectedFriends) == -1) {
+        var name = this.name.replace(/ /, '<br />');
+        $fsf.append('<li data-friend-id="'+this.id+'"><span class="frame"><fb:profile-pic class="image" facebook-logo="false" linked="false" size="square" uid="'+this.id+'"></fb:profile-pic><span class="check"></span></span><span class="name">'+name+'</span></li>');
       }      
-      var name = this.name.replace(/ /, '<br />');
-      $fsf.append('<li data-friend-id="'+this.id+'" class="'+className+'"><span class="frame"><fb:profile-pic class="image" facebook-logo="false" linked="false" size="square" uid="'+this.id+'"></fb:profile-pic><span class="check"></span></span><span class="name">'+name+'</span></li>');
     });
     FB.XFBML.parse(document.getElementById($fsf.attr('id'))); // Newly raising unsafe JS frame access when parsing pictures
     updateSelectedCount();

@@ -8,6 +8,7 @@ class exports.MemoriesShowView extends Backbone.View
     'friendSelection a#tag_friends': 'updateFriendSelections'
     
     'click a#self_tag': 'selfTag'
+    'click li .profile_pic label': 'removeTag'
     
     'click a#show_photos': 'showPhotos'
     'click a.add_photos': 'showPhotoSelector'
@@ -21,7 +22,10 @@ class exports.MemoriesShowView extends Backbone.View
     
   showFriendSelector: (e) ->
     e.preventDefault()
-    $(e.currentTarget).fbFriendSelector(USER.FRIENDS.data, [])
+    
+    selectedFriends = []
+    $('#friends .name [uid]').each -> selectedFriends.push $(this).attr('uid')
+    $(e.currentTarget).fbFriendSelector(USER.FRIENDS.data, selectedFriends)
   
   updateFriendSelections: (e, newFriendIds) ->
     $el = $(e.currentTarget)
@@ -37,6 +41,7 @@ class exports.MemoriesShowView extends Backbone.View
         picAndName = "
           <li data-fb-id=\"#{friendId}\">
             <div class=\"profile_pic\">
+              <label></label>
               <fb:profile-pic class=\"image\" facebook-logo=\"false\" linked=\"false\" size=\"square\" uid=\"#{friendId}\" />
             </div>
             <div class=\"name\" >
@@ -47,6 +52,24 @@ class exports.MemoriesShowView extends Backbone.View
         $friends.find('li.tag_button_container').after(picAndName)
     FB.XFBML.parse document.getElementById('friends')
     
+    # Users own pic should always be first
+    $('.tag_button_container').after($friends.find("li[data-fb-id=#{USER.ME.id}]"))
+    
+    @updateFriendCount()
+  
+  selfTag: (e) ->
+    e.preventDefault()
+    $(e.currentTarget).hide()
+    $('a#tag_friends').removeClass('hide').trigger('friendSelection', [[USER.ME.id]])
+  
+  removeTag: (e) ->
+    $(e.currentTarget).parents('li').remove()
+    @updateFriendCount()
+  
+  updateFriendCount: ->
+    $friends = $('ul#friends')
+    $button = $('a#tag_friends')
+    
     # Friends after the update
     postFbIds = []
     $friends.find('[data-fb-id]').each -> postFbIds.push($(@).attr('data-fb-id'))
@@ -56,16 +79,15 @@ class exports.MemoriesShowView extends Backbone.View
     $friends.find('.count').text(friendsPresent)
     
     # Update the tag friends button
-    tagged = if postFbIds.length then ' ('+postFbIds.length+')' else ''
-    $el
-      .html('<span class="tag"></span> Tag Friends'+tagged)
+    $button
+      .html('<span class="tag"></span> Tag Friends')
       .css({'width': 'auto', 'display': 'inline-block'})
-    $el.css({'width': $el.width(), 'display': 'block'})
-  
-  selfTag: (e) ->
-    e.preventDefault()
-    $(e.currentTarget).hide()
-    $('a#tag_friends').removeClass('hide').trigger('friendSelection', [[USER.ME.id]])
+    $button.css({'width': $button.width(), 'display': 'block'})
+    
+    # Show the self tagging button if the user removed himself
+    if not $friends.find("li[data-fb-id=#{USER.ME.id}]").length
+      $button.hide()
+      $('a#self_tag').show()
   
   showPhotos: (e) ->
     e.preventDefault()

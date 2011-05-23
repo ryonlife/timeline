@@ -10497,14 +10497,12 @@ jQuery.cookie = function (key, value, options) {
       return false;
     });
 
-    // Put all friends in the list
+    // Put all friends that haven't previously been tagged in the list
     $.each(friends, function() {
-      var className = '';
-      if($.inArray(this.id.toString(), selectedFriends) != -1) {
-        var className = 'selected';
+      if($.inArray(this.id.toString(), selectedFriends) == -1) {
+        var name = this.name.replace(/ /, '<br />');
+        $fsf.append('<li data-friend-id="'+this.id+'"><span class="frame"><fb:profile-pic class="image" facebook-logo="false" linked="false" size="square" uid="'+this.id+'"></fb:profile-pic><span class="check"></span></span><span class="name">'+name+'</span></li>');
       }      
-      var name = this.name.replace(/ /, '<br />');
-      $fsf.append('<li data-friend-id="'+this.id+'" class="'+className+'"><span class="frame"><fb:profile-pic class="image" facebook-logo="false" linked="false" size="square" uid="'+this.id+'"></fb:profile-pic><span class="check"></span></span><span class="name">'+name+'</span></li>');
     });
     FB.XFBML.parse(document.getElementById($fsf.attr('id'))); // Newly raising unsafe JS frame access when parsing pictures
     updateSelectedCount();
@@ -12959,7 +12957,7 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
       var values;
       values = params.split('&expires_in=');
       $.cookie('access_token', values[0]);
-      return location.hash = '/memories/new';
+      return location.hash = '/memories/1';
     };
     return HomeController;
   })();
@@ -13505,6 +13503,7 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
       'click a#tag_friends': 'showFriendSelector',
       'friendSelection a#tag_friends': 'updateFriendSelections',
       'click a#self_tag': 'selfTag',
+      'click li .profile_pic label': 'removeTag',
       'click a#show_photos': 'showPhotos',
       'click a.add_photos': 'showPhotoSelector',
       'click a.fb_gallery': 'showGallery',
@@ -13517,11 +13516,16 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
       return this;
     };
     MemoriesShowView.prototype.showFriendSelector = function(e) {
+      var selectedFriends;
       e.preventDefault();
-      return $(e.currentTarget).fbFriendSelector(USER.FRIENDS.data, []);
+      selectedFriends = [];
+      $('#friends .name [uid]').each(function() {
+        return selectedFriends.push($(this).attr('uid'));
+      });
+      return $(e.currentTarget).fbFriendSelector(USER.FRIENDS.data, selectedFriends);
     };
     MemoriesShowView.prototype.updateFriendSelections = function(e, newFriendIds) {
-      var $el, $friends, friendId, friendsPresent, picAndName, postFbIds, preFbIds, tagged, _i, _len;
+      var $el, $friends, friendId, picAndName, preFbIds, _i, _len;
       $el = $(e.currentTarget);
       $friends = $('ul#friends');
       preFbIds = [];
@@ -13531,31 +13535,45 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
       for (_i = 0, _len = newFriendIds.length; _i < _len; _i++) {
         friendId = newFriendIds[_i];
         if (__indexOf.call(preFbIds, friendId) < 0) {
-          picAndName = "          <li data-fb-id=\"" + friendId + "\">            <div class=\"profile_pic\">              <fb:profile-pic class=\"image\" facebook-logo=\"false\" linked=\"false\" size=\"square\" uid=\"" + friendId + "\" />            </div>            <div class=\"name\" >              <fb:name uid=\"" + friendId + "\" useyou=\"false\" />            </div>          </li>        ";
+          picAndName = "          <li data-fb-id=\"" + friendId + "\">            <div class=\"profile_pic\">              <label></label>              <fb:profile-pic class=\"image\" facebook-logo=\"false\" linked=\"false\" size=\"square\" uid=\"" + friendId + "\" />            </div>            <div class=\"name\" >              <fb:name uid=\"" + friendId + "\" useyou=\"false\" />            </div>          </li>        ";
           $friends.find('li.tag_button_container').after(picAndName);
         }
       }
       FB.XFBML.parse(document.getElementById('friends'));
+      $('.tag_button_container').after($friends.find("li[data-fb-id=" + USER.ME.id + "]"));
+      return this.updateFriendCount();
+    };
+    MemoriesShowView.prototype.selfTag = function(e) {
+      e.preventDefault();
+      $(e.currentTarget).hide();
+      return $('a#tag_friends').removeClass('hide').trigger('friendSelection', [[USER.ME.id]]);
+    };
+    MemoriesShowView.prototype.removeTag = function(e) {
+      $(e.currentTarget).parents('li').remove();
+      return this.updateFriendCount();
+    };
+    MemoriesShowView.prototype.updateFriendCount = function() {
+      var $button, $friends, friendsPresent, postFbIds;
+      $friends = $('ul#friends');
+      $button = $('a#tag_friends');
       postFbIds = [];
       $friends.find('[data-fb-id]').each(function() {
         return postFbIds.push($(this).attr('data-fb-id'));
       });
       friendsPresent = postFbIds.length === 1 ? '1 person was there' : postFbIds.length + ' people were there';
       $friends.find('.count').text(friendsPresent);
-      tagged = postFbIds.length ? ' (' + postFbIds.length + ')' : '';
-      $el.html('<span class="tag"></span> Tag Friends' + tagged).css({
+      $button.html('<span class="tag"></span> Tag Friends').css({
         'width': 'auto',
         'display': 'inline-block'
       });
-      return $el.css({
-        'width': $el.width(),
+      $button.css({
+        'width': $button.width(),
         'display': 'block'
       });
-    };
-    MemoriesShowView.prototype.selfTag = function(e) {
-      e.preventDefault();
-      $(e.currentTarget).hide();
-      return $('a#tag_friends').removeClass('hide').trigger('friendSelection', [[USER.ME.id]]);
+      if (!$friends.find("li[data-fb-id=" + USER.ME.id + "]").length) {
+        $button.hide();
+        return $('a#self_tag').show();
+      }
     };
     MemoriesShowView.prototype.showPhotos = function(e) {
       var $el, $p;

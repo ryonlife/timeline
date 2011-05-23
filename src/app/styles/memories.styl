@@ -80,6 +80,7 @@ ul#friends
       width 50px
       float left
       margin 0 10px 5px 0
+      position relative
     
     .name
       margin-top 5px
@@ -111,6 +112,7 @@ ul#friends
     span
       display block
 
+li .profile_pic:hover label
 a.fb_gallery:hover label
   position absolute
   top 3px
@@ -122,6 +124,8 @@ a.fb_gallery:hover label
   cursor pointer
   &:hover
     background transparent url(/web/img/sprite_close.png) no-repeat -22px right
+li .profile_pic:hover label
+  left 3px
       
 #photo_selector_view
   display none

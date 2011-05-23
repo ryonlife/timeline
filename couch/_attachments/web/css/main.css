@@ -57,7 +57,7 @@ ul#friends{margin:1em 0 0 0;font-size:85%;font-weight:bold;}
 ul#friends li.count{color:#808080;margin-bottom:10px}
 ul#friends li.tag_button_container a{font-size:11px;margin-bottom:2em}
 ul#friends li{list-style:none;clear:both;}
-ul#friends li .profile_pic{width:50px;float:left;margin:0 10px 5px 0}
+ul#friends li .profile_pic{width:50px;float:left;margin:0 10px 5px 0;position:relative}
 ul#friends li .name{margin-top:5px;float:left;width:95px;font-weight:normal}
 #photos{font-size:85%;margin-bottom:2em;}
 #photos ul{margin:0 0 5px -2px;}
@@ -65,8 +65,9 @@ ul#friends li .name{margin-top:5px;float:left;width:95px;font-weight:normal}
 #photos ul li a{display:block;height:68px;position:relative}
 #photos ul li a.add_photos{background:transparent url("/web/img/add_photo_small.png") no-repeat center center}
 #photos ul span{display:block}
-a.fb_gallery:hover label{position:absolute;top:3px;right:3px;display:block;width:11px;height:11px;background:transparent url("/web/img/sprite_close.png") no-repeat -11px right;cursor:pointer;}
-a.fb_gallery:hover label:hover{background:transparent url("/web/img/sprite_close.png") no-repeat -22px right}
+li .profile_pic:hover label,a.fb_gallery:hover label{position:absolute;top:3px;right:3px;display:block;width:11px;height:11px;background:transparent url("/web/img/sprite_close.png") no-repeat -11px right;cursor:pointer;}
+li .profile_pic:hover label:hover,a.fb_gallery:hover label:hover{background:transparent url("/web/img/sprite_close.png") no-repeat -22px right}
+li .profile_pic:hover label{left:3px}
 #photo_selector_view{display:none;margin:-1em 0 1em 0;padding:5px;border:1px solid #b4bbcd;position:relative;}
 #photo_selector_view span.nub{position:absolute;top:-7px;right:10px;display:inline-block;width:11px;height:7px;background:transparent url("/web/img/nub.gif") no-repeat right top;border-bottom:1px solid #fff}
 #photo_selector_view #select_from_container{background:transparent url("/web/img/gray_px.png") repeat-y center top;}
