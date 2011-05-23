@@ -12974,32 +12974,20 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
   exports.MemoriesController = (function() {
     __extends(MemoriesController, Backbone.Controller);
     MemoriesController.prototype.routes = {
-      '/memories/new': 'new',
       '/memories/:id': 'show'
     };
     function MemoriesController() {
       MemoriesController.__super__.constructor.apply(this, arguments);
     }
-    MemoriesController.prototype["new"] = function() {
-      $('#fb_wrapper').html(app.views.memories_new.render().el);
-      return $('#fb_wrapper').find('[data-top-align-with]').each(function() {
-        var $alignWith, $this;
-        $this = $(this);
-        $alignWith = $($this.attr('data-top-align-with'));
-        return $this.css({
-          'position': 'relative',
-          top: $alignWith.position().top - $this.position().top
-        });
-      });
-    };
     MemoriesController.prototype.show = function() {
-      return $('#fb_wrapper').html(app.views.memories_show.render().el);
+      $('#fb_wrapper').html(app.views.memories_show.render().el);
+      return app.views.memories_show.datepickers();
     };
     return MemoriesController;
   })();
 }).call(this);
 }, "main": function(exports, require, module) {(function() {
-  var HomeController, HomeIndexView, MemoriesController, MemoriesNewView, MemoriesShowPhotoSelectorView, MemoriesShowView;
+  var HomeController, HomeIndexView, MemoriesController, MemoriesShowPhotoSelectorView, MemoriesShowView;
   window.app = {};
   app.controllers = {};
   app.models = {};
@@ -13008,7 +12996,6 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
   HomeController = require('controllers/home_controller').HomeController;
   HomeIndexView = require('views/home/home_index_view').HomeIndexView;
   MemoriesController = require('controllers/memories_controller').MemoriesController;
-  MemoriesNewView = require('views/memories/memories_new_view').MemoriesNewView;
   MemoriesShowView = require('views/memories/memories_show_view').MemoriesShowView;
   MemoriesShowPhotoSelectorView = require('views/memories/memories_show_photo_selector_view').MemoriesShowPhotoSelectorView;
   $(document).ready(function() {
@@ -13016,7 +13003,6 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
       app.controllers.home = new HomeController;
       app.views.home_index = new HomeIndexView;
       app.controllers.memories = new MemoriesController;
-      app.views.memories_new = new MemoriesNewView;
       app.views.memories_show = new MemoriesShowView;
       return app.views.memories_show_photo_selector = new MemoriesShowPhotoSelectorView;
     };
@@ -13063,45 +13049,6 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
     for (key in __obj) obj[key] = __obj[key];
     return obj;
   })());
-};}, "templates/memories/memories_new": function(exports, require, module) {module.exports = function(__obj) {
-  var _safe = function(value) {
-    if (typeof value === 'undefined' && value == null)
-      value = '';
-    var result = new String(value);
-    result.ecoSafe = true;
-    return result;
-  };
-  return (function() {
-    var __out = [], __self = this, _print = function(value) {
-      if (typeof value !== 'undefined' && value != null)
-        __out.push(value.ecoSafe ? value : __self.escape(value));
-    }, _capture = function(callback) {
-      var out = __out, result;
-      __out = [];
-      callback.call(this);
-      result = __out.join('');
-      __out = out;
-      return _safe(result);
-    };
-    (function() {
-      _print(_safe('<div id="main.no_sidebar">\n\n  <header>\n    <div id="header" class="clearfix">\n      <h1>New Memory</h1>\n    </div>\n  </header>\n\n  <form id="new_event">\n\n    <div class="field">\n      <label for="start_date">When?</label>\n\n      <input type="text" name="start_datepicker" id="start_datepicker" class="datepicker" readonly="readonly" />\n      <input type="hidden" name="start_date" id="start_date" />\n    \n      <span id="end_date">\n        <a href="#">Add end date</a>\n        <label for="end_date" class="hide">through</label>\n      \n        <input type="text" name="end_datepicker" id="end_datepicker" class="datepicker hide" readonly="readonly" />\n        <input type="hidden" name="end_date" id="end_date" />\n      </span>\n    </div>\n  \n    <div class="field">\n      <label for="title">Title</label>\n      <input type="text" name="title" id="title" class="wide" />\n    </div>\n  \n    <div class="field">\n      <label for="description" data-top-align-with="#description">Description</label>\n      <textarea name="description" id="description" class="wide"></textarea>\n    </div>\n  \n    <div class="field">\n      <label>Who was there?</label>\n      <a href="#" id="tag_friends" class="button">\n        <span class="tag"></span>\n        Tag Friends\n      </a>\n    </div>\n  \n    <div class="field checkbox">\n      <input type="checkbox" name="is_favorite_memory" id="is_favorite_memory" value="1" checked="true" />\n      <label for="is_favorite_memory">Add this memory to my favorites</label>\n    </div>\n  \n    <div class="actions">\n      <input type="submit" value="Create Memory" class="submit" />\n    </div>\n\n  </form>\n  \n</div>\n'));
-    }).call(this);
-    
-    return __out.join('');
-  }).call((function() {
-    var obj = {
-      escape: function(value) {
-        return ('' + value)
-          .replace(/&/g, '&amp;')
-          .replace(/</g, '&lt;')
-          .replace(/>/g, '&gt;')
-          .replace(/"/g, '&quot;');
-      },
-      safe: _safe
-    }, key;
-    for (key in __obj) obj[key] = __obj[key];
-    return obj;
-  })());
 };}, "templates/memories/memories_show": function(exports, require, module) {module.exports = function(__obj) {
   var _safe = function(value) {
     if (typeof value === 'undefined' && value == null)
@@ -13123,7 +13070,7 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
       return _safe(result);
     };
     (function() {
-      _print(_safe('<div id="sidebar">\n  <div id="photo">\n    <a href="#" class="add_photos">\n      <label></label>\n    </a>\n  </div>\n    \n  <ul id="friends">\n    <li class="count">Nobody was there</li>\n    <li class="tag_button_container">\n      <a href="#" id="self_tag" class="button">\n        <span class="tag"></span>\n        I was there!\n      </a>\n      <a href="#" id="tag_friends" class="button hide">\n        <span class="tag"></span>\n        Tag Friends (1)\n      </a>\n    </li>\n  </ul>\n</div>\n\n<div id="main">\n  <header>\n    <div id="header" class="clearfix">\n      <div class="fl">\n        <h1 id="title" class="editable">Memory</h1>\n        <input id="edit_title" class="edit_field" type="text" />\n        <p class="date_line editable">January 1, 2010 &mdash; January 3, 2010</p>\n      </div>\n      \n      <div class="fr hide">\n        <fb:like layout="box_count" show_faces="false" />\n      </div>\n    </div>\n  </header>\n  \n  <div id="photos" class="clearfix">\n    <ul class="clearfix">\n      <li></li>\n      <li></li>\n      <li></li>\n      <li></li>\n      <li><a href="/web/img/add_photo.png" class="add_photos"></a></li>\n    </ul>\n    \n    <a href="#" id="show_photos" class="fl"></a>\n    <a href="#" id="add_photos" class="add_photos fr">Add Photos</a>\n  </div>\n  \n  <p id="description" class="editable">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eu orci nisi. Vivamus feugiat purus vel ipsum vestibulum sagittis. Donec et enim sed enim tempor aliquam. Vivamus id nisi tortor. Proin tempus, enim quis commodo euismod, orci eros elementum quam, eu fringilla mi tortor et velit.</p>\n  <textarea id="edit_description" class="edit_field"></textarea>\n  \n  <div id="fb_comments" class="mtop3">\n    <fb:comments href="http://ryonlife.dyndns.org:8080/#/memories/1" width="550" num_posts="25" />\n  </div>\n    \n</div>\n\n<a href="#" class="indicator">Edit</a>\n'));
+      _print(_safe('<div id="sidebar">\n  <div id="photo">\n    <a href="#" class="add_photos">\n      <label></label>\n    </a>\n  </div>\n    \n  <ul id="friends">\n    <li class="count">Nobody was there</li>\n    <li class="tag_button_container">\n      <a href="#" id="self_tag" class="button">\n        <span class="tag"></span>\n        I was there!\n      </a>\n      <a href="#" id="tag_friends" class="button hide">\n        <span class="tag"></span>\n        Tag Friends (1)\n      </a>\n    </li>\n  </ul>\n</div>\n\n<div id="main">\n  \n  <header>\n    <div id="header" class="clearfix">\n      <div class="fl">\n        <h1 id="title" class="editable">Memory</h1>\n        <input id="edit_title" class="edit_field" type="text" />\n        <p class="date_line editable">January 1, 2010 &mdash; January 3, 2010</p>\n      </div>\n      \n      <div class="fr hide">\n        <fb:like layout="box_count" show_faces="false" />\n      </div>\n    </div>\n  </header>\n  \n  <div id="start_datepicker" class="datepicker"></div>\n  <input type="hidden" name="start_date" id="start_date" />\n\n  <div id="end_datepicker" class="datepicker"></div>\n  <input type="hidden" name="end_date" id="end_date" />\n  \n  <div id="photos" class="clearfix">\n    <ul class="clearfix">\n      <li></li>\n      <li></li>\n      <li></li>\n      <li></li>\n      <li><a href="/web/img/add_photo.png" class="add_photos"></a></li>\n    </ul>\n    \n    <a href="#" id="show_photos" class="fl"></a>\n    <a href="#" id="add_photos" class="add_photos fr">Add Photos</a>\n  </div>\n  \n  <p id="description" class="editable">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eu orci nisi. Vivamus feugiat purus vel ipsum vestibulum sagittis. Donec et enim sed enim tempor aliquam. Vivamus id nisi tortor. Proin tempus, enim quis commodo euismod, orci eros elementum quam, eu fringilla mi tortor et velit.</p>\n  <textarea id="edit_description" class="edit_field"></textarea>\n  \n  <div id="fb_comments" class="mtop3">\n    <fb:comments href="http://ryonlife.dyndns.org:8080/#/memories/1" width="550" num_posts="25" />\n  </div>\n    \n</div>\n\n<a href="#" class="indicator">Edit</a>\n'));
     }).call(this);
     
     return __out.join('');
@@ -13202,113 +13149,6 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
       return this;
     };
     return HomeIndexView;
-  })();
-}).call(this);
-}, "views/memories/memories_new_view": function(exports, require, module) {(function() {
-  var memoriesNewTemplate;
-  var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
-    for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
-    function ctor() { this.constructor = child; }
-    ctor.prototype = parent.prototype;
-    child.prototype = new ctor;
-    child.__super__ = parent.prototype;
-    return child;
-  };
-  memoriesNewTemplate = require('templates/memories/memories_new');
-  exports.MemoriesNewView = (function() {
-    function MemoriesNewView() {
-      MemoriesNewView.__super__.constructor.apply(this, arguments);
-    }
-    __extends(MemoriesNewView, Backbone.View);
-    MemoriesNewView.prototype.id = 'memories_new';
-    MemoriesNewView.prototype.events = {
-      'click #end_date a': 'enableDateRange',
-      'click #tag_friends': 'showFriendSelector',
-      'submit form': 'createMemory'
-    };
-    MemoriesNewView.prototype.render = function() {
-      var $dateField, $endDate, $startDate, $view, birthday, birthdayParts, date, defaultDate, _i, _len, _ref;
-      $view = $(this.el).html(memoriesNewTemplate());
-      birthdayParts = '11/27/1982'.split('/');
-      birthday = {
-        year: birthdayParts[2],
-        month: birthdayParts[0] - 1,
-        day: birthdayParts[1]
-      };
-      $view.find('.datepicker').each(function() {
-        var $this, options;
-        $this = $(this);
-        options = {
-          showOn: 'both',
-          buttonImage: '/web/img/calendar.gif',
-          buttonImageOnly: true,
-          changeMonth: true,
-          changeYear: true,
-          dayNamesMin: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-          showAnim: '',
-          altFormat: 'yy-mm-dd',
-          altField: '#' + $(this).attr('id').slice(0, -6),
-          maxDate: 0,
-          minDate: new Date(birthday.year, birthday.month, birthday.day),
-          yearRange: birthday.year.toString() + ':-nn:+nn'
-        };
-        return $this.datepicker(options);
-      });
-      $view.find('.datepicker').first().change(function() {
-        var $this, date, endDate;
-        $this = $(this);
-        date = $this.datepicker('getDate');
-        endDate = $view.find('.datepicker').last();
-        endDate.datepicker('option', 'minDate', date);
-        return endDate.datepicker('option', 'yearRange', date.getFullYear().toString() + ':-nn+nn');
-      });
-      $startDate = $('#start_date');
-      if ($startDate.val()) {
-        date = $startDate.val().split('-');
-        defaultDate = date[1] + '/' + date[2] + '/' + date[0];
-        $('#start_datepicker').val(defaultDate);
-      }
-      $endDate = $('#end_date');
-      if ($endDate.val()) {
-        date = $endDate.val().split('-');
-        defaultDate = date[1] + '/' + date[2] + '/' + date[0];
-        $('#end_datepicker').val(defaultDate);
-        $('#end_date a').trigger('click');
-      }
-      _ref = [$('#start_date'), $('#end_date')];
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        $dateField = _ref[_i];
-        if ($dateField.val()) {
-          date = $dateField.val().split('-');
-          defaultDate = date[1] + '/' + date[2] + '/' + date[0];
-          $('#' + $dateField.attr('id') + 'picker').val(defaultDate);
-          if ($dateField.attr('id') === 'end_date') {
-            $('#end_date a').trigger('click');
-          }
-        }
-      }
-      return this;
-    };
-    MemoriesNewView.prototype.enableDateRange = function(e) {
-      var $link;
-      e.preventDefault();
-      $link = $(e.currentTarget);
-      $link.siblings().each(function() {
-        return $(this).removeClass('hide').show();
-      });
-      return $link.remove();
-    };
-    MemoriesNewView.prototype.showFriendSelector = function(e) {
-      e.preventDefault();
-      return FB.api('/me/friends', function(response) {
-        return $.fbFriendSelector(response.data);
-      });
-    };
-    MemoriesNewView.prototype.createMemory = function(e) {
-      e.preventDefault();
-      return console.log('create');
-    };
-    return MemoriesNewView;
   })();
 }).call(this);
 }, "views/memories/memories_show_photo_selector_view": function(exports, require, module) {(function() {
@@ -13522,6 +13362,42 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
       $view = $(this.el).html(memoriesShowTemplate());
       $view.find('#photos').after(app.views.memories_show_photo_selector.render().el);
       return this;
+    };
+    MemoriesShowView.prototype.datepickers = function() {
+      var $view;
+      $view = $(this.el);
+      return $view.find('.datepicker').each(function() {
+        var $this, birthdayParts, options, restrictRange;
+        $this = $(this);
+        birthdayParts = '11/27/1982'.split('/');
+        options = {
+          showOn: 'both',
+          changeMonth: true,
+          changeYear: true,
+          dayNamesMin: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+          showAnim: '',
+          altFormat: 'yy-mm-dd',
+          altField: '#' + $(this).attr('id').slice(0, -6),
+          maxDate: 0,
+          minDate: new Date(birthdayParts[2], birthdayParts[0] - 1, birthdayParts[1]),
+          yearRange: birthdayParts[2].toString() + ':-nn:+nn'
+        };
+        if ($this.is(':first-of-type')) {
+          restrictRange = function(dateText, datepicker) {
+            var $endDatepicker, date;
+            $this = $(this);
+            date = $this.datepicker('getDate');
+            $endDatepicker = $view.find('.datepicker').last();
+            $endDatepicker.datepicker('option', 'minDate', date);
+            return $endDatepicker.datepicker('option', 'yearRange', date.getFullYear().toString() + ':-nn+nn');
+          };
+          options = _.extend(options, {
+            onSelect: restrictRange,
+            onChangeMonthYear: restrictRange
+          });
+        }
+        return $this.datepicker(options);
+      });
     };
     MemoriesShowView.prototype.showFriendSelector = function(e) {
       var selectedFriends;

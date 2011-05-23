@@ -6,7 +6,6 @@ class exports.MemoriesShowView extends Backbone.View
   events:
     'click a#tag_friends': 'showFriendSelector'
     'friendSelection a#tag_friends': 'updateFriendSelections'
-    
     'click a#self_tag': 'selfTag'
     'click li .profile_pic label': 'removeTag'
     
@@ -17,7 +16,6 @@ class exports.MemoriesShowView extends Backbone.View
     
     'mouseover .editable': 'showIndicator'
     'mouseout .editable': 'hideIndicator'
-    
     'mouseover .indicator': 'markHovered'
     'mouseout .indicator': 'markNotHovered'
     'click .indicator': 'triggerEdit'
@@ -26,9 +24,36 @@ class exports.MemoriesShowView extends Backbone.View
   
   render: ->
     $view = $(@el).html memoriesShowTemplate()
-    $view.find('#photos').after app.views.memories_show_photo_selector.render().el
+    $view.find('#photos').after app.views.memories_show_photo_selector.render().el    
     @
-    
+  
+  datepickers: ->
+    $view = $(@el)
+    # Initialize the jQuery UI datepickers
+    $view.find('.datepicker').each ->
+      $this = $(@)
+      birthdayParts = '11/27/1982'.split('/')
+      options =
+        showOn: 'both'
+        changeMonth: true
+        changeYear: true
+        dayNamesMin: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+        showAnim: ''
+        altFormat: 'yy-mm-dd'
+        altField: '#'+$(this).attr('id').slice(0, -6)
+        maxDate: 0
+        minDate: new Date(birthdayParts[2], birthdayParts[0] - 1, birthdayParts[1])
+        yearRange: birthdayParts[2].toString()+':-nn:+nn'
+      if $this.is(':first-of-type')
+        restrictRange = (dateText, datepicker) ->
+          $this = $(@)
+          date = $this.datepicker('getDate')
+          $endDatepicker = $view.find('.datepicker').last()
+          $endDatepicker.datepicker('option', 'minDate', date)
+          $endDatepicker.datepicker('option', 'yearRange', date.getFullYear().toString()+':-nn+nn')
+        options = _.extend options, {onSelect: restrictRange, onChangeMonthYear: restrictRange}
+      $this.datepicker options
+  
   showFriendSelector: (e) ->
     e.preventDefault()
     

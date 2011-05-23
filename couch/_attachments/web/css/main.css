@@ -77,19 +77,7 @@ li .profile_pic:hover label{left:3px}
 .edit_field{display:none}
 #edit_title{font-size:16px;font-weight:bold;margin-bottom:8px;width:542px}
 #edit_description{width:539px;font-size:13px;height:150px}
-#new_event{border:1px solid #b3b3b3;background-color:#f2f2f2;padding:20px;}
-#new_event .field{margin-bottom:1em;}
-#new_event .field label{font-size:85%;font-weight:bold;color:#666;display:inline-block;width:110px}
-#new_event .field a{font-size:85%;}
-#new_event .field a:hover{cursor:pointer}
-#new_event .field span#end_date{position:relative;left:-10px;}
-#new_event .field span#end_date label{font-weight:normal;padding-right:5px;width:auto}
-#new_event .field span#end_date .ui-datepicker-trigger{display:none}
-#new_event .field.checkbox{margin-left:114px;}
-#new_event .field.checkbox label{width:auto}
-#new_event .field.checkbox input{margin-top:2px}
-.datepicker{width:110px !important;cursor:text}
-.ui-datepicker-trigger{position:relative;left:-20px;top:2px;cursor:text}
+.ui-datepicker-trigger{display:none}
 .ui-datepicker{padding:0;-webkit-border-radius:0;-moz-border-radiius:0;border-radius:0;width:189px;margin-top:3px;border-top:1px solid #3a589b;border-bottom:2px solid #3a589b;}
 .ui-datepicker .ui-widget-header{background:#6d84b4;color:#555;border:0;-webkit-border-radius:0;-moz-border-radiius:0;border-radius:0;aaa}
 .ui-datepicker .ui-widget-header .ui-datepicker-prev,.ui-datepicker .ui-widget-header a.ui-datepicker-next{border-color:#ff0;-webkit-border-radius:0;-moz-border-radiius:0;border-radius:0;width:6px;height:11px;border:1px solid transparent;}

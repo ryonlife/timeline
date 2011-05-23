@@ -21,6 +21,7 @@
 </div>
 
 <div id="main">
+  
   <header>
     <div id="header" class="clearfix">
       <div class="fl">
@@ -34,6 +35,12 @@
       </div>
     </div>
   </header>
+  
+  <div id="start_datepicker" class="datepicker"></div>
+  <input type="hidden" name="start_date" id="start_date" />
+
+  <div id="end_datepicker" class="datepicker"></div>
+  <input type="hidden" name="end_date" id="end_date" />
   
   <div id="photos" class="clearfix">
     <ul class="clearfix">
