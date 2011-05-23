@@ -36,21 +36,10 @@ input.wide,textarea.wide,select.wide{width:595px}
 select{padding:0 4px;margin:0 2px}
 a.form_button,a.form_button:visited,input.submit{font-size:13px;display:inline-block;color:#fff;width:auto;height:25px;line-height:23px;padding:0 6px;font-weight:bold;color:#fff;background:transparent url("/web/img/sprite2.png") repeat-x 0 -48px;border:1px solid #000;border-top-color:#29447e;border-right-color:#29447e;border-bottom-color:#1a356e;border-left-color:#29447e;-webkit-box-shadow:rgba(0,0,0,0.0976562) 0 1px 0 0;cursor:pointer;}
 a.form_button:hover,a.form_button:visited:hover,input.submit:hover{text-decoration:none}
-#new_event{border:1px solid #b3b3b3;background-color:#f2f2f2;padding:20px;}
-#new_event .field{margin-bottom:1em;}
-#new_event .field label{font-size:85%;font-weight:bold;color:#666;display:inline-block;width:110px}
-#new_event .field a{font-size:85%;}
-#new_event .field a:hover{cursor:pointer}
-#new_event .field span#end_date{position:relative;left:-10px;}
-#new_event .field span#end_date label{font-weight:normal;padding-right:5px;width:auto}
-#new_event .field span#end_date .ui-datepicker-trigger{display:none}
-#new_event .field.checkbox{margin-left:114px;}
-#new_event .field.checkbox label{width:auto}
-#new_event .field.checkbox input{margin-top:2px}
-#new_event .actions{margin:1.5em 0 0 114px}
 #sidebar #photo{margin-bottom:10px;border-left:2px solid #fff;background-color:#eceff5;a}
 #sidebar #photo .add_photos,#sidebar #photo a.fb_gallery{position:relative;display:block;height:120px;background:#eceff5 url("/web/img/add_photo.png") no-repeat center center}
 #header{margin-bottom:1em;}
+#header h1{display:inline-block}
 #header .date_line{color:#808080;font-size:85%}
 #header .fr{position:relative;left:3px}
 ul#friends{margin:1em 0 0 0;font-size:85%;font-weight:bold;}
@@ -60,7 +49,7 @@ ul#friends li{list-style:none;clear:both;}
 ul#friends li .profile_pic{width:50px;float:left;margin:0 10px 5px 0;position:relative}
 ul#friends li .name{margin-top:5px;float:left;width:95px;font-weight:normal}
 #photos{font-size:85%;margin-bottom:2em;}
-#photos ul{margin:0 0 5px -2px;}
+#photos ul{margin:0 0 0 -2px;}
 #photos ul li{float:left;padding:0;display:block;list-style:none;width:108px;height:68px;background-color:#eceff5;border-left:2px solid #fff;border-bottom:2px solid #fff;}
 #photos ul li a{display:block;height:68px;position:relative}
 #photos ul li a.add_photos{background:transparent url("/web/img/add_photo_small.png") no-repeat center center}
@@ -68,7 +57,7 @@ ul#friends li .name{margin-top:5px;float:left;width:95px;font-weight:normal}
 li .profile_pic:hover label,a.fb_gallery:hover label{position:absolute;top:3px;right:3px;display:block;width:11px;height:11px;background:transparent url("/web/img/sprite_close.png") no-repeat -11px right;cursor:pointer;}
 li .profile_pic:hover label:hover,a.fb_gallery:hover label:hover{background:transparent url("/web/img/sprite_close.png") no-repeat -22px right}
 li .profile_pic:hover label{left:3px}
-#photo_selector_view{display:none;margin:-1em 0 1em 0;padding:5px;border:1px solid #b4bbcd;position:relative;}
+#photo_selector_view{display:none;margin:-1em 0 3em 0;padding:5px;border:1px solid #b4bbcd;position:relative;}
 #photo_selector_view span.nub{position:absolute;top:-7px;right:10px;display:inline-block;width:11px;height:7px;background:transparent url("/web/img/nub.gif") no-repeat right top;border-bottom:1px solid #fff}
 #photo_selector_view #select_from_container{background:transparent url("/web/img/gray_px.png") repeat-y center top;}
 #photo_selector_view #select_from_container > div.fr{width:263px}
@@ -83,6 +72,19 @@ li .profile_pic:hover label{left:3px}
 #photo_selector_view #photo_choices ul{margin:0;min-height:140px;max-height:415px;overflow-x:hidden;overflow-y:scroll;background:transparent url("/web/img/spinner.gif") no-repeat center center;}
 #photo_selector_view #photo_choices ul li{display:block;width:168px;height:135px;list-style:none;float:left;margin-bottom:5px;cursor:pointer}
 #photo_selector_view #photo_choices ul li.middle{margin:0 5px}
+.indicator{display:none;height:18px;padding:0 5px 0 19px;margin-left:3px;position:absolute;background:#3b5998 url("/web/img/edit.png") no-repeat 1px top;font-size:88%;color:#fff !important;line-height:18px;box-shadow:rgba(0,0,0,0.3) 1px 1px 1px 0;-webkit-box-shadow:rgba(0,0,0,0.3) 1px 1px 1px 0;-moz-box-shadow:rgba(0,0,0,0.3) 1px 1px 1px 0;}
+.indicator:hover{text-decoration:none}
+#new_event{border:1px solid #b3b3b3;background-color:#f2f2f2;padding:20px;}
+#new_event .field{margin-bottom:1em;}
+#new_event .field label{font-size:85%;font-weight:bold;color:#666;display:inline-block;width:110px}
+#new_event .field a{font-size:85%;}
+#new_event .field a:hover{cursor:pointer}
+#new_event .field span#end_date{position:relative;left:-10px;}
+#new_event .field span#end_date label{font-weight:normal;padding-right:5px;width:auto}
+#new_event .field span#end_date .ui-datepicker-trigger{display:none}
+#new_event .field.checkbox{margin-left:114px;}
+#new_event .field.checkbox label{width:auto}
+#new_event .field.checkbox input{margin-top:2px}
 .datepicker{width:110px !important;cursor:text}
 .ui-datepicker-trigger{position:relative;left:-20px;top:2px;cursor:text}
 .ui-datepicker{padding:0;-webkit-border-radius:0;-moz-border-radiius:0;border-radius:0;width:189px;margin-top:3px;border-top:1px solid #3a589b;border-bottom:2px solid #3a589b;}

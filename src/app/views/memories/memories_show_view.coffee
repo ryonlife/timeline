@@ -14,6 +14,12 @@ class exports.MemoriesShowView extends Backbone.View
     'click a.add_photos': 'showPhotoSelector'
     'click a.fb_gallery': 'showGallery'
     'click a.fb_gallery label': 'removePhoto'
+    
+    'mouseover .editable': 'showIndicator'
+    'mouseout .editable': 'hideIndicator'
+    
+    'mouseover .indicator': 'markHovered'
+    'mouseout .indicator': 'markNotHovered'
   
   render: ->
     $view = $(@el).html memoriesShowTemplate()
@@ -75,7 +81,13 @@ class exports.MemoriesShowView extends Backbone.View
     $friends.find('[data-fb-id]').each -> postFbIds.push($(@).attr('data-fb-id'))
     
     # Update the friend count
-    friendsPresent = if postFbIds.length == 1 then '1 person was there' else postFbIds.length+' people were there'
+    friendsPresent =
+      if not postFbIds.length
+        'nobody was there'
+      else if postFbIds.length == 1
+        '1 person was there'
+      else
+        postFbIds.length+' people were there'
     $friends.find('.count').text(friendsPresent)
     
     # Update the tag friends button
@@ -160,4 +172,39 @@ class exports.MemoriesShowView extends Backbone.View
 
       # No need for a hide photos link when there is only a single row in the grid
       $('a#show_photos').text('') if $photos.length <= 5
+    
+  showIndicator: (e) ->
+    clearTimeout(@timeout)
+    
+    $el = $(e.currentTarget)
+    $view = $(@el)
+    $indicator = $('.indicator')
+    
+    if $el.is('#description')
+      left = $el.offset().left - 3
+      top = $el.offset().top + $el.height() + 2
+    else
+      left = $el.offset().left + $el.width()
+      top =
+        if $el.height() >= 18
+          $el.offset().top + ($el.height() - 18) / 2
+        else
+          $el.offset().top - (18 - $el.height()) / 2
+    
+    $indicator
+      .show()
+      .css({left, top})
+      .data('target', e.currentTarget)
+    
+  hideIndicator: (e) ->
+    @timeout = setTimeout ->
+      $indicator = $('.indicator')
+      $indicator.hide() if not $indicator.data('hovered')
+    , 250
+    
+  markHovered: (e) ->
+    $(e.currentTarget).data('hovered', true)
+    
+  markNotHovered: (e) ->
+    $(e.currentTarget).data('hovered', false).hide()
     

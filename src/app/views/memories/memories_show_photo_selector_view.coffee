@@ -140,8 +140,8 @@ class exports.MemoriesShowPhotoSelectorView extends Backbone.View
           .append($('<li></li><li></li><li></li><li></li>'))
     
       # Ensure all thumbnails in the gallery are displayed
-      $('#photos li').fadeIn()
-      $('#show_photos').text('Hide Photos') if $photos.find('a.fb_gallery').length > 5
+      $('#photos li').fadeIn ->
+        $('#show_photos').text('Hide Photos') if $('#photos li a.fb_gallery').length > 5
   
   reset: (partial=false)->
     # Resets the widget in its entirety

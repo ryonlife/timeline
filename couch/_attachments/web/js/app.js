@@ -13123,7 +13123,7 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
       return _safe(result);
     };
     (function() {
-      _print(_safe('<div id="sidebar">\n  <div id="photo">\n    <a href="#" class="add_photos">\n      <label></label>\n    </a>\n  </div>\n    \n  <ul id="friends">\n    <li class="count">3 people were there</li>\n    <li class="tag_button_container">\n      <a href="#" id="self_tag" class="button">\n        <span class="tag"></span>\n        I was there too!\n      </a>\n      <a href="#" id="tag_friends" class="button hide">\n        <span class="tag"></span>\n        Tag Friends (1)\n      </a>\n    </li>\n  </ul>\n</div>\n\n<div id="main">\n  <header>\n    <div id="header" class="clearfix">\n      <div class="fl">\n        <h1>Memory</h1>\n        <p class="date_line">January 1, 2010 &mdash; January 3, 2010</p>\n      </div>\n      \n      <div class="fr">\n        <fb:like layout="box_count" show_faces="false" />\n      </div>\n    </div>\n  </header>\n  \n  <div id="photos" class="clearfix">\n    <ul class="clearfix">\n      <li></li>\n      <li></li>\n      <li></li>\n      <li></li>\n      <li><a href="/web/img/add_photo.png" class="add_photos"></a></li>\n    </ul>\n    \n    <a href="#" id="show_photos" class="fl"></a>\n    <a href="#" id="add_photos" class="add_photos fr">Add Photos</a>\n  </div>\n  \n  <p id="description">\n    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eu orci nisi. Vivamus feugiat purus vel ipsum vestibulum sagittis. Donec et enim sed enim tempor aliquam. Vivamus id nisi tortor. Proin tempus, enim quis commodo euismod, orci eros elementum quam, eu fringilla mi tortor et velit.\n  </p>\n  \n  <div id="fb_comments" class="mtop3">\n    <fb:comments href="http://ryonlife.dyndns.org:8080/#/memories/1" width="550" num_posts="25" />\n  </div>\n    \n</div>\n'));
+      _print(_safe('<div id="sidebar">\n  <div id="photo">\n    <a href="#" class="add_photos">\n      <label></label>\n    </a>\n  </div>\n    \n  <ul id="friends">\n    <li class="count">Nobody was there</li>\n    <li class="tag_button_container">\n      <a href="#" id="self_tag" class="button">\n        <span class="tag"></span>\n        I was there!\n      </a>\n      <a href="#" id="tag_friends" class="button hide">\n        <span class="tag"></span>\n        Tag Friends (1)\n      </a>\n    </li>\n  </ul>\n</div>\n\n<div id="main">\n  <header>\n    <div id="header" class="clearfix">\n      <div class="fl">\n        <h1 class="editable">Memory</h1>\n        <p class="date_line editable">January 1, 2010 &mdash; January 3, 2010</p>\n      </div>\n      \n      <div class="fr">\n        <fb:like layout="box_count" show_faces="false" />\n      </div>\n    </div>\n  </header>\n  \n  <div id="photos" class="clearfix">\n    <ul class="clearfix">\n      <li></li>\n      <li></li>\n      <li></li>\n      <li></li>\n      <li><a href="/web/img/add_photo.png" class="add_photos"></a></li>\n    </ul>\n    \n    <a href="#" id="show_photos" class="fl"></a>\n    <a href="#" id="add_photos" class="add_photos fr">Add Photos</a>\n  </div>\n  \n  <p id="description" class="editable">\n    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eu orci nisi. Vivamus feugiat purus vel ipsum vestibulum sagittis. Donec et enim sed enim tempor aliquam. Vivamus id nisi tortor. Proin tempus, enim quis commodo euismod, orci eros elementum quam, eu fringilla mi tortor et velit.\n  </p>\n  \n  <div id="fb_comments" class="mtop3">\n    <fb:comments href="http://ryonlife.dyndns.org:8080/#/memories/1" width="550" num_posts="25" />\n  </div>\n    \n</div>\n\n<a href="#" class="indicator">click to edit</a>\n'));
     }).call(this);
     
     return __out.join('');
@@ -13454,10 +13454,11 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
           $newPhoto = $('<li></li>').css('background', background).append($link);
           $('#photos ul').append($newPhoto).append($('<li></li><li></li><li></li><li></li>'));
         }
-        $('#photos li').fadeIn();
-        if ($photos.find('a.fb_gallery').length > 5) {
-          return $('#show_photos').text('Hide Photos');
-        }
+        return $('#photos li').fadeIn(function() {
+          if ($('#photos li a.fb_gallery').length > 5) {
+            return $('#show_photos').text('Hide Photos');
+          }
+        });
       }
     };
     MemoriesShowPhotoSelectorView.prototype.reset = function(partial) {
@@ -13507,7 +13508,11 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
       'click a#show_photos': 'showPhotos',
       'click a.add_photos': 'showPhotoSelector',
       'click a.fb_gallery': 'showGallery',
-      'click a.fb_gallery label': 'removePhoto'
+      'click a.fb_gallery label': 'removePhoto',
+      'mouseover .editable': 'showIndicator',
+      'mouseout .editable': 'hideIndicator',
+      'mouseover .indicator': 'markHovered',
+      'mouseout .indicator': 'markNotHovered'
     };
     MemoriesShowView.prototype.render = function() {
       var $view;
@@ -13560,7 +13565,7 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
       $friends.find('[data-fb-id]').each(function() {
         return postFbIds.push($(this).attr('data-fb-id'));
       });
-      friendsPresent = postFbIds.length === 1 ? '1 person was there' : postFbIds.length + ' people were there';
+      friendsPresent = !postFbIds.length ? 'nobody was there' : postFbIds.length === 1 ? '1 person was there' : postFbIds.length + ' people were there';
       $friends.find('.count').text(friendsPresent);
       $button.html('<span class="tag"></span> Tag Friends').css({
         'width': 'auto',
@@ -13641,6 +13646,39 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
           return $('a#show_photos').text('');
         }
       }
+    };
+    MemoriesShowView.prototype.showIndicator = function(e) {
+      var $el, $indicator, $view, left, top;
+      clearTimeout(this.timeout);
+      $el = $(e.currentTarget);
+      $view = $(this.el);
+      $indicator = $('.indicator');
+      if ($el.is('#description')) {
+        left = $el.offset().left - 3;
+        top = $el.offset().top + $el.height() + 2;
+      } else {
+        left = $el.offset().left + $el.width();
+        top = $el.height() >= 18 ? $el.offset().top + ($el.height() - 18) / 2 : $el.offset().top - (18 - $el.height()) / 2;
+      }
+      return $indicator.show().css({
+        left: left,
+        top: top
+      }).data('target', e.currentTarget);
+    };
+    MemoriesShowView.prototype.hideIndicator = function(e) {
+      return this.timeout = setTimeout(function() {
+        var $indicator;
+        $indicator = $('.indicator');
+        if (!$indicator.data('hovered')) {
+          return $indicator.hide();
+        }
+      }, 250);
+    };
+    MemoriesShowView.prototype.markHovered = function(e) {
+      return $(e.currentTarget).data('hovered', true);
+    };
+    MemoriesShowView.prototype.markNotHovered = function(e) {
+      return $(e.currentTarget).data('hovered', false).hide();
     };
     return MemoriesShowView;
   })();

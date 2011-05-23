@@ -6,11 +6,11 @@
   </div>
     
   <ul id="friends">
-    <li class="count">3 people were there</li>
+    <li class="count">Nobody was there</li>
     <li class="tag_button_container">
       <a href="#" id="self_tag" class="button">
         <span class="tag"></span>
-        I was there too!
+        I was there!
       </a>
       <a href="#" id="tag_friends" class="button hide">
         <span class="tag"></span>
@@ -24,8 +24,8 @@
   <header>
     <div id="header" class="clearfix">
       <div class="fl">
-        <h1>Memory</h1>
-        <p class="date_line">January 1, 2010 &mdash; January 3, 2010</p>
+        <h1 class="editable">Memory</h1>
+        <p class="date_line editable">January 1, 2010 &mdash; January 3, 2010</p>
       </div>
       
       <div class="fr">
@@ -47,7 +47,7 @@
     <a href="#" id="add_photos" class="add_photos fr">Add Photos</a>
   </div>
   
-  <p id="description">
+  <p id="description" class="editable">
     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eu orci nisi. Vivamus feugiat purus vel ipsum vestibulum sagittis. Donec et enim sed enim tempor aliquam. Vivamus id nisi tortor. Proin tempus, enim quis commodo euismod, orci eros elementum quam, eu fringilla mi tortor et velit.
   </p>
   
@@ -56,3 +56,5 @@
   </div>
     
 </div>
+
+<a href="#" class="indicator">click to edit</a>
