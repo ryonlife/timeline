@@ -13070,7 +13070,7 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
       return _safe(result);
     };
     (function() {
-      _print(_safe('<div id="sidebar">\n  <div id="photo">\n    <a href="#" class="add_photos">\n      <label></label>\n    </a>\n  </div>\n    \n  <ul id="friends">\n    <li class="count">Nobody was there</li>\n    <li class="tag_button_container">\n      <a href="#" id="self_tag" class="button">\n        <span class="tag"></span>\n        I was there!\n      </a>\n      <a href="#" id="tag_friends" class="button hide">\n        <span class="tag"></span>\n        Tag Friends (1)\n      </a>\n    </li>\n  </ul>\n</div>\n\n<div id="main">\n  \n  <header>\n    <div id="header" class="clearfix">\n      <div class="fl">\n        <h1 id="title" class="editable">Memory</h1>\n        <input id="edit_title" class="edit_field" type="text" />\n        <p class="date_line editable">January 1, 2010 &mdash; January 3, 2010</p>\n      </div>\n      \n      <div class="fr hide">\n        <fb:like layout="box_count" show_faces="false" />\n      </div>\n    </div>\n  </header>\n  \n  <div id="start_datepicker" class="datepicker"></div>\n  <input type="hidden" name="start_date" id="start_date" />\n\n  <div id="end_datepicker" class="datepicker"></div>\n  <input type="hidden" name="end_date" id="end_date" />\n  \n  <div id="photos" class="clearfix">\n    <ul class="clearfix">\n      <li></li>\n      <li></li>\n      <li></li>\n      <li></li>\n      <li><a href="/web/img/add_photo.png" class="add_photos"></a></li>\n    </ul>\n    \n    <a href="#" id="show_photos" class="fl"></a>\n    <a href="#" id="add_photos" class="add_photos fr">Add Photos</a>\n  </div>\n  \n  <p id="description" class="editable">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eu orci nisi. Vivamus feugiat purus vel ipsum vestibulum sagittis. Donec et enim sed enim tempor aliquam. Vivamus id nisi tortor. Proin tempus, enim quis commodo euismod, orci eros elementum quam, eu fringilla mi tortor et velit.</p>\n  <textarea id="edit_description" class="edit_field"></textarea>\n  \n  <div id="fb_comments" class="mtop3">\n    <fb:comments href="http://ryonlife.dyndns.org:8080/#/memories/1" width="550" num_posts="25" />\n  </div>\n    \n</div>\n\n<a href="#" class="indicator">Edit</a>\n'));
+      _print(_safe('<div id="sidebar">\n  <div id="photo">\n    <a href="#" class="add_photos">\n      <label></label>\n    </a>\n  </div>\n    \n  <ul id="friends">\n    <li class="count">Nobody was there</li>\n    <li class="tag_button_container">\n      <a href="#" id="self_tag" class="button">\n        <span class="tag"></span>\n        I was there!\n      </a>\n      <a href="#" id="tag_friends" class="button hide">\n        <span class="tag"></span>\n        Tag Friends (1)\n      </a>\n    </li>\n  </ul>\n</div>\n\n<div id="main">\n  \n  <header>\n    <div id="header" class="clearfix">\n      <h1 id="title" class="editable">Memory</h1>\n      <input id="edit_title" class="edit_field" type="text" />\n      <br/>\n      <p class="date_line editable" id="start_date">January 1, 2010</p>\n      <div id="start_datepicker" class="datepicker"></div>\n    </div>\n  </header>\n  \n  <div id="photos" class="clearfix">\n    <ul class="clearfix">\n      <li></li>\n      <li></li>\n      <li></li>\n      <li></li>\n      <li><a href="/web/img/add_photo.png" class="add_photos"></a></li>\n    </ul>\n    \n    <a href="#" id="show_photos" class="fl"></a>\n    <a href="#" id="add_photos" class="add_photos fr">Add Photos</a>\n  </div>\n  \n  <p id="description" class="editable">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eu orci nisi. Vivamus feugiat purus vel ipsum vestibulum sagittis. Donec et enim sed enim tempor aliquam. Vivamus id nisi tortor. Proin tempus, enim quis commodo euismod, orci eros elementum quam, eu fringilla mi tortor et velit.</p>\n  <textarea id="edit_description" class="edit_field"></textarea>\n  \n  <div id="fb_comments" class="mtop3">\n    <fb:comments href="http://ryonlife.dyndns.org:8080/#/memories/1" width="550" num_posts="25" />\n  </div>\n    \n</div>\n\n<a href="#" class="indicator">Edit</a>\n'));
     }).call(this);
     
     return __out.join('');
@@ -13365,9 +13365,23 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
     };
     MemoriesShowView.prototype.datepickers = function() {
       var $view;
+      $.extend($.datepicker.__proto__, {
+        _updateAlternate: function(inst) {
+          var altField, altFormat, date, dateStr;
+          altField = this._get(inst, 'altField');
+          if (altField) {
+            altFormat = this._get(inst, 'altFormat') || this._get(inst, 'dateFormat');
+            date = this._getDate(inst);
+            dateStr = this.formatDate(altFormat, date, this._getFormatConfig(inst));
+            return $(altField).each(function() {
+              return $(this).text(dateStr);
+            });
+          }
+        }
+      });
       $view = $(this.el);
       return $view.find('.datepicker').each(function() {
-        var $this, birthdayParts, options, restrictRange;
+        var $this, birthdayParts, options;
         $this = $(this);
         birthdayParts = '11/27/1982'.split('/');
         options = {
@@ -13376,26 +13390,17 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
           changeYear: true,
           dayNamesMin: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
           showAnim: '',
-          altFormat: 'yy-mm-dd',
+          altFormat: 'MM d, yy',
           altField: '#' + $(this).attr('id').slice(0, -6),
           maxDate: 0,
           minDate: new Date(birthdayParts[2], birthdayParts[0] - 1, birthdayParts[1]),
           yearRange: birthdayParts[2].toString() + ':-nn:+nn'
         };
-        if ($this.is(':first-of-type')) {
-          restrictRange = function(dateText, datepicker) {
-            var $endDatepicker, date;
-            $this = $(this);
-            date = $this.datepicker('getDate');
-            $endDatepicker = $view.find('.datepicker').last();
-            $endDatepicker.datepicker('option', 'minDate', date);
-            return $endDatepicker.datepicker('option', 'yearRange', date.getFullYear().toString() + ':-nn+nn');
-          };
-          options = _.extend(options, {
-            onSelect: restrictRange,
-            onChangeMonthYear: restrictRange
-          });
-        }
+        options = _.extend(options, {
+          onSelect: function(dateText, datepicker) {
+            return $(this).hide().prev().show();
+          }
+        });
         return $this.datepicker(options);
       });
     };
@@ -13528,7 +13533,7 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
     };
     MemoriesShowView.prototype.showIndicator = function(e) {
       var $el, $indicator, $view, left, top;
-      if (!$('.edit_field:visible').length) {
+      if (!$('.edit_field:visible').length && !$('#start_datepicker:visible').length) {
         clearTimeout(this.timeout);
         $el = $(e.currentTarget);
         $view = $(this.el);
@@ -13569,7 +13574,7 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
     };
     MemoriesShowView.prototype.showEdit = function(e) {
       var $el, $field;
-      if (!$('.edit_field:visible').length) {
+      if (!$('.edit_field:visible').length && !$('#start_datepicker:visible').length) {
         $el = $(e.currentTarget);
         $el.hide();
         $('.indicator').trigger('mouseout');

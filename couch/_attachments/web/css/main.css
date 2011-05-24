@@ -40,7 +40,7 @@ a.form_button:hover,a.form_button:visited:hover,input.submit:hover{text-decorati
 #sidebar #photo .add_photos,#sidebar #photo a.fb_gallery{position:relative;display:block;height:120px;background:#eceff5 url("/web/img/add_photo.png") no-repeat center center}
 #header{margin-bottom:1em;}
 #header h1{display:inline-block}
-#header .date_line{color:#808080;font-size:85%}
+#header .date_line{color:#808080;font-size:85%;display:inline-block}
 #header .fr{position:relative;left:3px}
 ul#friends{margin:1em 0 0 0;font-size:85%;font-weight:bold;}
 ul#friends li.count{color:#808080;margin-bottom:10px}
@@ -76,6 +76,7 @@ li .profile_pic:hover label{left:3px}
 .indicator:hover{text-decoration:none}
 .edit_field{display:none}
 #edit_title{font-size:16px;font-weight:bold;margin-bottom:8px;width:542px}
+#start_datepicker{display:none}
 #edit_description{width:539px;font-size:13px;height:150px}
 .ui-datepicker-trigger{display:none}
 .ui-datepicker{padding:0;-webkit-border-radius:0;-moz-border-radiius:0;border-radius:0;width:189px;margin-top:3px;border-top:1px solid #3a589b;border-bottom:2px solid #3a589b;}

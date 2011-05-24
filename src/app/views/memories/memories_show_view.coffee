@@ -28,6 +28,16 @@ class exports.MemoriesShowView extends Backbone.View
     @
   
   datepickers: ->
+    $.extend($.datepicker.__proto__, {
+      _updateAlternate: (inst) ->
+        altField = this._get(inst, 'altField')
+        if altField
+          altFormat = this._get(inst, 'altFormat') || this._get(inst, 'dateFormat')
+          date = this._getDate(inst)
+          dateStr = this.formatDate(altFormat, date, this._getFormatConfig(inst))
+          $(altField).each -> $(this).text(dateStr)
+    })
+    
     $view = $(@el)
     # Initialize the jQuery UI datepickers
     $view.find('.datepicker').each ->
@@ -39,19 +49,21 @@ class exports.MemoriesShowView extends Backbone.View
         changeYear: true
         dayNamesMin: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
         showAnim: ''
-        altFormat: 'yy-mm-dd'
+        altFormat: 'MM d, yy'
         altField: '#'+$(this).attr('id').slice(0, -6)
         maxDate: 0
         minDate: new Date(birthdayParts[2], birthdayParts[0] - 1, birthdayParts[1])
         yearRange: birthdayParts[2].toString()+':-nn:+nn'
-      if $this.is(':first-of-type')
-        restrictRange = (dateText, datepicker) ->
-          $this = $(@)
-          date = $this.datepicker('getDate')
-          $endDatepicker = $view.find('.datepicker').last()
-          $endDatepicker.datepicker('option', 'minDate', date)
-          $endDatepicker.datepicker('option', 'yearRange', date.getFullYear().toString()+':-nn+nn')
-        options = _.extend options, {onSelect: restrictRange, onChangeMonthYear: restrictRange}
+      # Should I want to go back to allowing a memory to have a date range, this ensures the second date cannot take place before the first
+      # if $this.is(':first-of-type')
+      #   restrictRange = (dateText, datepicker) ->
+      #     $this = $(@)
+      #     date = $this.datepicker('getDate')
+      #     $endDatepicker = $view.find('.datepicker').last()
+      #     $endDatepicker.datepicker('option', 'minDate', date)
+      #     $endDatepicker.datepicker('option', 'yearRange', date.getFullYear().toString()+':-nn+nn')
+      #   options = _.extend options, {onSelect: restrictRange, onChangeMonthYear: restrictRange}        
+      options = _.extend options, {onSelect: (dateText, datepicker) -> $(@).hide().prev().show()}
       $this.datepicker options
   
   showFriendSelector: (e) ->
@@ -202,7 +214,7 @@ class exports.MemoriesShowView extends Backbone.View
       $('a#show_photos').text('') if $photos.length <= 5
     
   showIndicator: (e) ->
-    if not $('.edit_field:visible').length
+    if not $('.edit_field:visible').length and not $('#start_datepicker:visible').length
     
       clearTimeout(@timeout)
     
@@ -244,7 +256,7 @@ class exports.MemoriesShowView extends Backbone.View
     $($el.data('target')).trigger('click')
     
   showEdit: (e) ->
-    if not $('.edit_field:visible').length
+    if not $('.edit_field:visible').length and not $('#start_datepicker:visible').length
       $el = $(e.currentTarget)
       $el.hide()
     
