@@ -39,7 +39,7 @@ a.form_button:hover,a.form_button:visited:hover,input.submit:hover{text-decorati
 #sidebar #photo{margin-bottom:10px;border-left:2px solid #fff;background-color:#eceff5;a}
 #sidebar #photo .add_photos,#sidebar #photo a.fb_gallery{position:relative;display:block;height:120px;background:#eceff5 url("/web/img/add_photo.png") no-repeat center center}
 #header{margin-bottom:1em;}
-#header h1{display:inline-block}
+#header h1{display:inline-block;margin-bottom:.25em}
 #header .date_line{color:#808080;font-size:85%;display:inline-block}
 #header .fr{position:relative;left:3px}
 ul#friends{margin:1em 0 0 0;font-size:85%;font-weight:bold;}
@@ -131,3 +131,4 @@ li .profile_pic:hover label{left:3px}
 #fb_gallery > div a.close{background:transparent url("/web/img/sprite4.png") no-repeat left -49px;width:15px;height:15px;position:absolute;top:15px;right:15px}
 #fb_gallery > div span{display:inline-block;margin:0 auto;width:640px;}
 #fb_gallery > div span img{display:block;margin:0 auto}
+@import "jquery.qtip.css";
