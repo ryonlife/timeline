@@ -15381,7 +15381,8 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
     }
     MemoriesController.prototype.show = function() {
       $('#fb_wrapper').html(app.views.memories_show.render().el);
-      return app.views.memories_show.datepickers();
+      app.views.memories_show.datepickers();
+      return app.views.memories_show.tutorial();
     };
     return MemoriesController;
   })();
@@ -15758,10 +15759,73 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
       'keyup .edit_field': 'saveEdit'
     };
     MemoriesShowView.prototype.render = function() {
-      var $view;
-      $view = $(this.el).html(memoriesShowTemplate());
-      $view.find('#photos').after(app.views.memories_show_photo_selector.render().el);
+      var $el;
+      $el = $(this.el).html(memoriesShowTemplate());
+      $el.find('#photos').after(app.views.memories_show_photo_selector.render().el);
       return this;
+    };
+    MemoriesShowView.prototype.tutorial = function() {
+      var steps;
+      steps = [
+        {
+          target: $('h1'),
+          title: 'Getting Started',
+          content: '<p>This is a blank canvas for recording a memory.</p><p>As your collection of memories builds, there are cool ways to visualize them, like timelines and calendars.</p><p class="tar"><a href="#" id="next">Next &raquo;</a></p>'
+        }, {
+          target: $('h1'),
+          title: 'Step 1: Title',
+          content: '<p>Your memory needs a title.</p><p>Click <strong>New Memory</strong> to edit the title, then press the <strong>return/enter</strong> key when you\'re done.</p>'
+        }, {
+          target: $('#start_date'),
+          title: 'Step 2: Date',
+          content: 'When did it happen? Click on <strong>May 26, 2011</strong> to change the date.'
+        }
+      ];
+      $(this.el).qtip({
+        id: 'tutorial',
+        content: {
+          text: steps[0].content,
+          title: {
+            text: steps[0].title,
+            button: true
+          }
+        },
+        position: {
+          my: 'top left',
+          at: 'bottom left',
+          target: steps[0].target
+        },
+        style: {
+          classes: 'ui-tooltip-shadow ui-tooltip-default'
+        },
+        show: {
+          event: false,
+          ready: true
+        },
+        hide: false,
+        events: {
+          render: function(e, api) {
+            var tooltip;
+            tooltip = api.elements.tooltip;
+            api.step = 0;
+            return tooltip.bind('next prev', function(e) {
+              var current;
+              api.step += e.type === 'next' ? 1 : -1;
+              api.step = Math.min(steps.length - 1, Math.max(0, api.step));
+              current = steps[api.step];
+              if (current) {
+                api.set('content.text', current.content);
+                api.set('content.title.text', current.title);
+                return api.set('position.target', current.target);
+              }
+            });
+          }
+        }
+      });
+      return $('#next, #prev').live('click', function(e) {
+        e.preventDefault();
+        return $('#ui-tooltip-tutorial').triggerHandler(this.id);
+      });
     };
     MemoriesShowView.prototype.datepickers = function() {
       var $view;
@@ -15979,7 +16043,8 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
         $el.hide();
         $('.indicator').trigger('mouseout');
         $field = $el.next();
-        return $field.show().val($el.text());
+        $field.show().val($el.text()).select();
+        return $('#memories_show').qtip('hide');
       }
     };
     MemoriesShowView.prototype.saveEdit = function(e) {

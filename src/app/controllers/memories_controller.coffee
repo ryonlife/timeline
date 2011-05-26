@@ -8,4 +8,5 @@ class exports.MemoriesController extends Backbone.Controller
   show: ->
     $('#fb_wrapper').html app.views.memories_show.render().el
     app.views.memories_show.datepickers()
+    app.views.memories_show.tutorial()
   

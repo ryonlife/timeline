@@ -24,6 +24,7 @@ a:hover,a:visited:hover{text-decoration:underline}
 .center_cheat{margin:0 auto}
 .fl{float:left}
 .fr{float:right}
+.tar{text-align:right}
 .mtop{margin-top:1em}
 .mtop2{margin-top:2em}
 .mtop3{margin-top:3em}
@@ -39,7 +40,7 @@ a.form_button:hover,a.form_button:visited:hover,input.submit:hover{text-decorati
 #sidebar #photo{margin-bottom:10px;border-left:2px solid #fff;background-color:#eceff5;a}
 #sidebar #photo .add_photos,#sidebar #photo a.fb_gallery{position:relative;display:block;height:120px;background:#eceff5 url("/web/img/add_photo.png") no-repeat center center}
 #header{margin-bottom:1em;}
-#header h1{display:inline-block;margin-bottom:.25em}
+#header h1{display:inline-block;margin-bottom:.35em}
 #header .date_line{color:#808080;font-size:85%;display:inline-block}
 #header .fr{position:relative;left:3px}
 ul#friends{margin:1em 0 0 0;font-size:85%;font-weight:bold;}
@@ -78,6 +79,9 @@ li .profile_pic:hover label{left:3px}
 #edit_title{font-size:16px;font-weight:bold;margin-bottom:8px;width:542px}
 #start_datepicker{display:none}
 #edit_description{width:539px;font-size:13px;height:150px}
+.ui-tooltip,.qtip{max-width:400px;}
+.ui-tooltip p:last-of-type,.qtip p:last-of-type{margin-bottom:.5em}
+.ui-tooltip a,.qtip a{font-weight:bold;color:#3b5998}
 .ui-datepicker-trigger{display:none}
 .ui-datepicker{padding:0;-webkit-border-radius:0;-moz-border-radiius:0;border-radius:0;width:189px;margin-top:3px;border-top:1px solid #3a589b;border-bottom:2px solid #3a589b;}
 .ui-datepicker .ui-widget-header{background:#6d84b4;color:#555;border:0;-webkit-border-radius:0;-moz-border-radiius:0;border-radius:0;aaa}

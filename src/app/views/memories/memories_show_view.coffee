@@ -23,9 +23,50 @@ class exports.MemoriesShowView extends Backbone.View
     'keyup .edit_field': 'saveEdit'
   
   render: ->
-    $view = $(@el).html memoriesShowTemplate()
-    $view.find('#photos').after app.views.memories_show_photo_selector.render().el    
+    $el = $(@el).html memoriesShowTemplate()
+    $el.find('#photos').after app.views.memories_show_photo_selector.render().el
     @
+  
+  tutorial: ->
+    steps = [
+      {target: $('h1'), title: 'Getting Started', content: '<p>This is a blank canvas for recording a memory.</p><p>As your collection of memories builds, there are cool ways to visualize them, like timelines and calendars.</p><p class="tar"><a href="#" id="next">Next &raquo;</a></p>'}
+      {target: $('h1'), title: 'Step 1: Title', content: '<p>Your memory needs a title.</p><p>Click <strong>New Memory</strong> to edit the title, then press the <strong>return/enter</strong> key when you\'re done.</p>'}
+      {target: $('#start_date'), title: 'Step 2: Date', content: 'When did it happen? Click on <strong>May 26, 2011</strong> to change the date.'}
+    ]
+    
+    $(@el).qtip
+      id: 'tutorial'
+      content:
+        text: steps[0].content
+        title:
+          text: steps[0].title
+          button: true
+      position:
+        my: 'top left'
+        at: 'bottom left'
+        target: steps[0].target
+      style:
+        classes: 'ui-tooltip-shadow ui-tooltip-default'
+      show:
+        event: false
+        ready: true
+      hide: false
+      events:
+        render: (e, api) ->
+          tooltip = api.elements.tooltip
+          api.step = 0
+          tooltip.bind 'next prev', (e) ->
+            api.step += if e.type is 'next' then 1 else -1
+            api.step = Math.min(steps.length - 1, Math.max(0, api.step))
+            current = steps[api.step]
+            if current
+              api.set 'content.text', current.content
+              api.set 'content.title.text', current.title
+              api.set 'position.target', current.target
+              
+    $('#next, #prev').live 'click', (e) ->
+      e.preventDefault()
+      $('#ui-tooltip-tutorial').triggerHandler @id
   
   datepickers: ->
     $.extend($.datepicker.__proto__, {
@@ -266,6 +307,9 @@ class exports.MemoriesShowView extends Backbone.View
       $field
         .show()
         .val($el.text())
+        .select()
+      
+      $('#memories_show').qtip('hide')
     
   saveEdit: (e) ->
     if e.keyCode == 13
