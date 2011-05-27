@@ -81,7 +81,8 @@ li .profile_pic:hover label{left:3px}
 #edit_description{width:539px;font-size:13px;height:150px}
 .ui-tooltip,.qtip{max-width:400px;}
 .ui-tooltip p:last-of-type,.qtip p:last-of-type{margin-bottom:.5em}
-.ui-tooltip a,.qtip a{font-weight:bold;color:#3b5998}
+.ui-tooltip a,.qtip a{color:#3b5998}
+.ui-tooltip a.gs,.qtip a.gs{font-weight:bold}
 .ui-datepicker-trigger{display:none}
 .ui-datepicker{padding:0;-webkit-border-radius:0;-moz-border-radiius:0;border-radius:0;width:189px;margin-top:3px;border-top:1px solid #3a589b;border-bottom:2px solid #3a589b;}
 .ui-datepicker .ui-widget-header{background:#6d84b4;color:#555;border:0;-webkit-border-radius:0;-moz-border-radiius:0;border-radius:0;aaa}

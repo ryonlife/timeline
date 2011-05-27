@@ -29,10 +29,19 @@ class exports.MemoriesShowView extends Backbone.View
   
   tutorial: ->
     steps = [
-      {target: $('h1'), title: 'Getting Started', content: '<p>This is a blank canvas for recording a memory.</p><p>As your collection of memories builds, there are cool ways to visualize them, like timelines and calendars.</p><p class="tar"><a href="#" id="next">Next &raquo;</a></p>'}
-      {target: $('h1'), title: 'Step 1: Title', content: '<p>Your memory needs a title.</p><p>Click <strong>New Memory</strong> to edit the title, then press the <strong>return/enter</strong> key when you\'re done.</p>'}
-      {target: $('#start_date'), title: 'Step 2: Date', content: 'When did it happen? Click on <strong>May 26, 2011</strong> to change the date.'}
+      {target: $('[data-step=1]'), title: 'Getting Started', content: '<p>This is a blank canvas for recording a memory.</p><p>As your collection of memories builds, there are cool ways to visualize it, like timelines and calendars.</p><p class="tar"><a href="#" class="gs" id="next">Click here to get started &raquo;</a></p>'}
+      {target: $('[data-step=1]'), title: 'Step 1: Title', content: '<p>Your memory needs a title.</p><p>Click <strong>New Memory</strong> to edit the title, then press the <strong>return/enter</strong> key when you\'re done.</p>'}
+      {target: $('[data-step=2]'), title: 'Step 2: Date', content: '<p>When did it happen?</p><p>Click <strong>May 26, 2011</strong>, then use the calendar to select the date when your memory took place.</p>'}
+      {target: $('[data-step=3]'), title: 'Step 3: Friends', content: '<p>Who was there?</p><p>Click the <strong>Tag Friends</strong> button to select the friends you shared this memory with.</p>'}      
     ]
+    _.each steps, (step, i) ->
+      if i
+        if i == 1
+          steps[i].content += "<p class=\"clearfix tar\"><a href=\"#\" id=\"next\">Step #{i+1} &raquo;</a></p>"
+        else if i == steps.length - 1
+          steps[i].content += "<p class=\"clearfix tar\"><a href=\"#\" id=\"prev\">&laquo; Step #{i-1}</a></p>"
+        else
+          steps[i].content += "<p class=\"clearfix tar\"><a href=\"#\" id=\"prev\">&laquo; Step #{i}</a>&nbsp;|&nbsp;<a href=\"#\" id=\"next\" class=\"fr\">Step #{i+1} &raquo;</a></p>"
     
     $(@el).qtip
       id: 'tutorial'
