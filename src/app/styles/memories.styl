@@ -189,9 +189,25 @@ li .profile_pic:hover label
 .ui-tooltip
 .qtip
   max-width 400px
+  p:first-of-type
+    margin-top 0.5em
   p:last-of-type
     margin-bottom 0.5em
   a
     color #3B5998
   a.gs
     font-weight bold
+    
+.ui-tooltip-icon
+  display block !important
+  width 11px !important
+  height 11px !important
+  background transparent url(/web/img/sprite_close.png) no-repeat -11px right !important
+  border 0 !important
+  border-radius 0 !important
+  opacity 0.50
+  &:hover
+    background transparent url(/web/img/sprite_close.png) no-repeat -22px right !important
+    opacity 0.65
+  span
+    text-indent -9999px !important
