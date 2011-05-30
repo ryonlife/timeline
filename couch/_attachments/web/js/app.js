@@ -15471,7 +15471,7 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
       return _safe(result);
     };
     (function() {
-      _print(_safe('<div id="sidebar">\n  <div id="photo">\n    <a href="#" class="add_photos">\n      <label></label>\n    </a>\n  </div>\n    \n  <ul id="friends">\n    <li class="count">Nobody was there</li>\n    <li class="tag_button_container">\n      <a href="#" id="self_tag" class="button" data-step="3">\n        <span class="tag"></span>\n        I was there!\n      </a>\n      <a href="#" id="tag_friends" class="button hide" data-step="3">\n        <span class="tag"></span>\n        Tag Friends (1)\n      </a>\n    </li>\n  </ul>\n</div>\n\n<div id="main">\n  \n  <header>\n    <div id="header" class="clearfix">\n      <h1 id="title" class="editable" data-step="1">Memory</h1>\n      <input id="edit_title" class="edit_field" type="text" />\n      <br/>\n      <p class="date_line editable" id="start_date" data-step="2">January 1, 2010</p>\n      <div id="start_datepicker" class="datepicker"></div>\n    </div>\n  </header>\n  \n  <div id="photos" class="clearfix">\n    <ul class="clearfix">\n      <li></li>\n      <li></li>\n      <li></li>\n      <li></li>\n      <li><a href="/web/img/add_photo.png" class="add_photos"></a></li>\n    </ul>\n    \n    <a href="#" id="show_photos" class="fl"></a>\n    <a href="#" id="add_photos" class="add_photos fr">Add Photos</a>\n  </div>\n  \n  <p id="description" class="editable">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eu orci nisi. Vivamus feugiat purus vel ipsum vestibulum sagittis. Donec et enim sed enim tempor aliquam. Vivamus id nisi tortor. Proin tempus, enim quis commodo euismod, orci eros elementum quam, eu fringilla mi tortor et velit.</p>\n  <textarea id="edit_description" class="edit_field"></textarea>\n  \n  <div id="fb_comments" class="mtop3">\n    <fb:comments href="http://ryonlife.dyndns.org:8080/#/memories/1" width="550" num_posts="25" />\n  </div>\n    \n</div>\n\n<a href="#" class="indicator">Edit</a>\n'));
+      _print(_safe('<div id="sidebar">\n  <div id="photo">\n    <a href="#" class="add_photos">\n      <label></label>\n    </a>\n  </div>\n    \n  <ul id="friends">\n    <li class="count">Nobody was there</li>\n    <li class="tag_button_container">\n      <a href="#" id="self_tag" class="button" data-step="3">\n        <span class="tag"></span>\n        I was there!\n      </a>\n      <a href="#" id="tag_friends" class="button hide" data-step="3">\n        <span class="tag"></span>\n        Tag Friends (1)\n      </a>\n    </li>\n  </ul>\n</div>\n\n<div id="main">\n  \n  <header>\n    <div id="header" class="clearfix">\n      <h1 id="title" class="editable" data-step="1">New Memory</h1>\n      <input id="edit_title" class="edit_field" type="text" />\n      <br/>\n      <p class="date_line editable" id="start_date" data-step="2"></p>\n      <div id="start_datepicker" class="datepicker"></div>\n    </div>\n  </header>\n  \n  <div id="photos" class="clearfix">\n    <ul class="clearfix">\n      <li></li>\n      <li></li>\n      <li></li>\n      <li></li>\n      <li><a href="/web/img/add_photo.png" class="add_photos"></a></li>\n    </ul>\n    \n    <a href="#" id="show_photos" class="fl"></a>\n    <a href="#" id="add_photos" class="add_photos fr" data-step="5">Add Photos</a>\n  </div>\n  \n  <p id="description" class="editable mirror" data-step="4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eu orci nisi. Vivamus feugiat purus vel ipsum vestibulum sagittis. Donec et enim sed enim tempor aliquam. Vivamus id nisi tortor. Proin tempus, enim quis commodo euismod, orci eros elementum quam, eu fringilla mi tortor et velit.</p>\n  <textarea id="edit_description" class="edit_field"></textarea>\n  \n  <div id="fb_comments" class="mtop3">\n    <fb:comments href="http://ryonlife.dyndns.org:8080/#/memories/1" width="550" num_posts="25" />\n  </div>\n    \n</div>\n\n<a href="#" class="indicator">Edit</a>\n'));
     }).call(this);
     
     return __out.join('');
@@ -15770,19 +15770,39 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
         {
           target: $('[data-step=1]'),
           title: 'Getting Started',
-          content: '<p>This is a blank canvas for recording a memory.</p><p>As your collection of memories builds, there are cool ways to visualize it, like timelines and calendars.</p><p class="tar"><a href="#" class="gs" id="next">Click here to get started &raquo;</a></p>'
+          content: '<p>This is a blank canvas for recording a memory.</p><p>As your collection of memories builds, there are cool ways to visualize it, like timelines and calendars.</p><p class="tar"><a href="#" class="gs" id="next">Click here to get started &raquo;</a></p>',
+          my: 'top left',
+          at: 'bottom left'
         }, {
           target: $('[data-step=1]'),
           title: 'Step 1: Title',
-          content: '<p>Your memory needs a title.</p><p>Click <strong>New Memory</strong> to edit the title, then press the <strong>return/enter</strong> key when you\'re done.</p>'
+          content: '<p>Your memory needs a title.</p><p>Click <strong class="mirror"></strong> to edit the title, then press the <strong>return/enter</strong> key when you\'re done.</p>',
+          my: 'top left',
+          at: 'bottom left'
         }, {
           target: $('[data-step=2]'),
           title: 'Step 2: Date',
-          content: '<p>When did it happen?</p><p>Click <strong>May 26, 2011</strong>, then use the calendar to select the date when your memory took place.</p>'
+          content: '<p>When did it happen?</p><p>Click <strong class="mirror"></strong>, then use the calendar to select the date when your memory took place.</p>',
+          my: 'top left',
+          at: 'bottom left'
         }, {
           target: $('[data-step=3]'),
           title: 'Step 3: Friends',
-          content: '<p>Who was there?</p><p>Click the <strong>Tag Friends</strong> button to select the friends you shared this memory with.</p>'
+          content: '<p>Who was there?</p><p>Click the <strong>Tag Friends</strong> button to select the friends who were with you to experience this memory.</p>',
+          my: 'top left',
+          at: 'bottom left'
+        }, {
+          target: $('[data-step=4]'),
+          title: 'Step 4: Description',
+          content: '<p>Your memory needs a description.</p><p>Click the <strong class="mirror"></strong> text to edit the description, then press the <strong>return/enter</strong> key when you\'re done.</p>',
+          my: 'top left',
+          at: 'bottom left'
+        }, {
+          target: $('[data-step=5]'),
+          title: 'Step 5: Photos',
+          content: '<p>Your memory needs photos.</p><p>Click the <strong>Add Photos</strong> link to browse and select from your Facebook photos.</p>',
+          my: 'top right',
+          at: 'bottom right'
         }
       ];
       _.each(steps, function(step, i) {
@@ -15792,7 +15812,7 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
           } else if (i === steps.length - 1) {
             return steps[i].content += "<p class=\"clearfix tar\"><a href=\"#\" id=\"prev\">&laquo; Step " + (i - 1) + "</a></p>";
           } else {
-            return steps[i].content += "<p class=\"clearfix tar\"><a href=\"#\" id=\"prev\">&laquo; Step " + i + "</a>&nbsp;|&nbsp;<a href=\"#\" id=\"next\" class=\"fr\">Step " + (i + 1) + " &raquo;</a></p>";
+            return steps[i].content += "<p class=\"clearfix tar\"><a href=\"#\" id=\"prev\">&laquo; Step " + (i - 1) + "</a>&nbsp;|&nbsp;<a href=\"#\" id=\"next\" class=\"fr\">Step " + (i + 1) + " &raquo;</a></p>";
           }
         }
       });
@@ -15820,19 +15840,27 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
         hide: false,
         events: {
           render: function(e, api) {
-            var tooltip;
-            tooltip = api.elements.tooltip;
+            var $tooltip;
+            $tooltip = api.elements.tooltip;
             api.step = 0;
-            return tooltip.bind('next prev', function(e) {
-              var current;
+            return $tooltip.bind('next prev', function(e) {
+              var current, match, text;
               api.step += e.type === 'next' ? 1 : -1;
               api.step = Math.min(steps.length - 1, Math.max(0, api.step));
               current = steps[api.step];
               if (current) {
                 api.set('content.text', current.content);
                 api.set('content.title.text', current.title);
-                return api.set('position.target', current.target);
+                api.set('position.target', current.target);
+                api.set('position.my', current.my);
+                api.set('position.at', current.at);
               }
+              text = $(current.target).text();
+              match = text.match(/^(\w+\b.*?){3}/);
+              if (match) {
+                text = match[0].length < text.length ? match[0] + '...' : match[0];
+              }
+              return $tooltip.find('.mirror').text(text);
             });
           }
         }
@@ -16012,7 +16040,7 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
     };
     MemoriesShowView.prototype.showIndicator = function(e) {
       var $el, $indicator, $view, left, top;
-      if (!$('.edit_field:visible').length && !$('#start_datepicker:visible').length) {
+      if (!$('.edit_field:visible').length && !$('#start_datepicker:visible').length && !$('#ui-tooltip-tutorial:visible').length) {
         clearTimeout(this.timeout);
         $el = $(e.currentTarget);
         $view = $(this.el);

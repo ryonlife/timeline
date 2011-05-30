@@ -29,10 +29,13 @@ class exports.MemoriesShowView extends Backbone.View
   
   tutorial: ->
     steps = [
-      {target: $('[data-step=1]'), title: 'Getting Started', content: '<p>This is a blank canvas for recording a memory.</p><p>As your collection of memories builds, there are cool ways to visualize it, like timelines and calendars.</p><p class="tar"><a href="#" class="gs" id="next">Click here to get started &raquo;</a></p>'}
-      {target: $('[data-step=1]'), title: 'Step 1: Title', content: '<p>Your memory needs a title.</p><p>Click <strong>New Memory</strong> to edit the title, then press the <strong>return/enter</strong> key when you\'re done.</p>'}
-      {target: $('[data-step=2]'), title: 'Step 2: Date', content: '<p>When did it happen?</p><p>Click <strong>May 26, 2011</strong>, then use the calendar to select the date when your memory took place.</p>'}
-      {target: $('[data-step=3]'), title: 'Step 3: Friends', content: '<p>Who was there?</p><p>Click the <strong>Tag Friends</strong> button to select the friends you shared this memory with.</p>'}      
+      {target: $('[data-step=1]'), title: 'Getting Started', content: '<p>This is a blank canvas for recording a memory.</p><p>As your collection of memories builds, there are cool ways to visualize it, like timelines and calendars.</p><p class="tar"><a href="#" class="gs" id="next">Click here to get started &raquo;</a></p>', my: 'top left', at: 'bottom left'}
+      {target: $('[data-step=1]'), title: 'Step 1: Title', content: '<p>Your memory needs a title.</p><p>Click <strong class="mirror"></strong> to edit the title, then press the <strong>return/enter</strong> key when you\'re done.</p>', my: 'top left', at: 'bottom left'}
+      {target: $('[data-step=2]'), title: 'Step 2: Date', content: '<p>When did it happen?</p><p>Click <strong class="mirror"></strong>, then use the calendar to select the date when your memory took place.</p>', my: 'top left', at: 'bottom left'}
+      {target: $('[data-step=3]'), title: 'Step 3: Friends', content: '<p>Who was there?</p><p>Click the <strong>Tag Friends</strong> button to select the friends who were with you to experience this memory.</p>', my: 'top left', at: 'bottom left'}
+      {target: $('[data-step=4]'), title: 'Step 4: Description', content: '<p>Your memory needs a description.</p><p>Click the <strong class="mirror"></strong> text to edit the description, then press the <strong>return/enter</strong> key when you\'re done.</p>', my: 'top left', at: 'bottom left'}
+      {target: $('[data-step=5]'), title: 'Step 5: Photos', content: '<p>Your memory needs photos.</p><p>Click the <strong>Add Photos</strong> link to browse and select from your Facebook photos.</p>', my: 'top right', at: 'bottom right'}
+
     ]
     _.each steps, (step, i) ->
       if i
@@ -41,7 +44,7 @@ class exports.MemoriesShowView extends Backbone.View
         else if i == steps.length - 1
           steps[i].content += "<p class=\"clearfix tar\"><a href=\"#\" id=\"prev\">&laquo; Step #{i-1}</a></p>"
         else
-          steps[i].content += "<p class=\"clearfix tar\"><a href=\"#\" id=\"prev\">&laquo; Step #{i}</a>&nbsp;|&nbsp;<a href=\"#\" id=\"next\" class=\"fr\">Step #{i+1} &raquo;</a></p>"
+          steps[i].content += "<p class=\"clearfix tar\"><a href=\"#\" id=\"prev\">&laquo; Step #{i-1}</a>&nbsp;|&nbsp;<a href=\"#\" id=\"next\" class=\"fr\">Step #{i+1} &raquo;</a></p>"
     
     $(@el).qtip
       id: 'tutorial'
@@ -62,16 +65,25 @@ class exports.MemoriesShowView extends Backbone.View
       hide: false
       events:
         render: (e, api) ->
-          tooltip = api.elements.tooltip
+          $tooltip = api.elements.tooltip
           api.step = 0
-          tooltip.bind 'next prev', (e) ->
+          $tooltip.bind 'next prev', (e) ->
+            # Get the settings and content for the current step
             api.step += if e.type is 'next' then 1 else -1
             api.step = Math.min(steps.length - 1, Math.max(0, api.step))
             current = steps[api.step]
+            # Tweak content and settings based for the current step
             if current
               api.set 'content.text', current.content
               api.set 'content.title.text', current.title
               api.set 'position.target', current.target
+              api.set 'position.my', current.my
+              api.set 'position.at', current.at
+            text = $(current.target).text()
+            match = text.match /^(\w+\b.*?){3}/
+            if match
+              text = if match[0].length < text.length then match[0]+'...' else match[0]
+            $tooltip.find('.mirror').text(text)
               
     $('#next, #prev').live 'click', (e) ->
       e.preventDefault()
@@ -264,7 +276,7 @@ class exports.MemoriesShowView extends Backbone.View
       $('a#show_photos').text('') if $photos.length <= 5
     
   showIndicator: (e) ->
-    if not $('.edit_field:visible').length and not $('#start_datepicker:visible').length
+    if not $('.edit_field:visible').length and not $('#start_datepicker:visible').length and not $('#ui-tooltip-tutorial:visible').length
     
       clearTimeout(@timeout)
     
