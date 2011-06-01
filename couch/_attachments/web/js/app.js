@@ -15471,7 +15471,7 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
       return _safe(result);
     };
     (function() {
-      _print(_safe('<div id="sidebar">\n  <div id="photo">\n    <a href="#" class="add_photos">\n      <label></label>\n    </a>\n  </div>\n    \n  <ul id="friends">\n    <li class="count">Nobody was there</li>\n    <li class="tag_button_container">\n      <a href="#" id="self_tag" class="button" data-step="3">\n        <span class="tag"></span>\n        I was there!\n      </a>\n      <a href="#" id="tag_friends" class="button hide" data-step="3">\n        <span class="tag"></span>\n        Tag Friends (1)\n      </a>\n    </li>\n  </ul>\n</div>\n\n<div id="main">\n  \n  <header>\n    <div id="header" class="clearfix">\n      <h1 id="title" class="editable" data-step="1">New Memory</h1>\n      <input id="edit_title" class="edit_field" type="text" />\n      <br/>\n      <p class="date_line editable" id="start_date" data-step="2"></p>\n      <div id="start_datepicker" class="datepicker"></div>\n    </div>\n  </header>\n  \n  <div id="photos" class="clearfix">\n    <ul class="clearfix">\n      <li></li>\n      <li></li>\n      <li></li>\n      <li></li>\n      <li><a href="/web/img/add_photo.png" class="add_photos"></a></li>\n    </ul>\n    \n    <a href="#" id="show_photos" class="fl"></a>\n    <a href="#" id="add_photos" class="add_photos fr" data-step="5">Add Photos</a>\n  </div>\n  \n  <p id="description" class="editable mirror" data-step="4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eu orci nisi. Vivamus feugiat purus vel ipsum vestibulum sagittis. Donec et enim sed enim tempor aliquam. Vivamus id nisi tortor. Proin tempus, enim quis commodo euismod, orci eros elementum quam, eu fringilla mi tortor et velit.</p>\n  <textarea id="edit_description" class="edit_field"></textarea>\n  \n  <div id="fb_comments" class="mtop3">\n    <fb:comments href="http://ryonlife.dyndns.org:8080/#/memories/1" width="550" num_posts="25" />\n  </div>\n    \n</div>\n\n<a href="#" class="indicator">Edit</a>\n'));
+      _print(_safe('<div id="sidebar">\n  <div id="photo">\n    <a href="#" class="add_photos">\n      <label></label>\n    </a>\n  </div>\n    \n  <ul id="friends">\n    <li class="count">Nobody was there</li>\n    <li class="tag_button_container">\n      <a href="#" id="self_tag" class="button">\n        <span class="tag"></span>\n        I was there!\n      </a>\n      <a href="#" id="tag_friends" class="button hide" data-step="3" data-stepped="false">\n        <span class="tag"></span>\n        Tag Friends (1)\n      </a>\n    </li>\n  </ul>\n</div>\n\n<div id="main">\n  \n  <header>\n    <div id="header" class="clearfix">\n      <h1 id="title" class="editable" data-step="1" data-stepped="false">New Memory</h1>\n      <input id="edit_title" class="edit_field" type="text" />\n      <br/>\n      <p class="date_line editable" id="start_date" data-step="2" data-stepped="false"></p>\n      <div id="start_datepicker" class="datepicker"></div>\n    </div>\n  </header>\n  \n  <div id="photos" class="clearfix">\n    <ul class="clearfix">\n      <li></li>\n      <li></li>\n      <li></li>\n      <li></li>\n      <li><a href="/web/img/add_photo.png" class="add_photos"></a></li>\n    </ul>\n    \n    <a href="#" id="show_photos" class="fl"></a>\n    <a href="#" id="add_photos" class="add_photos fr" data-step="5" data-stepped="false">Add Photos</a>\n  </div>\n  \n  <p id="description" class="editable mirror" data-step="4" data-stepped="false">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eu orci nisi. Vivamus feugiat purus vel ipsum vestibulum sagittis. Donec et enim sed enim tempor aliquam. Vivamus id nisi tortor. Proin tempus, enim quis commodo euismod, orci eros elementum quam, eu fringilla mi tortor et velit.</p>\n  <textarea id="edit_description" class="edit_field"></textarea>\n  \n  <div id="fb_comments" class="mtop3">\n    <fb:comments href="http://ryonlife.dyndns.org:8080/#/memories/1" width="550" num_posts="25" />\n  </div>\n    \n</div>\n\n<a href="#" class="indicator">Edit</a>\n'));
     }).call(this);
     
     return __out.join('');
@@ -15511,6 +15511,51 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
     };
     (function() {
       _print(_safe('<span class="nub"></span>\n\n<div id="select_from_container" class="clearfix">\n  <div class="fl">\n    <a href="#" id="select_from_tagged"><span>Select From</span> Photos I\'m Tagged In</a>\n  </div>\n  <div class="fr">\n    <a href="#" id="select_from_albums"><span>Select From</span> Photos In My Albums</a>\n    <select class="h_center_cheat v_center_cheat">\n      <option value="">Select an album:&nbsp;</option>\n    </select>\n  </div>\n</div>\n\n<div id="photo_choices">\n  <ul class="clearfix"></ul>\n</div>\n'));
+    }).call(this);
+    
+    return __out.join('');
+  }).call((function() {
+    var obj = {
+      escape: function(value) {
+        return ('' + value)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;');
+      },
+      safe: _safe
+    }, key;
+    for (key in __obj) obj[key] = __obj[key];
+    return obj;
+  })());
+};}, "templates/memories/memories_show_profile_pic": function(exports, require, module) {module.exports = function(__obj) {
+  var _safe = function(value) {
+    if (typeof value === 'undefined' && value == null)
+      value = '';
+    var result = new String(value);
+    result.ecoSafe = true;
+    return result;
+  };
+  return (function() {
+    var __out = [], __self = this, _print = function(value) {
+      if (typeof value !== 'undefined' && value != null)
+        __out.push(value.ecoSafe ? value : __self.escape(value));
+    }, _capture = function(callback) {
+      var out = __out, result;
+      __out = [];
+      callback.call(this);
+      result = __out.join('');
+      __out = out;
+      return _safe(result);
+    };
+    (function() {
+      _print(_safe('<li data-fb-id="'));
+      _print(this.friendId);
+      _print(_safe('">\n  <div class="profile_pic">\n    <label></label>\n    <fb:profile-pic class="image" facebook-logo="false" linked="false" size="square" uid="'));
+      _print(this.friendId);
+      _print(_safe('" />\n  </div>\n  <div class="name" >\n    <fb:name uid="'));
+      _print(this.friendId);
+      _print(_safe('" useyou="false" />\n  </div>\n</li>\n'));
     }).call(this);
     
     return __out.join('');
@@ -15720,7 +15765,7 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
   })();
 }).call(this);
 }, "views/memories/memories_show_view": function(exports, require, module) {(function() {
-  var memoriesShowTemplate;
+  var memoriesShowProfilePicTemplate, memoriesShowTemplate;
   var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
     for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
     function ctor() { this.constructor = child; }
@@ -15735,12 +15780,13 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
     return -1;
   };
   memoriesShowTemplate = require('templates/memories/memories_show');
+  memoriesShowProfilePicTemplate = require('templates/memories/memories_show_profile_pic');
   exports.MemoriesShowView = (function() {
     function MemoriesShowView() {
       MemoriesShowView.__super__.constructor.apply(this, arguments);
     }
     __extends(MemoriesShowView, Backbone.View);
-    MemoriesShowView.prototype.id = 'memories_show';
+    MemoriesShowView.prototype.id = 'memories_show_view';
     MemoriesShowView.prototype.events = {
       'click a#tag_friends': 'showFriendSelector',
       'friendSelection a#tag_friends': 'updateFriendSelections',
@@ -15765,70 +15811,21 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
       return this;
     };
     MemoriesShowView.prototype.tutorial = function() {
-      var steps;
-      steps = [
-        {
-          target: $('[data-step=1]'),
-          title: 'Getting Started',
-          content: '<p>This is a blank canvas for recording a memory.</p><p>As your collection of memories builds, there are cool ways to visualize it, like timelines and calendars.</p><p class="tar"><a href="#" class="gs" id="next">Click here to get started &raquo;</a></p>',
-          my: 'top left',
-          at: 'bottom left'
-        }, {
-          target: $('[data-step=1]'),
-          title: 'Step 1: Title',
-          content: '<p>Your memory needs a title.</p><p>Click <strong class="mirror"></strong> to edit the title, then press the <strong>return/enter</strong> key when you\'re done.</p>',
-          my: 'top left',
-          at: 'bottom left'
-        }, {
-          target: $('[data-step=2]'),
-          title: 'Step 2: Date',
-          content: '<p>When did it happen?</p><p>Click <strong class="mirror"></strong>, then use the calendar to select the date when your memory took place.</p>',
-          my: 'top left',
-          at: 'bottom left'
-        }, {
-          target: $('[data-step=3]'),
-          title: 'Step 3: Friends',
-          content: '<p>Who was there?</p><p>Click the <strong>Tag Friends</strong> button to select the friends who were with you to experience this memory.</p>',
-          my: 'top left',
-          at: 'bottom left'
-        }, {
-          target: $('[data-step=4]'),
-          title: 'Step 4: Description',
-          content: '<p>Your memory needs a description.</p><p>Click the <strong class="mirror"></strong> text to edit the description, then press the <strong>return/enter</strong> key when you\'re done.</p>',
-          my: 'top left',
-          at: 'bottom left'
-        }, {
-          target: $('[data-step=5]'),
-          title: 'Step 5: Photos',
-          content: '<p>Your memory needs photos.</p><p>Click the <strong>Add Photos</strong> link to browse and select from your Facebook photos.</p>',
-          my: 'top right',
-          at: 'bottom right'
-        }
-      ];
-      _.each(steps, function(step, i) {
-        if (i) {
-          if (i === 1) {
-            return steps[i].content += "<p class=\"clearfix tar\"><a href=\"#\" id=\"next\">Step " + (i + 1) + " &raquo;</a></p>";
-          } else if (i === steps.length - 1) {
-            return steps[i].content += "<p class=\"clearfix tar\"><a href=\"#\" id=\"prev\">&laquo; Step " + (i - 1) + "</a></p>";
-          } else {
-            return steps[i].content += "<p class=\"clearfix tar\"><a href=\"#\" id=\"prev\">&laquo; Step " + (i - 1) + "</a>&nbsp;|&nbsp;<a href=\"#\" id=\"next\" class=\"fr\">Step " + (i + 1) + " &raquo;</a></p>";
-          }
-        }
-      });
+      var that;
+      that = this;
       $(this.el).qtip({
         id: 'tutorial',
         content: {
-          text: steps[0].content,
+          text: '<p>This is a blank canvas for recording a memory.</p><p>As your collection of memories builds, there are cool ways to visualize it, like timelines and calendars.</p><p class="tar"><a href="#" class="gs" id="next">Click here to get started &raquo;</a></p>',
           title: {
-            text: steps[0].title,
+            text: 'Getting Started',
             button: true
           }
         },
         position: {
           my: 'top left',
           at: 'bottom left',
-          target: steps[0].target
+          target: $('[data-step=1]')
         },
         style: {
           classes: 'ui-tooltip-shadow ui-tooltip-default'
@@ -15840,27 +15837,9 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
         hide: false,
         events: {
           render: function(e, api) {
-            var $tooltip;
-            $tooltip = api.elements.tooltip;
-            api.step = 0;
-            return $tooltip.bind('next prev', function(e) {
-              var current, match, text;
-              api.step += e.type === 'next' ? 1 : -1;
-              api.step = Math.min(steps.length - 1, Math.max(0, api.step));
-              current = steps[api.step];
-              if (current) {
-                api.set('content.text', current.content);
-                api.set('content.title.text', current.title);
-                api.set('position.target', current.target);
-                api.set('position.my', current.my);
-                api.set('position.at', current.at);
-              }
-              text = $(current.target).text();
-              match = text.match(/^(\w+\b.*?){3}/);
-              if (match) {
-                text = match[0].length < text.length ? match[0] + '...' : match[0];
-              }
-              return $tooltip.find('.mirror').text(text);
+            api.step = -1;
+            return api.elements.tooltip.bind('next prev', function(e) {
+              return that.setTutorialStep(api, e);
             });
           }
         }
@@ -15870,21 +15849,97 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
         return $('#ui-tooltip-tutorial').triggerHandler(this.id);
       });
     };
-    MemoriesShowView.prototype.datepickers = function() {
-      var $view;
-      $.extend($.datepicker.__proto__, {
-        _updateAlternate: function(inst) {
-          var altField, altFormat, date, dateStr;
-          altField = this._get(inst, 'altField');
-          if (altField) {
-            altFormat = this._get(inst, 'altFormat') || this._get(inst, 'dateFormat');
-            date = this._getDate(inst);
-            dateStr = this.formatDate(altFormat, date, this._getFormatConfig(inst));
-            return $(altField).each(function() {
-              return $(this).text(dateStr);
-            });
-          }
+    MemoriesShowView.prototype.setTutorialStep = function(api, e, step) {
+      var current, match, steps, text;
+      if (step == null) {
+        step = null;
+      }
+      steps = [
+        {
+          target: $('[data-step=1]'),
+          title: 'Step 1: Title',
+          content: '<p>Your memory needs a title.</p><p>Click <strong class="mirror"></strong> to edit the title, then press the <strong>return/enter</strong> key when you\'re done.</p><p class=\"clearfix tar\"><a href=\"#\" id=\"next\">Step 2 &raquo;</a></p>',
+          my: 'top left',
+          at: 'bottom left'
+        }, {
+          target: $('[data-step=2]'),
+          title: 'Step 2: Date',
+          content: '<p>When did it happen?</p><p>Click <strong class="mirror"></strong>, then use the calendar to select the date when your memory took place.</p><p class=\"clearfix tar\"><a href=\"#\" id=\"prev\">&laquo; Step 1</a>&nbsp;|&nbsp;<a href=\"#\" id=\"next\" class=\"fr\">Step 3 &raquo;</a></p>',
+          my: 'top left',
+          at: 'bottom left'
+        }, {
+          target: $('[data-step=3]'),
+          title: 'Step 3: Friends',
+          content: '<p>Who was there?</p><p>Click the <strong>Tag Friends</strong> button to select the friends who were with you to experience this memory.</p><p class=\"clearfix tar\"><a href=\"#\" id=\"prev\">&laquo; Step 2</a>&nbsp;|&nbsp;<a href=\"#\" id=\"next\" class=\"fr\">Step 4 &raquo;</a></p>',
+          my: 'top left',
+          at: 'bottom left'
+        }, {
+          target: $('[data-step=4]'),
+          title: 'Step 4: Description',
+          content: '<p>Your memory needs a description.</p><p>Click the <strong class="mirror"></strong> text to edit the description, then press the <strong>return/enter</strong> key when you\'re done.</p><p class=\"clearfix tar\"><a href=\"#\" id=\"prev\">&laquo; Step 3</a>&nbsp;|&nbsp;<a href=\"#\" id=\"next\" class=\"fr\">Step 5 &raquo;</a></p>',
+          my: 'top left',
+          at: 'bottom left'
+        }, {
+          target: $('[data-step=5]'),
+          title: 'Step 5: Photos',
+          content: '<p>Your memory needs photos.</p><p>Click the <strong>Add Photos</strong> link to browse and select from your Facebook photos.</p><p class=\"clearfix tar\"><a href=\"#\" id=\"prev\">&laquo; Step 4</a></p>',
+          my: 'top right',
+          at: 'bottom right'
         }
+      ];
+      if (!step) {
+        api.step += e.type === 'next' ? 1 : -1;
+        api.step = Math.min(steps.length - 1, Math.max(0, api.step));
+      } else {
+        api.step = step - 1;
+      }
+      current = steps[api.step];
+      if (current) {
+        api.set('content.text', current.content);
+        api.set('content.title.text', current.title);
+        api.set('position.target', current.target);
+        api.set('position.my', current.my);
+        api.set('position.at', current.at);
+      }
+      text = $(current.target).text();
+      match = text.match(/^(\w+\b.*?){3}/);
+      if (match) {
+        text = match[0].length < text.length ? match[0] + '...' : match[0];
+      }
+      return api.elements.tooltip.find('.mirror').text(text);
+    };
+    MemoriesShowView.prototype.resumeTutorial = function() {
+      var lowestStep;
+      lowestStep = null;
+      $('[data-stepped=false]').each(function(i, step) {
+        var $step, stepNumber;
+        $step = $(step);
+        stepNumber = parseInt($step.attr('data-step'));
+        if (!lowestStep || lowestStep > stepNumber) {
+          return lowestStep = stepNumber;
+        }
+      });
+      if (lowestStep) {
+        this.setTutorialStep($('#memories_show_view').qtip('api'), null, lowestStep);
+        return $('#memories_show_view').qtip('show');
+      }
+    };
+    MemoriesShowView.prototype.datepickers = function() {
+      var $view, duckPunch;
+      duckPunch = function(inst) {
+        var altField, altFormat, date, dateStr;
+        altField = this._get(inst, 'altField');
+        if (altField) {
+          altFormat = this._get(inst, 'altFormat') || this._get(inst, 'dateFormat');
+          date = this._getDate(inst);
+          dateStr = this.formatDate(altFormat, date, this._getFormatConfig(inst));
+          return $(altField).each(function() {
+            return $(this).text(dateStr);
+          });
+        }
+      };
+      $.extend($.datepicker.__proto__, {
+        _updateAlternate: duckPunch
       });
       $view = $(this.el);
       return $view.find('.datepicker').each(function() {
@@ -15918,10 +15973,10 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
       $('#friends .name [uid]').each(function() {
         return selectedFriends.push($(this).attr('uid'));
       });
-      return $(e.currentTarget).fbFriendSelector(USER.FRIENDS.data, selectedFriends);
+      return $(e.currentTarget).attr('data-stepped', 'true').fbFriendSelector(USER.FRIENDS.data, selectedFriends);
     };
     MemoriesShowView.prototype.updateFriendSelections = function(e, newFriendIds) {
-      var $el, $friends, friendId, picAndName, preFbIds, _i, _len;
+      var $el, $friends, friendId, preFbIds, profilePic, _i, _len;
       $el = $(e.currentTarget);
       $friends = $('ul#friends');
       preFbIds = [];
@@ -15931,13 +15986,16 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
       for (_i = 0, _len = newFriendIds.length; _i < _len; _i++) {
         friendId = newFriendIds[_i];
         if (__indexOf.call(preFbIds, friendId) < 0) {
-          picAndName = "          <li data-fb-id=\"" + friendId + "\">            <div class=\"profile_pic\">              <label></label>              <fb:profile-pic class=\"image\" facebook-logo=\"false\" linked=\"false\" size=\"square\" uid=\"" + friendId + "\" />            </div>            <div class=\"name\" >              <fb:name uid=\"" + friendId + "\" useyou=\"false\" />            </div>          </li>        ";
-          $friends.find('li.tag_button_container').after(picAndName);
+          profilePic = memoriesShowProfilePicTemplate({
+            friendId: friendId
+          });
+          $friends.find('li.tag_button_container').after(profilePic);
         }
       }
       FB.XFBML.parse(document.getElementById('friends'));
       $('.tag_button_container').after($friends.find("li[data-fb-id=" + USER.ME.id + "]"));
-      return this.updateFriendCount();
+      this.updateFriendCount();
+      return this.resumeTutorial();
     };
     MemoriesShowView.prototype.selfTag = function(e) {
       e.preventDefault();
@@ -16083,18 +16141,20 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
       var $el, $field;
       if (!$('.edit_field:visible').length && !$('#start_datepicker:visible').length) {
         $el = $(e.currentTarget);
-        $el.hide();
+        $el.attr('data-stepped', 'true').hide();
         $('.indicator').trigger('mouseout');
         $field = $el.next();
         $field.show().val($el.text()).select();
-        return $('#memories_show').qtip('hide');
+        return $('#memories_show_view').qtip('hide');
       }
     };
     MemoriesShowView.prototype.saveEdit = function(e) {
-      var $el, $target;
+      var $el, $target, text;
       if (e.keyCode === 13) {
         $el = $(e.currentTarget).hide();
-        return $target = $("#" + ($el.attr('id').substr(5))).text($el.val()).show();
+        text = $.trim($el.val()) || '...';
+        $target = $("#" + ($el.attr('id').substr(5))).text(text).show();
+        return this.resumeTutorial();
       }
     };
     return MemoriesShowView;

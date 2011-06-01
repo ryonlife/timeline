@@ -1,0 +1,9 @@
+<li data-fb-id="<%= @friendId %>">
+  <div class="profile_pic">
+    <label></label>
+    <fb:profile-pic class="image" facebook-logo="false" linked="false" size="square" uid="<%= @friendId %>" />
+  </div>
+  <div class="name" >
+    <fb:name uid="<%= @friendId %>" useyou="false" />
+  </div>
+</li>
