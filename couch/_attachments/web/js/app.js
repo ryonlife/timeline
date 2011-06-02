@@ -15471,7 +15471,7 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
       return _safe(result);
     };
     (function() {
-      _print(_safe('<div id="sidebar">\n  <div id="photo">\n    <a href="#" class="add_photos">\n      <label></label>\n    </a>\n  </div>\n    \n  <ul id="friends">\n    <li class="count">Nobody was there</li>\n    <li class="tag_button_container">\n      <a href="#" id="self_tag" class="button">\n        <span class="tag"></span>\n        I was there!\n      </a>\n      <a href="#" id="tag_friends" class="button hide" data-step="3" data-stepped="false">\n        <span class="tag"></span>\n        Tag Friends (1)\n      </a>\n    </li>\n  </ul>\n</div>\n\n<div id="main">\n  \n  <header>\n    <div id="header" class="clearfix">\n      <h1 id="title" class="editable" data-step="1" data-stepped="false">New Memory</h1>\n      <input id="edit_title" class="edit_field" type="text" />\n      <br/>\n      <p class="date_line editable" id="start_date" data-step="2" data-stepped="false"></p>\n      <div id="start_datepicker" class="datepicker"></div>\n    </div>\n  </header>\n  \n  <div id="photos" class="clearfix">\n    <ul class="clearfix">\n      <li></li>\n      <li></li>\n      <li></li>\n      <li></li>\n      <li><a href="/web/img/add_photo.png" class="add_photos"></a></li>\n    </ul>\n    \n    <a href="#" id="show_photos" class="fl"></a>\n    <a href="#" id="add_photos" class="add_photos fr" data-step="5" data-stepped="false">Add Photos</a>\n  </div>\n  \n  <p id="description" class="editable mirror" data-step="4" data-stepped="false">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eu orci nisi. Vivamus feugiat purus vel ipsum vestibulum sagittis. Donec et enim sed enim tempor aliquam. Vivamus id nisi tortor. Proin tempus, enim quis commodo euismod, orci eros elementum quam, eu fringilla mi tortor et velit.</p>\n  <textarea id="edit_description" class="edit_field"></textarea>\n  \n  <div id="fb_comments" class="mtop3">\n    <fb:comments href="http://ryonlife.dyndns.org:8080/#/memories/1" width="550" num_posts="25" />\n  </div>\n    \n</div>\n\n<a href="#" class="indicator">Edit</a>\n'));
+      _print(_safe('<div id="sidebar">\n  <div id="photo">\n    <a href="#" class="add_photos">\n      <label></label>\n    </a>\n  </div>\n    \n  <ul id="friends">\n    <li class="count">Nobody was there</li>\n    <li class="tag_button_container">\n      <a href="#" id="self_tag" class="button">\n        <span class="tag"></span>\n        I was there!\n      </a>\n      <a href="#" id="tag_friends" class="button hide" data-step="3" data-stepped="false">\n        <span class="tag"></span>\n        Tag Friends (1)\n      </a>\n    </li>\n  </ul>\n</div>\n\n<div id="main">\n  \n  <header>\n    <div id="header" class="clearfix">\n      <h1 id="title" class="editable" data-step="1" data-stepped="false">New Memory</h1>\n      <input id="edit_title" class="edit_field" type="text" />\n      \n      <br/>\n      <p class="date_line editable" id="start_date" data-step="2" data-stepped="false"></p>\n      <div id="start_datepicker" class="datepicker"></div>\n      \n      <a href="#" id="help">Help</a>\n    </div>\n  </header>\n  \n  <div id="photos" class="clearfix">\n    <ul class="clearfix">\n      <li></li>\n      <li></li>\n      <li></li>\n      <li></li>\n      <li><a href="/web/img/add_photo.png" class="add_photos"></a></li>\n    </ul>\n    \n    <a href="#" id="show_photos" class="fl"></a>\n    <a href="#" id="add_photos" class="add_photos fr" data-step="5" data-stepped="false">Add Photos</a>\n  </div>\n  \n  <p id="description" class="editable mirror" data-step="4" data-stepped="false">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eu orci nisi. Vivamus feugiat purus vel ipsum vestibulum sagittis. Donec et enim sed enim tempor aliquam. Vivamus id nisi tortor. Proin tempus, enim quis commodo euismod, orci eros elementum quam, eu fringilla mi tortor et velit.</p>\n  <textarea id="edit_description" class="edit_field"></textarea>\n  \n  <div id="fb_comments" class="mtop3">\n    <fb:comments href="http://ryonlife.dyndns.org:8080/#/memories/1" width="550" num_posts="25" />\n  </div>\n    \n</div>\n\n<a href="#" class="indicator">Edit</a>\n'));
     }).call(this);
     
     return __out.join('');
@@ -15802,7 +15802,8 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
       'mouseout .indicator': 'markNotHovered',
       'click .indicator': 'triggerEdit',
       'click .editable': 'showEdit',
-      'keyup .edit_field': 'saveEdit'
+      'keyup .edit_field': 'saveEdit',
+      'click a#help': 'resumeTutorial'
     };
     MemoriesShowView.prototype.render = function() {
       var $el;
@@ -15908,8 +15909,14 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
       }
       return api.elements.tooltip.find('.mirror').text(text);
     };
-    MemoriesShowView.prototype.resumeTutorial = function() {
+    MemoriesShowView.prototype.resumeTutorial = function(e) {
       var lowestStep;
+      if (e == null) {
+        e = null;
+      }
+      if (e) {
+        e.preventDefault();
+      }
       lowestStep = null;
       $('[data-stepped=false]').each(function(i, step) {
         var $step, stepNumber;
@@ -15925,7 +15932,7 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
       }
     };
     MemoriesShowView.prototype.datepickers = function() {
-      var $view, duckPunch;
+      var duckPunch, that;
       duckPunch = function(inst) {
         var altField, altFormat, date, dateStr;
         altField = this._get(inst, 'altField');
@@ -15941,8 +15948,8 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
       $.extend($.datepicker.__proto__, {
         _updateAlternate: duckPunch
       });
-      $view = $(this.el);
-      return $view.find('.datepicker').each(function() {
+      that = this;
+      return $('.datepicker').each(function() {
         var $this, birthdayParts, options;
         $this = $(this);
         birthdayParts = '11/27/1982'.split('/');
@@ -15956,13 +15963,12 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
           altField: '#' + $(this).attr('id').slice(0, -6),
           maxDate: 0,
           minDate: new Date(birthdayParts[2], birthdayParts[0] - 1, birthdayParts[1]),
-          yearRange: birthdayParts[2].toString() + ':-nn:+nn'
-        };
-        options = _.extend(options, {
+          yearRange: birthdayParts[2].toString() + ':-nn:+nn',
           onSelect: function(dateText, datepicker) {
-            return $(this).hide().prev().show();
+            $(this).hide().prev().show().attr('data-stepped', 'true');
+            return that.resumeTutorial();
           }
-        });
+        };
         return $this.datepicker(options);
       });
     };
@@ -16045,6 +16051,7 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
     MemoriesShowView.prototype.showPhotoSelector = function(e) {
       var $add, $ps;
       e.preventDefault();
+      $(e.currentTarget).attr('data-stepped', 'true');
       $add = $('#add_photos');
       $ps = $('#photo_selector_view');
       if ($ps.is(':visible')) {

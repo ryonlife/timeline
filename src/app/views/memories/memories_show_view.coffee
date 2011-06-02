@@ -22,6 +22,8 @@ class exports.MemoriesShowView extends Backbone.View
     'click .indicator': 'triggerEdit'
     'click .editable': 'showEdit'
     'keyup .edit_field': 'saveEdit'
+    
+    'click a#help': 'resumeTutorial'
   
   render: ->
     $el = $(@el).html memoriesShowTemplate()
@@ -87,7 +89,8 @@ class exports.MemoriesShowView extends Backbone.View
       text = if match[0].length < text.length then match[0]+'...' else match[0]
     api.elements.tooltip.find('.mirror').text(text)
 
-  resumeTutorial: ->
+  resumeTutorial: (e=null) ->
+    e.preventDefault() if e
     lowestStep = null
     $('[data-stepped=false]').each (i, step) ->
       $step = $(step)
@@ -98,6 +101,7 @@ class exports.MemoriesShowView extends Backbone.View
       $('#memories_show_view').qtip('show')
   
   datepickers: ->
+    # Datepicker updates the value of an input, but I want to update the text of a non-input HTML element
     duckPunch = (inst) ->
       altField = this._get(inst, 'altField')
       if altField
@@ -107,9 +111,9 @@ class exports.MemoriesShowView extends Backbone.View
         $(altField).each -> $(this).text(dateStr)        
     $.extend($.datepicker.__proto__, {_updateAlternate: duckPunch})
     
-    $view = $(@el)
     # Initialize the jQuery UI datepickers
-    $view.find('.datepicker').each ->
+    that = @
+    $('.datepicker').each ->
       $this = $(@)
       birthdayParts = '11/27/1982'.split('/')
       options =
@@ -123,18 +127,16 @@ class exports.MemoriesShowView extends Backbone.View
         maxDate: 0
         minDate: new Date(birthdayParts[2], birthdayParts[0] - 1, birthdayParts[1])
         yearRange: birthdayParts[2].toString()+':-nn:+nn'
-      # Should I want to go back to allowing a memory to have a date range, this ensures the second date cannot take place before the first
-      # if $this.is(':first-of-type')
-      #   restrictRange = (dateText, datepicker) ->
-      #     $this = $(@)
-      #     date = $this.datepicker('getDate')
-      #     $endDatepicker = $view.find('.datepicker').last()
-      #     $endDatepicker.datepicker('option', 'minDate', date)
-      #     $endDatepicker.datepicker('option', 'yearRange', date.getFullYear().toString()+':-nn+nn')
-      #   options = _.extend options, {onSelect: restrictRange, onChangeMonthYear: restrictRange}        
-      options = _.extend options, {onSelect: (dateText, datepicker) -> $(@).hide().prev().show()}
+        onSelect: (dateText, datepicker) ->
+          # Hide the datepicker and display the element containing the date in plain text, and mark stepped for the tutorial
+          $(@)
+            .hide()
+            .prev()
+              .show()
+              .attr('data-stepped', 'true')
+          that.resumeTutorial()
       $this.datepicker options
-  
+      
   showFriendSelector: (e) ->
     e.preventDefault()
     
@@ -217,6 +219,7 @@ class exports.MemoriesShowView extends Backbone.View
   
   showPhotoSelector: (e) ->
     e.preventDefault()
+    $(e.currentTarget).attr('data-stepped', 'true')
     $add = $('#add_photos')
     $ps = $('#photo_selector_view')
     if $ps.is(':visible')
