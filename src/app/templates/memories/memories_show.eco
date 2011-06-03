@@ -1,3 +1,25 @@
+<div id="super_main" class="clearfix">
+  <div id="thumb_gallery">
+    <ul></ul>
+    <a href="#" class="left"></a>
+    <a href="#" class="right"></a>
+  </div>
+  
+  <div id="title_description">
+    <h1>New Memory</h1>
+    <h2>June 2, 2011</h2>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eu orci nisi. Vivamus feugiat purus vel ipsum vestibulum sagittis. Donec et enim sed enim tempor aliquam. Vivamus id nisi tortor. Proin tempus, enim quis commodo euismod, orci eros elementum quam, eu fringilla mi tortor et velit.</p>
+    <script src="http://connect.facebook.net/en_US/all.js#appId=172981519423164&amp;xfbml=1"></script><fb:like href="#" send="true" layout="standard" width="418" show_faces="false"></fb:like>
+  </div>
+  
+  <a href="#" id="edit" class="icon">Edit</a>
+  <a href="#" id="favorite" class="icon">Favorite</a>
+</div>
+
+<div id="fb_comments" class="mtop3">
+  <fb:comments href="http://ryonlife.dyndns.org:8080/#/memories/1" width="760" num_posts="25" />
+</div>
+
 <div id="sidebar">
   <div id="photo">
     <a href="#" class="add_photos">
@@ -30,8 +52,6 @@
       <br/>
       <p class="date_line editable" id="start_date" data-step="2" data-stepped="false"></p>
       <div id="start_datepicker" class="datepicker"></div>
-      
-      <a href="#" id="help">Help</a>
     </div>
   </header>
   
@@ -51,9 +71,7 @@
   <p id="description" class="editable mirror" data-step="4" data-stepped="false">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eu orci nisi. Vivamus feugiat purus vel ipsum vestibulum sagittis. Donec et enim sed enim tempor aliquam. Vivamus id nisi tortor. Proin tempus, enim quis commodo euismod, orci eros elementum quam, eu fringilla mi tortor et velit.</p>
   <textarea id="edit_description" class="edit_field"></textarea>
   
-  <div id="fb_comments" class="mtop3">
-    <fb:comments href="http://ryonlife.dyndns.org:8080/#/memories/1" width="550" num_posts="25" />
-  </div>
+
     
 </div>
 

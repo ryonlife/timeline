@@ -31,6 +31,7 @@ class exports.MemoriesShowView extends Backbone.View
     @
   
   tutorial: ->
+    return
     that = @    
     $(@el).qtip
       id: 'tutorial'
