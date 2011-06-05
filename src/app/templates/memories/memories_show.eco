@@ -1,34 +1,24 @@
-<div id="super_main" class="clearfix">
-  <div id="thumb_gallery">
-    <ul></ul>
-    <a href="#" class="left"></a>
-    <a href="#" class="right"></a>
+<div id="header" class="clearfix">
+  <div id="photo">
+    <a href="#" class="add_photos"><label></label></a>
   </div>
-  
-  <div id="title_description">
-    <h1>New Memory</h1>
-    <h2>June 2, 2011</h2>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eu orci nisi. Vivamus feugiat purus vel ipsum vestibulum sagittis. Donec et enim sed enim tempor aliquam. Vivamus id nisi tortor. Proin tempus, enim quis commodo euismod, orci eros elementum quam, eu fringilla mi tortor et velit.</p>
-    <script src="http://connect.facebook.net/en_US/all.js#appId=172981519423164&amp;xfbml=1"></script><fb:like href="#" send="true" layout="standard" width="418" show_faces="false"></fb:like>
+
+  <div id="title_date_description">
+    <header>
+      <h1>New Memory</h1>
+      <h2>June 2, 2011</h2>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eu orci nisi. Vivamus feugiat purus vel ipsum vestibulum sagittis. Donec et enim sed enim tempor aliquam. Vivamus id nisi tortor. Proin tempus, enim quis commodo euismod, orci eros elementum quam, eu fringilla mi tortor et velit.</p>
+    </header>
+    <fb:like href="#" send="true" layout="standard" width="418" show_faces="false"></fb:like>
   </div>
   
   <a href="#" id="edit" class="icon">Edit</a>
   <a href="#" id="favorite" class="icon">Favorite</a>
 </div>
 
-<div id="fb_comments" class="mtop3">
-  <fb:comments href="http://ryonlife.dyndns.org:8080/#/memories/1" width="760" num_posts="25" />
-</div>
-
 <div id="sidebar">
-  <div id="photo">
-    <a href="#" class="add_photos">
-      <label></label>
-    </a>
-  </div>
-    
   <ul id="friends">
-    <li class="count">Nobody was there</li>
+    <li class="count">Nobody was there.</li>
     <li class="tag_button_container">
       <a href="#" id="self_tag" class="button">
         <span class="tag"></span>
@@ -42,19 +32,7 @@
   </ul>
 </div>
 
-<div id="main">
-  
-  <header>
-    <div id="header" class="clearfix">
-      <h1 id="title" class="editable" data-step="1" data-stepped="false">New Memory</h1>
-      <input id="edit_title" class="edit_field" type="text" />
-      
-      <br/>
-      <p class="date_line editable" id="start_date" data-step="2" data-stepped="false"></p>
-      <div id="start_datepicker" class="datepicker"></div>
-    </div>
-  </header>
-  
+<div id="content">
   <div id="photos" class="clearfix">
     <ul class="clearfix">
       <li></li>
@@ -63,16 +41,11 @@
       <li></li>
       <li><a href="/web/img/add_photo.png" class="add_photos"></a></li>
     </ul>
-    
     <a href="#" id="show_photos" class="fl"></a>
     <a href="#" id="add_photos" class="add_photos fr" data-step="5" data-stepped="false">Add Photos</a>
   </div>
-  
-  <p id="description" class="editable mirror" data-step="4" data-stepped="false">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eu orci nisi. Vivamus feugiat purus vel ipsum vestibulum sagittis. Donec et enim sed enim tempor aliquam. Vivamus id nisi tortor. Proin tempus, enim quis commodo euismod, orci eros elementum quam, eu fringilla mi tortor et velit.</p>
-  <textarea id="edit_description" class="edit_field"></textarea>
-  
-
     
+  <div id="fb_comments" class="mtop3">
+    <fb:comments href="http://ryonlife.dyndns.org:8080/#/memories/1" width="571" num_posts="25" />
+  </div>
 </div>
-
-<a href="#" class="indicator">Edit</a>

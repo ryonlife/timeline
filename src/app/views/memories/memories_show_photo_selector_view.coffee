@@ -59,18 +59,16 @@ class exports.MemoriesShowPhotoSelectorView extends Backbone.View
         for photos in response.data
           p = {}
           for photo in photos.images
-            if photo.width <= 720 and not p.large
-              p.large = photo
-            else if photo.width <= 180 and not p.medium
-              p.medium = photo
-            else if photo.width <= 130 and not p.small
-              p.small = photo
-              break
+            p.xlarge = photo if photo.width <= 720 and not p.xlarge
+            p.large = photo if photo.width <= 720 and not p.large
+            p.medium = photo if photo.width <= 180 and not p.medium
+            p.small = photo if photo.width <= 130 and not p.small
           $photo = $('<li></li>')
             .attr('data-id', photos.id)
             .attr('data-small', p.small.source)
             .attr('data-medium', p.medium.source)
             .attr('data-large', p.large.source)
+            .attr('data-xlarge', p.xlarge.source)
             .css('background', '#000 url('+p.medium.source+') no-repeat center center')
           $('#photo_choices ul').append($photo)
       
@@ -111,14 +109,14 @@ class exports.MemoriesShowPhotoSelectorView extends Backbone.View
           .removeClass('add_photos')
           .addClass('fb_gallery')
           .css({backgroundImage: 'url('+$el.attr('data-medium')+')', height: image.height})
-          .attr('href', $el.attr('data-large'))
+          .attr('href', $el.attr('data-medium'))
       image.src = $el.attr('data-medium')
     
-    else if not $photos.find('a[href="'+$el.attr('data-large')+'"]').length
+    else if not $photos.find('a[href="'+$el.attr('data-xlarge')+'"]').length
       # This photo is not already in the gallery, so add it
     
       background = '#000 url('+$el.attr('data-small')+') no-repeat center center'
-      $link = $('<a href="'+$el.attr('data-large')+'" class="fb_gallery"><label></label></a>')
+      $link = $('<a href="'+$el.attr('data-xlarge')+'" class="fb_gallery"><label></label></a>')
     
       if $photos.find('a.fb_gallery').length < $photos.length
         # Replace placeholder with a thumbnail

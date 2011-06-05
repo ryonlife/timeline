@@ -74,9 +74,10 @@
     $.each(friends, function() {
       if($.inArray(this.id.toString(), selectedFriends) == -1) {
         var name = this.name.replace(/ /, '<br />');
-        $fsf.append('<li data-friend-id="'+this.id+'"><span class="frame"><fb:profile-pic class="image" facebook-logo="false" linked="false" size="square" uid="'+this.id+'"></fb:profile-pic><span class="check"></span></span><span class="name">'+name+'</span></li>');
+        $fsf.append('<li data-friend-id="'+this.id+'"><span class="frame"><fb:profile-pic class="image" facebook-logo="false" linked="false" size="square" uid="'+this.id+'" /><span class="check"></span></span><span class="name">'+name+'</span></li>');
       }      
     });
+    console.log($fsf.attr('id'));
     FB.XFBML.parse(document.getElementById($fsf.attr('id'))); // Newly raising unsafe JS frame access when parsing pictures
     updateSelectedCount();
 

@@ -11,9 +11,9 @@ html{color:#000;background:#FFF;}body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pr
 body{font:13px/1.231 arial,helvetica,clean,sans-serif;*font-size:small;*font:x-small;}select,input,button,textarea{font:99% arial,helvetica,clean,sans-serif;}table{font-size:inherit;font:100%;}pre,code,kbd,samp,tt{font-family:monospace;*font-size:108%;line-height:100%;}
 h1{font-size:138.5%;}h2{font-size:123.1%;}h3{font-size:108%;}h1,h2,h3{margin:1em 0;}h1,h2,h3,h4,h5,h6,strong{font-weight:bold;}abbr,acronym{border-bottom:1px dotted #000;cursor:help;}em{font-style:italic;}blockquote,ul,ol,dl{margin:1em;}ol,ul,dl{margin-left:2em;}ol li{list-style:decimal outside;}ul li{list-style:disc outside;}dl dd{margin-left:1em;}th,td{border:1px solid #000;padding:.5em;}th{font-weight:bold;text-align:center;}caption{margin-bottom:.5em;text-align:center;}p,fieldset,table,pre{margin-bottom:1em;}input[type=text],input[type=password],textarea{width:12.25em;*width:11.9em;}
 #fb_wrapper{width:760px;margin:1em auto}
-#main{float:right;width:550px;padding:0 20px;border-left:1px solid #b3b3b3;position:relative;left:-1px}
-#main.no_sidebar{float:none;border:0;width:760px;padding:0}
-#sidebar{width:168px;float:left;border-right:1px solid #b3b3b3}
+#header{width:719px;background-color:#edeff4;border-bottom:1px solid #dde3ec;padding:20px;margin-bottom:0;position:relative}
+#sidebar{padding-top:1.5em;width:170px;float:left;border-right:1px solid #dde3ec}
+#content{float:right;width:568px;padding:1.5em 0 0 20px;border-left:1px solid #dde3ec;position:relative;left:-1px}
 body,input,select,textarea,.ui-widget{font-family:"lucida grande",tahoma,verdana,arial,sans-serif !important}
 h1{font-size:123.1%;margin:0 0 .5em 0}
 a,a:visited{color:#3b5998;text-decoration:none;}
@@ -37,21 +37,24 @@ input.wide,textarea.wide,select.wide{width:595px}
 select{padding:0 4px;margin:0 2px}
 a.form_button,a.form_button:visited,input.submit{font-size:13px;display:inline-block;color:#fff;width:auto;height:25px;line-height:23px;padding:0 6px;font-weight:bold;color:#fff;background:transparent url("/web/img/sprite2.png") repeat-x 0 -48px;border:1px solid #000;border-top-color:#29447e;border-right-color:#29447e;border-bottom-color:#1a356e;border-left-color:#29447e;-webkit-box-shadow:rgba(0,0,0,0.0976562) 0 1px 0 0;cursor:pointer;}
 a.form_button:hover,a.form_button:visited:hover,input.submit:hover{text-decoration:none}
-#sidebar #photo{margin-bottom:10px;border-left:2px solid #fff;background-color:#eceff5;a}
-#sidebar #photo .add_photos,#sidebar #photo a.fb_gallery{position:relative;display:block;height:120px;background:#eceff5 url("/web/img/add_photo.png") no-repeat center center}
-#header{position:relative;margin-bottom:1em;}
-#header h1{display:inline-block;margin-bottom:.35em}
-#header .date_line{color:#808080;font-size:85%;display:inline-block}
-#header .fr{position:relative;left:3px}
-ul#friends{margin:1em 0 0 0;font-size:85%;font-weight:bold;}
-ul#friends li.count{color:#808080;margin-bottom:10px}
+#header #photo{float:left;display:inline-block;width:180px;background-color:#fff;padding:5px;border:1px solid #ccc;}
+#header #photo a{position:relative;display:block;height:160px;overflow:hidden;background:transparent url("/web/img/add_photo.png") no-repeat center center}
+#header #title_date_description{float:right;display:inline-block;width:490px;}
+#header #title_date_description h1{color:#333;font-size:174%;margin-bottom:0}
+#header #title_date_description h2{background:transparent url("/web/img/calendar.gif") no-repeat 2px center;padding-left:22px;font-size:100%;color:#333;margin-top:.5em}
+#header #title_date_description p{color:#999;font-size:131%}
+#header a.icon{position:absolute;display:block;width:17px;height:17px;text-indent:-9999px}
+#header a#edit.icon{top:10px;right:33px;background:transparent url("/web/img/sprite5.png") no-repeat center -18px}
+#header a#favorite.icon{top:10px;right:10px;background:transparent url("/web/img/sprite6.png") no-repeat center -121px}
+ul#friends{margin:0;font-size:85%;font-weight:bold;}
+ul#friends li.count{background:transparent url("/web/img/sprite7.png") no-repeat left center;padding-left:20px;margin-bottom:10px;font-weight:normal}
 ul#friends li.tag_button_container a{font-size:11px;margin-bottom:2em}
 ul#friends li{list-style:none;clear:both;}
 ul#friends li .profile_pic{width:50px;float:left;margin:0 10px 5px 0;position:relative}
 ul#friends li .name{margin-top:5px;float:left;width:95px;font-weight:normal}
 #photos{font-size:85%;margin-bottom:2em;}
 #photos ul{margin:0 0 0 -2px;}
-#photos ul li{float:left;padding:0;display:block;list-style:none;width:108px;height:68px;background-color:#eceff5;border-left:2px solid #fff;border-bottom:2px solid #fff;}
+#photos ul li{float:left;padding:0;display:block;list-style:none;width:112px;height:68px;background-color:#f2f2f2;border-left:2px solid #fff;border-bottom:2px solid #fff;}
 #photos ul li a{display:block;height:68px;position:relative}
 #photos ul li a.add_photos{background:transparent url("/web/img/add_photo_small.png") no-repeat center center}
 #photos ul span{display:block}
@@ -61,46 +64,22 @@ li .profile_pic:hover label{left:3px}
 #photo_selector_view{display:none;margin:-1em 0 3em 0;padding:5px;border:1px solid #b4bbcd;position:relative;}
 #photo_selector_view span.nub{position:absolute;top:-7px;right:10px;display:inline-block;width:11px;height:7px;background:transparent url("/web/img/nub.gif") no-repeat right top;border-bottom:1px solid #fff}
 #photo_selector_view #select_from_container{background:transparent url("/web/img/gray_px.png") repeat-y center top;}
-#photo_selector_view #select_from_container > div.fr{width:263px}
+#photo_selector_view #select_from_container > div.fr{width:272px}
 #photo_selector_view #select_from_container > div.selected{background-color:#eceff5;}
 #photo_selector_view #select_from_container > div.selected a:hover,#photo_selector_view #select_from_container > div.selected:hover{cursor:default}
-#photo_selector_view #select_from_container > div{width:264px;height:52px;overflow:hidden;}
+#photo_selector_view #select_from_container > div{width:273px;height:52px;overflow:hidden;}
 #photo_selector_view #select_from_container > div:hover{background-color:#eceff5;cursor:pointer}
-#photo_selector_view #select_from_container > div a{width:244px;display:inline-block;text-align:center;padding:10px;font-weight:bold;text-decoration:none;height:32px;}
+#photo_selector_view #select_from_container > div a{width:253px;display:inline-block;text-align:center;padding:10px;font-weight:bold;text-decoration:none;height:32px;}
 #photo_selector_view #select_from_container > div a span{display:block;color:#808080;font-weight:normal}
 #photo_selector_view #select_from_container > div select{display:none}
 #photo_selector_view #photo_choices{margin:5px 0 0 0;padding-top:5px;display:none;border-top:1px solid #e5e5e5;}
 #photo_selector_view #photo_choices ul{margin:0;min-height:140px;max-height:415px;overflow-x:hidden;overflow-y:scroll;background:transparent url("/web/img/spinner.gif") no-repeat center center;}
-#photo_selector_view #photo_choices ul li{display:block;width:168px;height:135px;list-style:none;float:left;margin-bottom:5px;cursor:pointer}
+#photo_selector_view #photo_choices ul li{display:block;width:173px;height:135px;list-style:none;float:left;margin-bottom:5px;cursor:pointer}
 #photo_selector_view #photo_choices ul li.middle{margin:0 5px}
-.indicator{display:none;height:18px;padding:1px 5px 1px 19px;margin-left:3px;position:absolute;background:#3b5998 url("/web/img/edit.png") no-repeat 1px 1px;font-size:88%;color:#fff !important;line-height:18px;box-shadow:rgba(0,0,0,0.3) 1px 1px 1px 0;-webkit-box-shadow:rgba(0,0,0,0.3) 1px 1px 1px 0;-moz-box-shadow:rgba(0,0,0,0.3) 1px 1px 1px 0;}
-.indicator:hover{text-decoration:none}
-.edit_field{display:none}
-#edit_title{font-size:16px;font-weight:bold;margin-bottom:8px;width:542px}
-#start_datepicker{display:none}
-#edit_description{width:539px;font-size:13px;height:150px}
 .ui-tooltip,.qtip{max-width:400px;}
 .ui-tooltip p:first-of-type,.qtip p:first-of-type{margin-top:.5em}
 .ui-tooltip p:last-of-type,.qtip p:last-of-type{margin-bottom:.5em}
 .ui-tooltip a,.qtip a{color:#3b5998}
-.ui-tooltip a.gs,.qtip a.gs{font-weight:bold}
-.ui-tooltip-icon{display:block !important;width:11px !important;height:11px !important;background:transparent url("/web/img/sprite_close.png") no-repeat -11px right !important;border:0 !important;border-radius:0 !important;opacity:.5;}
-.ui-tooltip-icon:hover{background:transparent url("/web/img/sprite_close.png") no-repeat -22px right !important;opacity:.65}
-.ui-tooltip-icon span{text-indent:-9999px !important}
-#super_main{background-color:#edeff4;border-bottom:1px solid #dde3ec;padding:20px;margin-bottom:1em;position:relative;}
-#super_main #thumb_gallery{float:left;display:inline-block;width:270px;height:150px;background-color:#fff;padding:5px;border:1px solid #ccc;a}
-#super_main #thumb_gallery ul{display:block;margin:0 0 7px 0;height:150px;background:transparent url("/web/img/add_photo.png") no-repeat center center}
-#super_main #thumb_gallery .left,#super_main #thumb_gallery a.right{position:relative;left:-5px;font-size:88%;display:inline-block;width:9px;height:9px;opacity:.5;}
-#super_main #thumb_gallery .left:hover,#super_main #thumb_gallery a.right:hover{opacity:1}
-#super_main #thumb_gallery a.left{background:transparent url("/web/img/left_right_arrows.png") no-repeat left center}
-#super_main #thumb_gallery a.right{background:transparent url("/web/img/left_right_arrows.png") no-repeat right center}
-#super_main #title_description{float:right;display:inline-block;width:418px;}
-#super_main #title_description h1{color:#333;font-size:174%;margin-bottom:0}
-#super_main #title_description h2{background:transparent url("/web/img/calendar.gif") no-repeat 2px center;padding-left:22px;font-size:100%;color:#333;margin-top:.5em}
-#super_main #title_description p{color:#999;font-size:131%}
-#super_main a.icon{position:absolute;display:block;width:17px;height:17px;text-indent:-9999px}
-#super_main a#edit.icon{top:10px;right:33px;background:transparent url("/web/img/sprite5.png") no-repeat center -18px}
-#super_main a#favorite.icon{top:10px;right:10px;background:transparent url("/web/img/sprite6.png") no-repeat center -121px}
 .ui-datepicker-trigger{display:none}
 .ui-datepicker{padding:0;-webkit-border-radius:0;-moz-border-radiius:0;border-radius:0;width:189px;margin-top:3px;border-top:1px solid #3a589b;border-bottom:2px solid #3a589b;}
 .ui-datepicker .ui-widget-header{background:#6d84b4;color:#555;border:0;-webkit-border-radius:0;-moz-border-radiius:0;border-radius:0;aaa}

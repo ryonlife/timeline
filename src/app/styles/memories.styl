@@ -1,35 +1,62 @@
-#sidebar #photo
-  margin-bottom 10px
-  border-left 2px solid #FFF
-  background-color #ECEFF5
-  a.add_photos
-  a.fb_gallery
-    position relative
-    display block
-    height 120px
-    background #ECEFF5 url(/web/img/add_photo.png) no-repeat center center
-    
 #header
-  position relative
-  margin-bottom 1em
-  h1
+  
+  #photo
+    float left
     display inline-block
-    margin-bottom 0.35em
-  .date_line
-    color gray
-    font-size 85%
+    width 180px
+    background-color #FFF
+    padding 5px
+    border 1px solid #CCC
+  
+    a
+      position relative
+      display block
+      height 160px
+      overflow hidden
+      background transparent url(/web/img/add_photo.png) no-repeat center center
+      
+  #title_date_description
+    float right
     display inline-block
-  .fr
-    position relative
-    left 3px
+    width 490px
+    h1
+      color #333
+      font-size 174%
+      margin-bottom 0
+    h2
+      background transparent url(/web/img/calendar.gif) no-repeat 2px center
+      padding-left 22px
+      font-size 100%
+      color #333
+      margin-top 0.5em
+    p
+      color #999
+      font-size 131%
+  
+  a.icon
+    position absolute
+    display block
+    width 17px
+    height 17px
+    text-indent -9999px
+  a#edit.icon
+      top 10px
+      right 33px
+      background transparent url(/web/img/sprite5.png) no-repeat center -18px
+  a#favorite.icon
+      top 10px
+      right 10px
+      background transparent url(/web/img/sprite6.png) no-repeat center -121px
 
 ul#friends
-  margin 1em 0 0 0
+  margin 0
   font-size 85%
   font-weight bold
   li.count
-    color gray
+    background transparent url(/web/img/sprite7.png) no-repeat left center
+    padding-left 20px
     margin-bottom 10px
+    font-weight normal
   li.tag_button_container a
     font-size 11px
     margin-bottom 2em
@@ -57,9 +84,9 @@ ul#friends
       padding 0
       display block
       list-style none
-      width 108px
+      width 112px
       height 68px
-      background-color #ECEFF5
+      background-color rgb(242, 242, 242)
       border-left 2px solid #FFF
       border-bottom 2px solid #FFF
       a
@@ -106,21 +133,21 @@ li .profile_pic:hover label
   #select_from_container
     background transparent url(/web/img/gray_px.png) repeat-y center top
     > div.fr
-      width 263px
+      width 272px
     > div.selected
       background-color #ECEFF5
       a:hover
       &:hover
         cursor default
     > div
-      width 264px
+      width 273px
       height 52px
       overflow hidden
       &:hover
         background-color #ECEFF5
         cursor pointer  
       a
-        width 244px
+        width 253px
         display inline-block
         text-align center
         padding 10px
@@ -148,7 +175,7 @@ li .profile_pic:hover label
       background transparent url(/web/img/spinner.gif) no-repeat center center
       li
         display block
-        width 168px
+        width 173px
         height 135px
         list-style none
         float left
@@ -157,36 +184,6 @@ li .profile_pic:hover label
       li.middle
         margin 0 5px
         
-.indicator
-  display none
-  height 18px
-  padding 1px 5px 1px 19px
-  margin-left 3px
-  position absolute
-  background #3b5998 url(/web/img/edit.png) no-repeat 1px 1px
-  font-size 88%
-  color #FFF !important
-  line-height 18px
-  box-shadow rgba(0, 0, 0, 0.30) 1px 1px 1px 0
-  -webkit-box-shadow rgba(0, 0, 0, 0.30) 1px 1px 1px 0
-  -moz-box-shadow rgba(0, 0, 0, 0.30) 1px 1px 1px 0
-  &:hover
-    text-decoration none
-.edit_field
-  display none
-
-#edit_title
-  font-size 16px
-  font-weight bold
-  margin-bottom 8px
-  width 542px
-#start_datepicker
-  display none
-#edit_description
-  width 539px
-  font-size 13px
-  height 150px
-
 .ui-tooltip
 .qtip
   max-width 400px
@@ -198,89 +195,4 @@ li .profile_pic:hover label
     color #3B5998
   a.gs
     font-weight bold
-    
-.ui-tooltip-icon
-  display block !important
-  width 11px !important
-  height 11px !important
-  background transparent url(/web/img/sprite_close.png) no-repeat -11px right !important
-  border 0 !important
-  border-radius 0 !important
-  opacity 0.50
-  &:hover
-    background transparent url(/web/img/sprite_close.png) no-repeat -22px right !important
-    opacity 0.65
-  span
-    text-indent -9999px !important
-    
-#super_main
-  background-color #EDEFF4
-  border-bottom 1px solid #DDE3EC
-  padding 20px
-  margin-bottom 1em
-  position relative
-  
-  #thumb_gallery
-    float left
-    display inline-block
-    width 270px
-    height 150px
-    background-color #FFF
-    padding 5px
-    border 1px solid #CCC
-    
-    ul
-      display block
-      margin 0 0 7px 0
-      height 150px
-      background transparent url(/web/img/add_photo.png) no-repeat center center
-      
-    a.left
-    a.right
-      position relative
-      left -5px
-      font-size 88%
-      display inline-block
-      width 9px
-      height 9px
-      opacity 0.50
-      &:hover
-        opacity 1
-    a.left
-      background transparent url(/web/img/left_right_arrows.png) no-repeat left center
-    a.right
-      background transparent url(/web/img/left_right_arrows.png) no-repeat right center
-  
-  #title_description
-    float right
-    display inline-block
-    width 418px
-    h1
-      color #333
-      font-size 174%
-      margin-bottom 0
-    h2
-      background transparent url(/web/img/calendar.gif) no-repeat 2px center
-      padding-left 22px
-      font-size 100%
-      color #333
-      margin-top 0.5em
-    p
-      color #999
-      font-size 131%
-  
-  a.icon
-    position absolute
-    display block
-    width 17px
-    height 17px
-    text-indent -9999px
-  a#edit.icon
-      top 10px
-      right 33px
-      background transparent url(/web/img/sprite5.png) no-repeat center -18px
-  a#favorite.icon
-      top 10px
-      right 10px
-      background transparent url(/web/img/sprite6.png) no-repeat center -121px
       

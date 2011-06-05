@@ -10501,9 +10501,10 @@ jQuery.cookie = function (key, value, options) {
     $.each(friends, function() {
       if($.inArray(this.id.toString(), selectedFriends) == -1) {
         var name = this.name.replace(/ /, '<br />');
-        $fsf.append('<li data-friend-id="'+this.id+'"><span class="frame"><fb:profile-pic class="image" facebook-logo="false" linked="false" size="square" uid="'+this.id+'"></fb:profile-pic><span class="check"></span></span><span class="name">'+name+'</span></li>');
+        $fsf.append('<li data-friend-id="'+this.id+'"><span class="frame"><fb:profile-pic class="image" facebook-logo="false" linked="false" size="square" uid="'+this.id+'" /><span class="check"></span></span><span class="name">'+name+'</span></li>');
       }      
     });
+    console.log($fsf.attr('id'));
     FB.XFBML.parse(document.getElementById($fsf.attr('id'))); // Newly raising unsafe JS frame access when parsing pictures
     updateSelectedCount();
 
@@ -15381,8 +15382,7 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
     }
     MemoriesController.prototype.show = function() {
       $('#fb_wrapper').html(app.views.memories_show.render().el);
-      app.views.memories_show.datepickers();
-      return app.views.memories_show.tutorial();
+      return app.views.memories_show.datepickers();
     };
     return MemoriesController;
   })();
@@ -15471,7 +15471,7 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
       return _safe(result);
     };
     (function() {
-      _print(_safe('<div id="super_main" class="clearfix">\n  <div id="thumb_gallery">\n    <ul></ul>\n    <a href="#" class="left"></a>\n    <a href="#" class="right"></a>\n  </div>\n  \n  <div id="title_description">\n    <h1>New Memory</h1>\n    <h2>June 2, 2011</h2>\n    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eu orci nisi. Vivamus feugiat purus vel ipsum vestibulum sagittis. Donec et enim sed enim tempor aliquam. Vivamus id nisi tortor. Proin tempus, enim quis commodo euismod, orci eros elementum quam, eu fringilla mi tortor et velit.</p>\n    <script src="http://connect.facebook.net/en_US/all.js#appId=172981519423164&amp;xfbml=1"></script><fb:like href="#" send="true" layout="standard" width="418" show_faces="false"></fb:like>\n  </div>\n  \n  <a href="#" id="edit" class="icon">Edit</a>\n  <a href="#" id="favorite" class="icon">Favorite</a>\n</div>\n\n<div id="fb_comments" class="mtop3">\n  <fb:comments href="http://ryonlife.dyndns.org:8080/#/memories/1" width="760" num_posts="25" />\n</div>\n\n<div id="sidebar">\n  <div id="photo">\n    <a href="#" class="add_photos">\n      <label></label>\n    </a>\n  </div>\n    \n  <ul id="friends">\n    <li class="count">Nobody was there</li>\n    <li class="tag_button_container">\n      <a href="#" id="self_tag" class="button">\n        <span class="tag"></span>\n        I was there!\n      </a>\n      <a href="#" id="tag_friends" class="button hide" data-step="3" data-stepped="false">\n        <span class="tag"></span>\n        Tag Friends (1)\n      </a>\n    </li>\n  </ul>\n</div>\n\n<div id="main">\n  \n  <header>\n    <div id="header" class="clearfix">\n      <h1 id="title" class="editable" data-step="1" data-stepped="false">New Memory</h1>\n      <input id="edit_title" class="edit_field" type="text" />\n      \n      <br/>\n      <p class="date_line editable" id="start_date" data-step="2" data-stepped="false"></p>\n      <div id="start_datepicker" class="datepicker"></div>\n    </div>\n  </header>\n  \n  <div id="photos" class="clearfix">\n    <ul class="clearfix">\n      <li></li>\n      <li></li>\n      <li></li>\n      <li></li>\n      <li><a href="/web/img/add_photo.png" class="add_photos"></a></li>\n    </ul>\n    \n    <a href="#" id="show_photos" class="fl"></a>\n    <a href="#" id="add_photos" class="add_photos fr" data-step="5" data-stepped="false">Add Photos</a>\n  </div>\n  \n  <p id="description" class="editable mirror" data-step="4" data-stepped="false">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eu orci nisi. Vivamus feugiat purus vel ipsum vestibulum sagittis. Donec et enim sed enim tempor aliquam. Vivamus id nisi tortor. Proin tempus, enim quis commodo euismod, orci eros elementum quam, eu fringilla mi tortor et velit.</p>\n  <textarea id="edit_description" class="edit_field"></textarea>\n  \n\n    \n</div>\n\n<a href="#" class="indicator">Edit</a>\n'));
+      _print(_safe('<div id="header" class="clearfix">\n  <div id="photo">\n    <a href="#" class="add_photos"><label></label></a>\n  </div>\n\n  <div id="title_date_description">\n    <header>\n      <h1>New Memory</h1>\n      <h2>June 2, 2011</h2>\n      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eu orci nisi. Vivamus feugiat purus vel ipsum vestibulum sagittis. Donec et enim sed enim tempor aliquam. Vivamus id nisi tortor. Proin tempus, enim quis commodo euismod, orci eros elementum quam, eu fringilla mi tortor et velit.</p>\n    </header>\n    <fb:like href="#" send="true" layout="standard" width="418" show_faces="false"></fb:like>\n  </div>\n  \n  <a href="#" id="edit" class="icon">Edit</a>\n  <a href="#" id="favorite" class="icon">Favorite</a>\n</div>\n\n<div id="sidebar">\n  <ul id="friends">\n    <li class="count">Nobody was there.</li>\n    <li class="tag_button_container">\n      <a href="#" id="self_tag" class="button">\n        <span class="tag"></span>\n        I was there!\n      </a>\n      <a href="#" id="tag_friends" class="button hide" data-step="3" data-stepped="false">\n        <span class="tag"></span>\n        Tag Friends (1)\n      </a>\n    </li>\n  </ul>\n</div>\n\n<div id="content">\n  <div id="photos" class="clearfix">\n    <ul class="clearfix">\n      <li></li>\n      <li></li>\n      <li></li>\n      <li></li>\n      <li><a href="/web/img/add_photo.png" class="add_photos"></a></li>\n    </ul>\n    <a href="#" id="show_photos" class="fl"></a>\n    <a href="#" id="add_photos" class="add_photos fr" data-step="5" data-stepped="false">Add Photos</a>\n  </div>\n    \n  <div id="fb_comments" class="mtop3">\n    <fb:comments href="http://ryonlife.dyndns.org:8080/#/memories/1" width="571" num_posts="25" />\n  </div>\n</div>'));
     }).call(this);
     
     return __out.join('');
@@ -15676,16 +15676,20 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
             _ref2 = photos.images;
             for (_j = 0, _len2 = _ref2.length; _j < _len2; _j++) {
               photo = _ref2[_j];
+              if (photo.width <= 720 && !p.xlarge) {
+                p.xlarge = photo;
+              }
               if (photo.width <= 720 && !p.large) {
                 p.large = photo;
-              } else if (photo.width <= 180 && !p.medium) {
+              }
+              if (photo.width <= 180 && !p.medium) {
                 p.medium = photo;
-              } else if (photo.width <= 130 && !p.small) {
+              }
+              if (photo.width <= 130 && !p.small) {
                 p.small = photo;
-                break;
               }
             }
-            $photo = $('<li></li>').attr('data-id', photos.id).attr('data-small', p.small.source).attr('data-medium', p.medium.source).attr('data-large', p.large.source).css('background', '#000 url(' + p.medium.source + ') no-repeat center center');
+            $photo = $('<li></li>').attr('data-id', photos.id).attr('data-small', p.small.source).attr('data-medium', p.medium.source).attr('data-large', p.large.source).attr('data-xlarge', p.xlarge.source).css('background', '#000 url(' + p.medium.source + ') no-repeat center center');
             $('#photo_choices ul').append($photo);
           }
           $('#photo_choices ul li:nth-child(3n+2)').addClass('middle');
@@ -15721,12 +15725,12 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
           return $photo.removeClass('add_photos').addClass('fb_gallery').css({
             backgroundImage: 'url(' + $el.attr('data-medium') + ')',
             height: image.height
-          }).attr('href', $el.attr('data-large'));
+          }).attr('href', $el.attr('data-medium'));
         };
         return image.src = $el.attr('data-medium');
-      } else if (!$photos.find('a[href="' + $el.attr('data-large') + '"]').length) {
+      } else if (!$photos.find('a[href="' + $el.attr('data-xlarge') + '"]').length) {
         background = '#000 url(' + $el.attr('data-small') + ') no-repeat center center';
-        $link = $('<a href="' + $el.attr('data-large') + '" class="fb_gallery"><label></label></a>');
+        $link = $('<a href="' + $el.attr('data-xlarge') + '" class="fb_gallery"><label></label></a>');
         if ($photos.find('a.fb_gallery').length < $photos.length) {
           $photos.each(function() {
             var $this;
@@ -15795,142 +15799,13 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
       'click a#show_photos': 'showPhotos',
       'click a.add_photos': 'showPhotoSelector',
       'click a.fb_gallery': 'showGallery',
-      'click a.fb_gallery label': 'removePhoto',
-      'mouseover .editable': 'showIndicator',
-      'mouseout .editable': 'hideIndicator',
-      'mouseover .indicator': 'markHovered',
-      'mouseout .indicator': 'markNotHovered',
-      'click .indicator': 'triggerEdit',
-      'click .editable': 'showEdit',
-      'keyup .edit_field': 'saveEdit',
-      'click a#help': 'resumeTutorial'
+      'click a.fb_gallery label': 'removePhoto'
     };
     MemoriesShowView.prototype.render = function() {
       var $el;
       $el = $(this.el).html(memoriesShowTemplate());
       $el.find('#photos').after(app.views.memories_show_photo_selector.render().el);
       return this;
-    };
-    MemoriesShowView.prototype.tutorial = function() {
-      var that;
-      return;
-      that = this;
-      $(this.el).qtip({
-        id: 'tutorial',
-        content: {
-          text: '<p>This is a blank canvas for recording a memory.</p><p>As your collection of memories builds, there are cool ways to visualize it, like timelines and calendars.</p><p class="tar"><a href="#" class="gs" id="next">Click here to get started &raquo;</a></p>',
-          title: {
-            text: 'Getting Started',
-            button: true
-          }
-        },
-        position: {
-          my: 'top left',
-          at: 'bottom left',
-          target: $('[data-step=1]')
-        },
-        style: {
-          classes: 'ui-tooltip-shadow ui-tooltip-default'
-        },
-        show: {
-          event: false,
-          ready: true
-        },
-        hide: false,
-        events: {
-          render: function(e, api) {
-            api.step = -1;
-            return api.elements.tooltip.bind('next prev', function(e) {
-              return that.setTutorialStep(api, e);
-            });
-          }
-        }
-      });
-      return $('#next, #prev').live('click', function(e) {
-        e.preventDefault();
-        return $('#ui-tooltip-tutorial').triggerHandler(this.id);
-      });
-    };
-    MemoriesShowView.prototype.setTutorialStep = function(api, e, step) {
-      var current, match, steps, text;
-      if (step == null) {
-        step = null;
-      }
-      steps = [
-        {
-          target: $('[data-step=1]'),
-          title: 'Step 1: Title',
-          content: '<p>Your memory needs a title.</p><p>Click <strong class="mirror"></strong> to edit the title, then press the <strong>return/enter</strong> key when you\'re done.</p><p class=\"clearfix tar\"><a href=\"#\" id=\"next\">Step 2 &raquo;</a></p>',
-          my: 'top left',
-          at: 'bottom left'
-        }, {
-          target: $('[data-step=2]'),
-          title: 'Step 2: Date',
-          content: '<p>When did it happen?</p><p>Click <strong class="mirror"></strong>, then use the calendar to select the date when your memory took place.</p><p class=\"clearfix tar\"><a href=\"#\" id=\"prev\">&laquo; Step 1</a>&nbsp;|&nbsp;<a href=\"#\" id=\"next\" class=\"fr\">Step 3 &raquo;</a></p>',
-          my: 'top left',
-          at: 'bottom left'
-        }, {
-          target: $('[data-step=3]'),
-          title: 'Step 3: Friends',
-          content: '<p>Who was there?</p><p>Click the <strong>Tag Friends</strong> button to select the friends who were with you to experience this memory.</p><p class=\"clearfix tar\"><a href=\"#\" id=\"prev\">&laquo; Step 2</a>&nbsp;|&nbsp;<a href=\"#\" id=\"next\" class=\"fr\">Step 4 &raquo;</a></p>',
-          my: 'top left',
-          at: 'bottom left'
-        }, {
-          target: $('[data-step=4]'),
-          title: 'Step 4: Description',
-          content: '<p>Your memory needs a description.</p><p>Click the <strong class="mirror"></strong> text to edit the description, then press the <strong>return/enter</strong> key when you\'re done.</p><p class=\"clearfix tar\"><a href=\"#\" id=\"prev\">&laquo; Step 3</a>&nbsp;|&nbsp;<a href=\"#\" id=\"next\" class=\"fr\">Step 5 &raquo;</a></p>',
-          my: 'top left',
-          at: 'bottom left'
-        }, {
-          target: $('[data-step=5]'),
-          title: 'Step 5: Photos',
-          content: '<p>Your memory needs photos.</p><p>Click the <strong>Add Photos</strong> link to browse and select from your Facebook photos.</p><p class=\"clearfix tar\"><a href=\"#\" id=\"prev\">&laquo; Step 4</a></p>',
-          my: 'top right',
-          at: 'bottom right'
-        }
-      ];
-      if (!step) {
-        api.step += e.type === 'next' ? 1 : -1;
-        api.step = Math.min(steps.length - 1, Math.max(0, api.step));
-      } else {
-        api.step = step - 1;
-      }
-      current = steps[api.step];
-      if (current) {
-        api.set('content.text', current.content);
-        api.set('content.title.text', current.title);
-        api.set('position.target', current.target);
-        api.set('position.my', current.my);
-        api.set('position.at', current.at);
-      }
-      text = $(current.target).text();
-      match = text.match(/^(\w+\b.*?){3}/);
-      if (match) {
-        text = match[0].length < text.length ? match[0] + '...' : match[0];
-      }
-      return api.elements.tooltip.find('.mirror').text(text);
-    };
-    MemoriesShowView.prototype.resumeTutorial = function(e) {
-      var lowestStep;
-      if (e == null) {
-        e = null;
-      }
-      if (e) {
-        e.preventDefault();
-      }
-      lowestStep = null;
-      $('[data-stepped=false]').each(function(i, step) {
-        var $step, stepNumber;
-        $step = $(step);
-        stepNumber = parseInt($step.attr('data-step'));
-        if (!lowestStep || lowestStep > stepNumber) {
-          return lowestStep = stepNumber;
-        }
-      });
-      if (lowestStep) {
-        this.setTutorialStep($('#memories_show_view').qtip('api'), null, lowestStep);
-        return $('#memories_show_view').qtip('show');
-      }
     };
     MemoriesShowView.prototype.datepickers = function() {
       var duckPunch, that;
@@ -16001,8 +15876,7 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
       }
       FB.XFBML.parse(document.getElementById('friends'));
       $('.tag_button_container').after($friends.find("li[data-fb-id=" + USER.ME.id + "]"));
-      this.updateFriendCount();
-      return this.resumeTutorial();
+      return this.updateFriendCount();
     };
     MemoriesShowView.prototype.selfTag = function(e) {
       e.preventDefault();
@@ -16021,7 +15895,7 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
       $friends.find('[data-fb-id]').each(function() {
         return postFbIds.push($(this).attr('data-fb-id'));
       });
-      friendsPresent = !postFbIds.length ? 'nobody was there' : postFbIds.length === 1 ? '1 person was there' : postFbIds.length + ' people were there';
+      friendsPresent = !postFbIds.length ? 'Nobody was there.' : postFbIds.length === 1 ? '1 person was there.' : postFbIds.length + ' people were there.';
       $friends.find('.count').text(friendsPresent);
       $button.html('<span class="tag"></span> Tag Friends').css({
         'width': 'auto',
@@ -16078,7 +15952,7 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
       if ($el.parents('#photo').length) {
         return $el.parent().removeClass('fb_gallery').addClass('add_photos').css({
           backgroundImage: 'url(/web/img/add_photo.png)',
-          height: 120
+          height: 160
         }).attr('href', '#');
       } else {
         $el.parents('li').css('background', '#ECEFF5').html('');
@@ -16102,67 +15976,6 @@ g[p];K.insertBefore(B,K.firstChild);B.styleSheet.cssText=k(b.styleSheets,"all").
         if ($photos.length <= 5) {
           return $('a#show_photos').text('');
         }
-      }
-    };
-    MemoriesShowView.prototype.showIndicator = function(e) {
-      var $el, $indicator, $view, left, top;
-      if (!$('.edit_field:visible').length && !$('#start_datepicker:visible').length && !$('#ui-tooltip-tutorial:visible').length) {
-        clearTimeout(this.timeout);
-        $el = $(e.currentTarget);
-        $view = $(this.el);
-        $indicator = $('.indicator');
-        if ($el.is('#description')) {
-          left = $el.offset().left - 3;
-          top = $el.offset().top + $el.height() + 2;
-        } else {
-          left = $el.offset().left + $el.width();
-          top = $el.height() >= 18 ? $el.offset().top + ($el.height() - 18) / 2 : $el.offset().top - (18 - $el.height()) / 2;
-        }
-        return $indicator.show().css({
-          left: left,
-          top: top
-        }).data('target', e.currentTarget);
-      }
-    };
-    MemoriesShowView.prototype.hideIndicator = function(e) {
-      return this.timeout = setTimeout(function() {
-        var $indicator;
-        $indicator = $('.indicator');
-        if (!$indicator.data('hovered')) {
-          return $indicator.hide();
-        }
-      }, 250);
-    };
-    MemoriesShowView.prototype.markHovered = function(e) {
-      return $(e.currentTarget).data('hovered', true);
-    };
-    MemoriesShowView.prototype.markNotHovered = function(e) {
-      return $(e.currentTarget).data('hovered', false).hide();
-    };
-    MemoriesShowView.prototype.triggerEdit = function(e) {
-      var $el;
-      e.preventDefault();
-      $el = $(e.currentTarget).data('hovered', false).hide();
-      return $($el.data('target')).trigger('click');
-    };
-    MemoriesShowView.prototype.showEdit = function(e) {
-      var $el, $field;
-      if (!$('.edit_field:visible').length && !$('#start_datepicker:visible').length) {
-        $el = $(e.currentTarget);
-        $el.attr('data-stepped', 'true').hide();
-        $('.indicator').trigger('mouseout');
-        $field = $el.next();
-        $field.show().val($el.text()).select();
-        return $('#memories_show_view').qtip('hide');
-      }
-    };
-    MemoriesShowView.prototype.saveEdit = function(e) {
-      var $el, $target, text;
-      if (e.keyCode === 13) {
-        $el = $(e.currentTarget).hide();
-        text = $.trim($el.val()) || '...';
-        $target = $("#" + ($el.attr('id').substr(5))).text(text).show();
-        return this.resumeTutorial();
       }
     };
     return MemoriesShowView;
