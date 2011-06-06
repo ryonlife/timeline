@@ -1,9 +1,9 @@
-<li data-fb-id="<%= @friendId %>">
+<li data-fb-id="<%= @friend.id %>">
   <div class="profile_pic">
     <label></label>
-    <fb:profile-pic class="image" facebook-logo="false" linked="false" size="square" uid="<%= @friendId %>" />
+    <img src="http://graph.facebook.com/<%= @friend.id %>/picture?type=square" width="50" height="50" />
   </div>
   <div class="name" >
-    <fb:name uid="<%= @friendId %>" useyou="false" />
+    <a href="<%= @friend.link %>"><%= @friend.name %></a>
   </div>
 </li>

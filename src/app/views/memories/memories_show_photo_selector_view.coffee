@@ -100,7 +100,7 @@ class exports.MemoriesShowPhotoSelectorView extends Backbone.View
     $photo = $('#photo a.add_photos')
     $photos = $('#photos li')
     
-    if $photo.length
+    if $photo.length and not $photos.find('a[href="'+$el.attr('data-xlarge')+'"]').length
       # There is no main photo for the memory, so add it
 
       image = new Image()
@@ -109,7 +109,7 @@ class exports.MemoriesShowPhotoSelectorView extends Backbone.View
           .removeClass('add_photos')
           .addClass('fb_gallery')
           .css({backgroundImage: 'url('+$el.attr('data-medium')+')', height: image.height})
-          .attr('href', $el.attr('data-medium'))
+          .attr('href', $el.attr('data-xlarge'))
       image.src = $el.attr('data-medium')
     
     else if not $photos.find('a[href="'+$el.attr('data-xlarge')+'"]').length

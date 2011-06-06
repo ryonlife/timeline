@@ -14,10 +14,27 @@ class exports.MemoriesShowView extends Backbone.View
     'click a.add_photos': 'showPhotoSelector'
     'click a.fb_gallery': 'showGallery'
     'click a.fb_gallery label': 'removePhoto'
+    
+    'click #edit': 'editMemory'
+    'submit #memory_edit form': 'updateTitleDescription'
+    'click input[type=button]': 'cancelUpdateTitleDescription'
+    
+    'click #favorite': 'updateFavorite'
       
   render: ->
     $el = $(@el).html memoriesShowTemplate()
     $el.find('#photos').after app.views.memories_show_photo_selector.render().el
+    
+    $el.find('a[title]').qtip
+      position:
+        my: 'top right'
+        at: 'bottom left'
+        adjust:
+          x: 5
+      style:
+        classes: 'ui-tooltip-dark ui-tooltip-shadow'
+    $el.find('label').css('display', 'block') if not Modernizr.input.placeholder
+    
     @
     
   datepickers: ->
@@ -43,20 +60,52 @@ class exports.MemoriesShowView extends Backbone.View
         dayNamesMin: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
         showAnim: ''
         altFormat: 'MM d, yy'
+        dateFormat: 'MM d, yy'
         altField: '#'+$(this).attr('id').slice(0, -6)
         maxDate: 0
         minDate: new Date(birthdayParts[2], birthdayParts[0] - 1, birthdayParts[1])
         yearRange: birthdayParts[2].toString()+':-nn:+nn'
-        onSelect: (dateText, datepicker) ->
-          # Hide the datepicker and display the element containing the date in plain text, and mark stepped for the tutorial
-          $(@)
-            .hide()
-            .prev()
-              .show()
-              .attr('data-stepped', 'true')
-          that.resumeTutorial()
       $this.datepicker options
-      
+  
+  editMemory: (e) ->
+    e.preventDefault()
+    $('#edit_title').val($('#title').text())
+    $('#edit_description').val($('#description').text())
+    $('.datepicker').datepicker('setDate', $('#start_date').text())
+    $('.datepicker').data('priorDate', $('#start_date').text())
+    $('#edit').first().qtip('toggle')
+    $('#memory_header').hide()
+    $('#memory_edit').fadeIn()
+  
+  updateTitleDescription: (e) ->
+    e.preventDefault()
+    title = $.trim($('#edit_title').val())
+    description = $.trim($('#edit_description').val())
+    if title and description
+      $('#title').text(title)
+      $('#description').text(description)
+      $('#memory_edit').hide()
+      $('#memory_header').fadeIn()
+  
+  cancelUpdateTitleDescription: (e) ->
+    $('#start_date').text($('.datepicker').data('priorDate'))
+    $('#memory_edit').hide()
+    $('#memory_header').fadeIn()
+  
+  updateFavorite: (e) ->
+    e.preventDefault()
+    $el = $(e.currentTarget)
+    if $el.attr('data-favorite') == 'true'
+      $el
+        .attr('title', 'Add this memory to your favorites.')
+        .attr('data-favorite', 'false')
+        .css('opacity', 0.5)
+    else
+      $el
+        .attr('title', 'Remove this memory from your favorites.')
+        .attr('data-favorite', 'true')
+        .css('opacity', 1)
+  
   showFriendSelector: (e) ->
     e.preventDefault()
     
@@ -67,7 +116,7 @@ class exports.MemoriesShowView extends Backbone.View
       .attr('data-stepped', 'true')
       .fbFriendSelector(USER.FRIENDS.data, selectedFriends)
   
-  updateFriendSelections: (e, newFriendIds) ->
+  updateFriendSelections: (e, newFriends) ->
     $el = $(e.currentTarget)
     $friends = $('ul#friends')
     
@@ -76,9 +125,9 @@ class exports.MemoriesShowView extends Backbone.View
     $friends.find('[data-fb-id]').each -> preFbIds.push($(@).attr('data-fb-id'))
     
     # Insert new friends into the list
-    for friendId in newFriendIds
-      if friendId not in preFbIds
-        profilePic = memoriesShowProfilePicTemplate {friendId}
+    for friend in newFriends
+      if friend.id not in preFbIds
+        profilePic = memoriesShowProfilePicTemplate {friend}
         $friends.find('li.tag_button_container').after(profilePic)
     FB.XFBML.parse document.getElementById('friends')
     
@@ -90,7 +139,7 @@ class exports.MemoriesShowView extends Backbone.View
   selfTag: (e) ->
     e.preventDefault()
     $(e.currentTarget).hide()
-    $('a#tag_friends').removeClass('hide').trigger('friendSelection', [[USER.ME.id]])
+    $('a#tag_friends').removeClass('hide').trigger('friendSelection', [[{id: USER.ME.id, name: USER.ME.name, link: USER.ME.link}]])
   
   removeTag: (e) ->
     $(e.currentTarget).parents('li').remove()
@@ -171,14 +220,9 @@ class exports.MemoriesShowView extends Backbone.View
       
       # Remove the thumbnail
       $el.parents('li')
-        .css('background', '#ECEFF5')
+        .css('background', 'rgb(242, 242, 242)')
         .html('')
       
-      # Put the add photos icon back in the fifth square, if it no longer has a thumbnail in it
-      $fifthSquare = $('#photos ul li:nth-child(5)')
-      if not $fifthSquare.find('a.fb_gallery').length
-        $fifthSquare.html('<a href="/web/img/add_photo.png" class="add_photos"></a>')
-        
       # Remove any entirely blank rows
       squares = Math.ceil($('#photos a.fb_gallery').length / 5) * 5 - 1
       $('#photos ul li:gt('+squares+')').remove()
@@ -190,11 +234,16 @@ class exports.MemoriesShowView extends Backbone.View
         $priorPhotoContainer = $this.parent().prev().filter('li')
         if $priorPhotoContainer.length and not $priorPhotoContainer.find('a').length
           bg = $this.parent().css('background-image')
-          $this.parent().css('background', '#ECEFF5')
+          $this.parent().css('background', 'rgb(242, 242, 242)')
           $priorPhotoContainer
             .css('background-image', bg)
             .append($this)
 
       # No need for a hide photos link when there is only a single row in the grid
       $('a#show_photos').text('') if $photos.length <= 5
+      
+      # Put the add photos icon back in the fifth square, if it no longer has a thumbnail in it
+      $fifthSquare = $('#photos ul li:nth-child(5)')
+      if not $fifthSquare.find('a.fb_gallery').length
+        $fifthSquare.html('<a href="/web/img/add_photo.png" class="add_photos"></a>')
       

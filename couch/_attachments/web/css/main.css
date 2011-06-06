@@ -34,18 +34,23 @@ a.button span.tag,a.button:visited span.tag{display:inline-block;position:relati
 a.button:hover,a.button:visited:hover{text-decoration:none}
 input,textarea,select{font-size:85%;border:1px solid #bdc7d8;padding:3px;outline:none;}
 input.wide,textarea.wide,select.wide{width:595px}
-select{padding:0 4px;margin:0 2px}
+select{padding:0 4px;margin:0 2px;border:0}
 a.form_button,a.form_button:visited,input.submit{font-size:13px;display:inline-block;color:#fff;width:auto;height:25px;line-height:23px;padding:0 6px;font-weight:bold;color:#fff;background:transparent url("/web/img/sprite2.png") repeat-x 0 -48px;border:1px solid #000;border-top-color:#29447e;border-right-color:#29447e;border-bottom-color:#1a356e;border-left-color:#29447e;-webkit-box-shadow:rgba(0,0,0,0.0976562) 0 1px 0 0;cursor:pointer;}
 a.form_button:hover,a.form_button:visited:hover,input.submit:hover{text-decoration:none}
+label{font-weight:bold;font-size:108%;display:none;margin-bottom:2px}
 #header #photo{float:left;display:inline-block;width:180px;background-color:#fff;padding:5px;border:1px solid #ccc;}
 #header #photo a{position:relative;display:block;height:160px;overflow:hidden;background:transparent url("/web/img/add_photo.png") no-repeat center center}
 #header #title_date_description{float:right;display:inline-block;width:490px;}
-#header #title_date_description h1{color:#333;font-size:174%;margin-bottom:0}
+#header #title_date_description h1{color:#333;font-size:174%;margin-bottom:0;max-width:440px}
 #header #title_date_description h2{background:transparent url("/web/img/calendar.gif") no-repeat 2px center;padding-left:22px;font-size:100%;color:#333;margin-top:.5em}
-#header #title_date_description p{color:#999;font-size:131%}
+#header #title_date_description p{color:#999;font-size:131%;white-space:pre-line}
 #header a.icon{position:absolute;display:block;width:17px;height:17px;text-indent:-9999px}
 #header a#edit.icon{top:10px;right:33px;background:transparent url("/web/img/sprite5.png") no-repeat center -18px}
 #header a#favorite.icon{top:10px;right:10px;background:transparent url("/web/img/sprite6.png") no-repeat center -121px}
+#header #memory_edit{display:none;}
+#header #memory_edit input#edit_title{display:block;font-size:174%;font-weight:bold;width:482px;margin-bottom:1em}
+#header #memory_edit textarea#edit_description{display:block;font-size:131%;width:482px;margin-bottom:1em;height:150px}
+#header #memory_edit .fr{width:490px}
 ul#friends{margin:0;font-size:85%;font-weight:bold;}
 ul#friends li.count{background:transparent url("/web/img/sprite7.png") no-repeat left center;padding-left:20px;margin-bottom:10px;font-weight:normal}
 ul#friends li.tag_button_container a{font-size:11px;margin-bottom:2em}
@@ -81,7 +86,7 @@ li .profile_pic:hover label{left:3px}
 .ui-tooltip p:last-of-type,.qtip p:last-of-type{margin-bottom:.5em}
 .ui-tooltip a,.qtip a{color:#3b5998}
 .ui-datepicker-trigger{display:none}
-.ui-datepicker{padding:0;-webkit-border-radius:0;-moz-border-radiius:0;border-radius:0;width:189px;margin-top:3px;border-top:1px solid #3a589b;border-bottom:2px solid #3a589b;}
+.ui-datepicker{padding:0;-webkit-border-radius:0;-moz-border-radiius:0;border-radius:0;width:190px;border-top:1px solid #3a589b;border-bottom:2px solid #3a589b;}
 .ui-datepicker .ui-widget-header{background:#6d84b4;color:#555;border:0;-webkit-border-radius:0;-moz-border-radiius:0;border-radius:0;aaa}
 .ui-datepicker .ui-widget-header .ui-datepicker-prev,.ui-datepicker .ui-widget-header a.ui-datepicker-next{border-color:#ff0;-webkit-border-radius:0;-moz-border-radiius:0;border-radius:0;width:6px;height:11px;border:1px solid transparent;}
 .ui-datepicker .ui-widget-header .ui-datepicker-prev:hover,.ui-datepicker .ui-widget-header a.ui-datepicker-next:hover{background:transparent;cursor:pointer}
@@ -98,6 +103,7 @@ li .profile_pic:hover label{left:3px}
 .ui-datepicker .ui-datepicker-calendar a:hover{color:#3b5998;border-color:#bec8dd;background-color:#dfe4ee}
 .ui-datepicker .ui-datepicker-calendar a.ui-state-active{background-color:#ddd;font-weight:bold}
 .ui-datepicker .ui-datepicker-calendar .ui-datepicker-unselectable span{font-size:85%;text-align:center;padding:3px 0 2px 0}
+a.ui-state-default.ui-state-highlight.ui-state-active{border-color:#bec8dd}
 #dialog{display:inline-block;border:8px solid #868686;-moz-border-radius:8px;-webkit-border-radius:8px;border-radius:8px;position:fixed;top:50%;left:50%;}
 #dialog > div{border:1px solid #3b5998;}
 #dialog > div h3{font-size:108%;color:#fff;background-color:#6d84b4;padding:5px 10px;margin:0}
@@ -107,8 +113,8 @@ li .profile_pic:hover label{left:3px}
 #friend_selector #friend_selector_controls a{font-size:85%;font-weight:bold;float:right;height:20px;line-height:20px;padding:0 4px;border:1px solid #f7f7f7}
 #friend_selector #friend_selector_controls a.highlight{background-color:#6d84b4;-webkit-border-radius:5px;-moz-border-radiius:5px;border-radius:5px;color:#fff;cursor:default;border:1px solid #6d84b4;}
 #friend_selector #friend_selector_controls a.highlight:hover{text-decoration:none}
-#friend_selector #friend_selector_controls a.clear_search{background:url("/web/img/sprite1.png") no-repeat -846px -67px;display:block;width:9px;height:9px;margin-top:6px;position:relative;padding:0;}
-#friend_selector #friend_selector_controls a.clear_search:hover{background:url("/web/img/sprite1.png") no-repeat -834px -67px}
+#friend_selector #friend_selector_controls a.clear_search{background:url("/web/img/sprite1.png") no-repeat -834px -67px;opacity:.4;display:block;width:9px;height:9px;margin-top:6px;position:relative;padding:0;}
+#friend_selector #friend_selector_controls a.clear_search:hover{background:url("/web/img/sprite1.png") no-repeat -834px -67px;opacity:1}
 #friend_selector ul{margin:0;padding:3px 3px 0 3px;font-size:85%;height:210px;overflow-y:auto;border-top:1px solid #c1c1c1;border-bottom:1px solid #c1c1c1;background-color:#fff;}
 #friend_selector ul li{list-style-type:none;width:134px;height:64px;margin:3px;float:left;}
 #friend_selector ul li:hover{background-image:url("/web/img/friend_selector_hover.gif");cursor:pointer;}

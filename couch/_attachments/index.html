@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE HTML>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -25,8 +25,6 @@
         FB.init({appId: '121822724510409', status: true, cookie: true, xfbml: true});
         FB.Canvas.setAutoResize();
         
-        FB.XFBML.parse(document.body, function() { XfbmlParsed(); });
-        
         window.USER = {};
         
         FB.api('/me', function(response) {
@@ -48,8 +46,6 @@
         e.src = document.location.protocol+'//connect.facebook.net/en_US/all.js';
         document.getElementById('fb-root').appendChild(e);
       }());
-      
-      function XfbmlParsed() { }
     </script>
     
   </body>

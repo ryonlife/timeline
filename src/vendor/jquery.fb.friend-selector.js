@@ -74,11 +74,9 @@
     $.each(friends, function() {
       if($.inArray(this.id.toString(), selectedFriends) == -1) {
         var name = this.name.replace(/ /, '<br />');
-        $fsf.append('<li data-friend-id="'+this.id+'"><span class="frame"><fb:profile-pic class="image" facebook-logo="false" linked="false" size="square" uid="'+this.id+'" /><span class="check"></span></span><span class="name">'+name+'</span></li>');
-      }      
+        $fsf.append('<li data-friend-id="'+this.id+'" data-friend-name="'+this.name+'" data-friend-link="'+this.link+'"><span class="frame"><img src="http://graph.facebook.com/'+this.id+'/picture?type=square" width="50" height="50" /><span class="check"></span></span><span class="name">'+name+'</span></li>');
+      }
     });
-    console.log($fsf.attr('id'));
-    FB.XFBML.parse(document.getElementById($fsf.attr('id'))); // Newly raising unsafe JS frame access when parsing pictures
     updateSelectedCount();
 
     // Search for friends
@@ -111,12 +109,13 @@
     // Close button
     $fs.find('.form_button').click(function() {
 
-      friend_ids = [];
+      friends = [];
       $fsf.find('li.selected').each(function() {
-        friend_ids.push($(this).attr('data-friend-id'));
+        $friend = $(this);
+        friends.push({id: $friend.attr('data-friend-id'), name: $friend.attr('data-friend-name'), link: $friend.attr('data-friend-link')});
       });
 
-      $button.trigger('friendSelection', [friend_ids])
+      $button.trigger('friendSelection', [friends])
 
       // Remove dialog
       $('#dialog').remove();
