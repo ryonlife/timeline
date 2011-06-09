@@ -16459,14 +16459,19 @@ window.Modernizr = (function( window, document, undefined ) {
     return child;
   };
   exports.MemoriesController = (function() {
+    function MemoriesController() {
+      MemoriesController.__super__.constructor.apply(this, arguments);
+    }
     __extends(MemoriesController, Backbone.Controller);
     MemoriesController.prototype.routes = {
       '/memories/:id': 'show'
     };
-    function MemoriesController() {
-      MemoriesController.__super__.constructor.apply(this, arguments);
-    }
     MemoriesController.prototype.show = function() {
+      var id;
+      id = location.hash.split('/')[2];
+      app.views.memories_show.model = new app.models.memory({
+        id: id
+      });
       $('#fb_wrapper').html(app.views.memories_show.render().el);
       return app.views.memories_show.datepickers();
     };
@@ -16480,6 +16485,7 @@ window.Modernizr = (function( window, document, undefined ) {
   app.models = {};
   app.collections = {};
   app.views = {};
+  app.models.memory = require('models/memory').Memory;
   HomeController = require('controllers/home_controller').HomeController;
   HomeIndexView = require('views/home/home_index_view').HomeIndexView;
   MemoriesController = require('controllers/memories_controller').MemoriesController;
@@ -16496,6 +16502,30 @@ window.Modernizr = (function( window, document, undefined ) {
     app.initialize();
     return Backbone.history.start();
   });
+}).call(this);
+}, "models/memory": function(exports, require, module) {(function() {
+  var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
+    for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
+    function ctor() { this.constructor = child; }
+    ctor.prototype = parent.prototype;
+    child.prototype = new ctor;
+    child.__super__ = parent.prototype;
+    return child;
+  };
+  exports.Memory = (function() {
+    function Memory() {
+      Memory.__super__.constructor.apply(this, arguments);
+    }
+    __extends(Memory, Backbone.Model);
+    Memory.prototype.defaults = {
+      title: null,
+      date: null,
+      description: null,
+      friends: [],
+      photos: []
+    };
+    return Memory;
+  })();
 }).call(this);
 }, "templates/home/home_index": function(exports, require, module) {module.exports = function(__obj) {
   var _safe = function(value) {
@@ -16893,6 +16923,11 @@ window.Modernizr = (function( window, document, undefined ) {
       'click input[type=button]': 'cancelUpdateTitleDescription',
       'click #favorite': 'updateFavorite'
     };
+    MemoriesShowView.prototype.serialize = function() {
+      return this.model.set({
+        'title': 'test'
+      });
+    };
     MemoriesShowView.prototype.render = function() {
       var $el;
       $el = $(this.el).html(memoriesShowTemplate());
@@ -16912,6 +16947,8 @@ window.Modernizr = (function( window, document, undefined ) {
       if (!Modernizr.input.placeholder) {
         $el.find('label').css('display', 'block');
       }
+      this.serialize();
+      console.log(this.model);
       return this;
     };
     MemoriesShowView.prototype.datepickers = function() {

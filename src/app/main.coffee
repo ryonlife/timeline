@@ -4,6 +4,8 @@ app.models = {}
 app.collections = {}
 app.views = {}
 
+app.models.memory = require('models/memory').Memory
+
 HomeController = require('controllers/home_controller').HomeController
 HomeIndexView = require('views/home/home_index_view').HomeIndexView
 

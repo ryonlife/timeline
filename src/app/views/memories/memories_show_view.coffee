@@ -20,7 +20,10 @@ class exports.MemoriesShowView extends Backbone.View
     'click input[type=button]': 'cancelUpdateTitleDescription'
     
     'click #favorite': 'updateFavorite'
-      
+  
+  serialize: ->
+    @model.set {'title': 'test'}
+  
   render: ->
     $el = $(@el).html memoriesShowTemplate()
     $el.find('#photos').after app.views.memories_show_photo_selector.render().el
@@ -34,6 +37,9 @@ class exports.MemoriesShowView extends Backbone.View
       style:
         classes: 'ui-tooltip-dark ui-tooltip-shadow'
     $el.find('label').css('display', 'block') if not Modernizr.input.placeholder
+    
+    @serialize()
+    console.log @model
     
     @
     
