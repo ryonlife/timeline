@@ -37,7 +37,7 @@ input.wide,textarea.wide,select.wide{width:595px}
 select{padding:0 4px;margin:0 2px;border:0}
 a.form_button,a.form_button:visited,input.submit{font-size:13px;display:inline-block;color:#fff;width:auto;height:25px;line-height:23px;padding:0 6px;font-weight:bold;color:#fff;background:transparent url("/web/img/sprite2.png") repeat-x 0 -48px;border:1px solid #000;border-top-color:#29447e;border-right-color:#29447e;border-bottom-color:#1a356e;border-left-color:#29447e;-webkit-box-shadow:rgba(0,0,0,0.0976562) 0 1px 0 0;cursor:pointer;}
 a.form_button:hover,a.form_button:visited:hover,input.submit:hover{text-decoration:none}
-label{font-weight:bold;font-size:108%;display:none;margin-bottom:2px}
+form label{font-weight:bold;font-size:108%;display:none;margin-bottom:2px}
 #header #photo{float:left;display:inline-block;width:180px;background-color:#fff;padding:5px;border:1px solid #ccc;}
 #header #photo a{position:relative;display:block;height:160px;overflow:hidden;background:transparent url("/web/img/add_photo.png") no-repeat center center}
 #header #title_date_description{float:right;display:inline-block;width:490px;}
@@ -63,7 +63,7 @@ ul#friends li .name{margin-top:5px;float:left;width:95px;font-weight:normal}
 #photos ul li a{display:block;height:68px;position:relative}
 #photos ul li a.add_photos{background:transparent url("/web/img/add_photo_small.png") no-repeat center center}
 #photos ul span{display:block}
-li .profile_pic:hover label,a.fb_gallery:hover label{position:absolute;top:3px;right:3px;display:block;width:11px;height:11px;background:transparent url("/web/img/sprite_close.png") no-repeat -11px right;cursor:pointer;}
+li .profile_pic:hover label,a.fb_gallery:hover label{position:absolute;top:3px;right:3px;display:block;width:11px;height:11px;background-color:#f00;cursor:pointer;}
 li .profile_pic:hover label:hover,a.fb_gallery:hover label:hover{background:transparent url("/web/img/sprite_close.png") no-repeat -22px right}
 li .profile_pic:hover label{left:3px}
 #photo_selector_view{display:none;margin:-1em 0 3em 0;padding:5px;border:1px solid #b4bbcd;position:relative;}

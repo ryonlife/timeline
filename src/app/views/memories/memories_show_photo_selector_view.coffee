@@ -99,9 +99,11 @@ class exports.MemoriesShowPhotoSelectorView extends Backbone.View
     $el = $(e.currentTarget)
     $photo = $('#photo a.add_photos')
     $photos = $('#photos li')
+    photoAdded = false
     
     if $photo.length and not $photos.find('a[href="'+$el.attr('data-xlarge')+'"]').length
       # There is no main photo for the memory, so add it
+      photoAdded = true
 
       image = new Image()
       image.onload = ->
@@ -114,9 +116,10 @@ class exports.MemoriesShowPhotoSelectorView extends Backbone.View
     
     else if not $photos.find('a[href="'+$el.attr('data-xlarge')+'"]').length
       # This photo is not already in the gallery, so add it
+      photoAdded = true
     
-      background = '#000 url('+$el.attr('data-small')+') no-repeat center center'
-      $link = $('<a href="'+$el.attr('data-xlarge')+'" class="fb_gallery"><label></label></a>')
+      background = "#000 url(#{$el.attr 'data-small'}) no-repeat center center"
+      $link = $("<a href=\"#{$el.attr 'data-xlarge'}\" data-photo=\"#{$el.attr 'data-id'}\" class=\"fb_gallery\"><label></label></a>")
     
       if $photos.find('a.fb_gallery').length < $photos.length
         # Replace placeholder with a thumbnail
@@ -140,6 +143,15 @@ class exports.MemoriesShowPhotoSelectorView extends Backbone.View
       # Ensure all thumbnails in the gallery are displayed
       $('#photos li').fadeIn ->
         $('#show_photos').text('Hide Photos') if $('#photos li a.fb_gallery').length > 5
+    
+    # A photo was added, so the model must be updated
+    if photoAdded
+      photos = @model.get 'photos'
+      photos.push
+        photo: $el.attr 'data-id'
+        addedBy: USER.ME.id
+      @model.set {photos}
+      console.log @model.get 'photos'
   
   reset: (partial=false)->
     # Resets the widget in its entirety

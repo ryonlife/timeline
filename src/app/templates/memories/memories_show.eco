@@ -6,15 +6,15 @@
 
     <div id="title_date_description">
       <header>
-        <h1 id="title">New Memory</h1>
-        <h2 id="start_date">June 2, 2011</h2>
-        <p id="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eu orci nisi. Vivamus feugiat purus vel ipsum vestibulum sagittis. Donec et enim sed enim tempor aliquam. Vivamus id nisi tortor. Proin tempus, enim quis commodo euismod, orci eros elementum quam, eu fringilla mi tortor et velit.</p>
+        <h1 id="title" data-model="title">New Memory</h1>
+        <h2 id="start_date" data-model="date">June 2, 2011</h2>
+        <p id="description" data-model="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eu orci nisi. Vivamus feugiat purus vel ipsum vestibulum sagittis. Donec et enim sed enim tempor aliquam. Vivamus id nisi tortor. Proin tempus, enim quis commodo euismod, orci eros elementum quam, eu fringilla mi tortor et velit.</p>
       </header>
       <fb:like href="#" send="true" layout="standard" width="418" show_faces="false"></fb:like>
     </div>
   
     <a href="#" id="edit" class="icon" title="Edit the title, date and description of this memory.">Edit</a>
-    <a href="#" id="favorite" class="icon" title="Remove this memory from your favorites." data-favorite="true">Favorite</a>
+    <a href="#" id="favorite" class="icon" title="Remove this memory from your favorites." data-favorite="true" data-model="favorite">Favorite</a>
   </div>
   <div id="memory_edit" class="clearfix">
     <form>

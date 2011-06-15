@@ -1,4 +1,4 @@
-<li data-fb-id="<%= @friend.id %>">
+<li data-fb-id="<%= @friend.id %>" data-tagged-by="<%= @taggedBy %>">
   <div class="profile_pic">
     <label></label>
     <img src="http://graph.facebook.com/<%= @friend.id %>/picture?type=square" width="50" height="50" />

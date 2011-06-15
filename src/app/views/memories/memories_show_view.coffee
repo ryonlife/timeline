@@ -21,11 +21,9 @@ class exports.MemoriesShowView extends Backbone.View
     
     'click #favorite': 'updateFavorite'
   
-  serialize: ->
-    @model.set {'title': 'test'}
-  
   render: ->
     $el = $(@el).html memoriesShowTemplate()
+    app.views.memories_show_photo_selector.model = @model
     $el.find('#photos').after app.views.memories_show_photo_selector.render().el
     
     $el.find('a[title]').qtip
@@ -37,9 +35,6 @@ class exports.MemoriesShowView extends Backbone.View
       style:
         classes: 'ui-tooltip-dark ui-tooltip-shadow'
     $el.find('label').css('display', 'block') if not Modernizr.input.placeholder
-    
-    @serialize()
-    console.log @model
     
     @
     
@@ -75,21 +70,34 @@ class exports.MemoriesShowView extends Backbone.View
   
   editMemory: (e) ->
     e.preventDefault()
+        
     $('#edit_title').val($('#title').text())
     $('#edit_description').val($('#description').text())
+    
     $('.datepicker').datepicker('setDate', $('#start_date').text())
     $('.datepicker').data('priorDate', $('#start_date').text())
+    
     $('#edit').first().qtip('toggle')
+    
     $('#memory_header').hide()
     $('#memory_edit').fadeIn()
   
   updateTitleDescription: (e) ->
     e.preventDefault()
+    
     title = $.trim($('#edit_title').val())
+    date = $('#start_date').text()
     description = $.trim($('#edit_description').val())
+    
     if title and description
+      @model.set
+        title: title
+        date: date
+        description: description
+      
       $('#title').text(title)
       $('#description').text(description)
+      
       $('#memory_edit').hide()
       $('#memory_header').fadeIn()
   
@@ -101,16 +109,21 @@ class exports.MemoriesShowView extends Backbone.View
   updateFavorite: (e) ->
     e.preventDefault()
     $el = $(e.currentTarget)
+    
+    favoriteOf = @model.get 'favoriteOf'
     if $el.attr('data-favorite') == 'true'
       $el
         .attr('title', 'Add this memory to your favorites.')
         .attr('data-favorite', 'false')
         .css('opacity', 0.5)
+      favoriteOf = _.without favoriteOf, USER.ME.id
     else
       $el
         .attr('title', 'Remove this memory from your favorites.')
         .attr('data-favorite', 'true')
         .css('opacity', 1)
+      favoriteOf.push USER.ME.id
+    @model.set {favoriteOf: favoriteOf}
   
   showFriendSelector: (e) ->
     e.preventDefault()
@@ -127,46 +140,55 @@ class exports.MemoriesShowView extends Backbone.View
     $friends = $('ul#friends')
     
     # Friends before the update
-    preFbIds = []
-    $friends.find('[data-fb-id]').each -> preFbIds.push($(@).attr('data-fb-id'))
+    fbIds = []
+    $friends.find('[data-fb-id]').each -> fbIds.push($(@).attr('data-fb-id'))
     
-    # Insert new friends into the list
+    # Insert new friends into the list and model
     for friend in newFriends
-      if friend.id not in preFbIds
-        profilePic = memoriesShowProfilePicTemplate {friend}
+      if friend.id not in fbIds
+        profilePic = memoriesShowProfilePicTemplate {friend: friend, taggedBy: USER.ME.id}
         $friends.find('li.tag_button_container').after(profilePic)
     FB.XFBML.parse document.getElementById('friends')
     
     # Users own pic should always be first
     $('.tag_button_container').after($friends.find("li[data-fb-id=#{USER.ME.id}]"))
     
-    @updateFriendCount()
-  
+    @updateFriends()
+      
   selfTag: (e) ->
     e.preventDefault()
     $(e.currentTarget).hide()
-    $('a#tag_friends').removeClass('hide').trigger('friendSelection', [[{id: USER.ME.id, name: USER.ME.name, link: USER.ME.link}]])
+    $('a#tag_friends')
+      .removeClass('hide')
+      .trigger('friendSelection', [[{id: USER.ME.id, name: USER.ME.name, link: USER.ME.link}]])
   
   removeTag: (e) ->
     $(e.currentTarget).parents('li').remove()
-    @updateFriendCount()
+    @updateFriends()
   
-  updateFriendCount: ->
+  updateFriends: ->
     $friends = $('ul#friends')
     $button = $('a#tag_friends')
     
-    # Friends after the update
-    postFbIds = []
-    $friends.find('[data-fb-id]').each -> postFbIds.push($(@).attr('data-fb-id'))
+    # Create an array of friends/taggers
+    friends = []
+    $friends.find('[data-fb-id]').each ->
+      $this = $(@)
+      friends.push
+        tagged: $this.attr('data-fb-id')
+        taggedBy: $this.attr('data-tagged-by')
+    
+    # Update the model
+    @model.set {friends: friends}
     
     # Update the friend count
     friendsPresent =
-      if not postFbIds.length
+      if not friends.length
         'Nobody was there.'
-      else if postFbIds.length == 1
+      else if friends.length == 1
         '1 person was there.'
       else
-        postFbIds.length+' people were there.'
+        friends.length+' people were there.'
     $friends.find('.count').text(friendsPresent)
     
     # Update the tag friends button
@@ -211,6 +233,11 @@ class exports.MemoriesShowView extends Backbone.View
     
   removePhoto: (e) ->
     $el = $(e.currentTarget)
+    $photo = $el.parent()
+    
+    photos = @model.get 'photos'
+    photos = _.reject photos (p) -> p.photo == $photo.attr 'data-photo'
+    console.log photos
     
     # Removing main photo
     if $el.parents('#photo').length
@@ -232,7 +259,7 @@ class exports.MemoriesShowView extends Backbone.View
       # Remove any entirely blank rows
       squares = Math.ceil($('#photos a.fb_gallery').length / 5) * 5 - 1
       $('#photos ul li:gt('+squares+')').remove()
-
+    
       # Shift photos left if one from the middle of the grid is removed
       $photos = $('#photos a.fb_gallery')
       $photos.each (i) ->
@@ -244,7 +271,7 @@ class exports.MemoriesShowView extends Backbone.View
           $priorPhotoContainer
             .css('background-image', bg)
             .append($this)
-
+    
       # No need for a hide photos link when there is only a single row in the grid
       $('a#show_photos').text('') if $photos.length <= 5
       

@@ -16518,6 +16518,7 @@ window.Modernizr = (function( window, document, undefined ) {
     }
     __extends(Memory, Backbone.Model);
     Memory.prototype.defaults = {
+      favoriteOf: [],
       title: null,
       date: null,
       description: null,
@@ -16587,7 +16588,7 @@ window.Modernizr = (function( window, document, undefined ) {
       return _safe(result);
     };
     (function() {
-      _print(_safe('<div id="header">\n  <div id="memory_header" class="clearfix">\n    <div id="photo">\n      <a href="#" class="add_photos"><label></label></a>\n    </div>\n\n    <div id="title_date_description">\n      <header>\n        <h1 id="title">New Memory</h1>\n        <h2 id="start_date">June 2, 2011</h2>\n        <p id="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eu orci nisi. Vivamus feugiat purus vel ipsum vestibulum sagittis. Donec et enim sed enim tempor aliquam. Vivamus id nisi tortor. Proin tempus, enim quis commodo euismod, orci eros elementum quam, eu fringilla mi tortor et velit.</p>\n      </header>\n      <fb:like href="#" send="true" layout="standard" width="418" show_faces="false"></fb:like>\n    </div>\n  \n    <a href="#" id="edit" class="icon" title="Edit the title, date and description of this memory.">Edit</a>\n    <a href="#" id="favorite" class="icon" title="Remove this memory from your favorites." data-favorite="true">Favorite</a>\n  </div>\n  <div id="memory_edit" class="clearfix">\n    <form>\n      <div id="start_datepicker" class="datepicker fl"></div>\n      <div class="fr">\n        <label for="edit_title">Title</label>\n        <input type="text" name="edit_title" id="edit_title" placeholder="Title" />\n        \n        <label for="edit_description">Description</label>\n        <textarea name="edit_description" id="edit_description" placeholder="Description..."></textarea>\n        \n        <input type="submit" class="submit" value="Save" />\n        <input type="button" class="submit" value="Cancel" />\n      </div>\n    </form>\n  </div>\n</div>\n\n<div id="sidebar">\n  <ul id="friends">\n    <li class="count">Nobody was there.</li>\n    <li class="tag_button_container">\n      <a href="#" id="self_tag" class="button">\n        <span class="tag"></span>\n        I was there!\n      </a>\n      <a href="#" id="tag_friends" class="button hide" data-step="3" data-stepped="false">\n        <span class="tag"></span>\n        Tag Friends (1)\n      </a>\n    </li>\n  </ul>\n</div>\n\n<div id="content">\n  <div id="photos" class="clearfix">\n    <ul class="clearfix">\n      <li></li>\n      <li></li>\n      <li></li>\n      <li></li>\n      <li><a href="/web/img/add_photo.png" class="add_photos"></a></li>\n    </ul>\n    <a href="#" id="show_photos" class="fl"></a>\n    <a href="#" id="add_photos" class="add_photos fr" data-step="5" data-stepped="false">Add Photos</a>\n  </div>\n    \n  <div id="fb_comments" class="mtop3">\n    <fb:comments href="http://ryonlife.dyndns.org:8080/#/memories/1" width="571" num_posts="25" />\n  </div>\n</div>'));
+      _print(_safe('<div id="header">\n  <div id="memory_header" class="clearfix">\n    <div id="photo">\n      <a href="#" class="add_photos"><label></label></a>\n    </div>\n\n    <div id="title_date_description">\n      <header>\n        <h1 id="title" data-model="title">New Memory</h1>\n        <h2 id="start_date" data-model="date">June 2, 2011</h2>\n        <p id="description" data-model="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eu orci nisi. Vivamus feugiat purus vel ipsum vestibulum sagittis. Donec et enim sed enim tempor aliquam. Vivamus id nisi tortor. Proin tempus, enim quis commodo euismod, orci eros elementum quam, eu fringilla mi tortor et velit.</p>\n      </header>\n      <fb:like href="#" send="true" layout="standard" width="418" show_faces="false"></fb:like>\n    </div>\n  \n    <a href="#" id="edit" class="icon" title="Edit the title, date and description of this memory.">Edit</a>\n    <a href="#" id="favorite" class="icon" title="Remove this memory from your favorites." data-favorite="true" data-model="favorite">Favorite</a>\n  </div>\n  <div id="memory_edit" class="clearfix">\n    <form>\n      <div id="start_datepicker" class="datepicker fl"></div>\n      <div class="fr">\n        <label for="edit_title">Title</label>\n        <input type="text" name="edit_title" id="edit_title" placeholder="Title" />\n        \n        <label for="edit_description">Description</label>\n        <textarea name="edit_description" id="edit_description" placeholder="Description..."></textarea>\n        \n        <input type="submit" class="submit" value="Save" />\n        <input type="button" class="submit" value="Cancel" />\n      </div>\n    </form>\n  </div>\n</div>\n\n<div id="sidebar">\n  <ul id="friends">\n    <li class="count">Nobody was there.</li>\n    <li class="tag_button_container">\n      <a href="#" id="self_tag" class="button">\n        <span class="tag"></span>\n        I was there!\n      </a>\n      <a href="#" id="tag_friends" class="button hide" data-step="3" data-stepped="false">\n        <span class="tag"></span>\n        Tag Friends (1)\n      </a>\n    </li>\n  </ul>\n</div>\n\n<div id="content">\n  <div id="photos" class="clearfix">\n    <ul class="clearfix">\n      <li></li>\n      <li></li>\n      <li></li>\n      <li></li>\n      <li><a href="/web/img/add_photo.png" class="add_photos"></a></li>\n    </ul>\n    <a href="#" id="show_photos" class="fl"></a>\n    <a href="#" id="add_photos" class="add_photos fr" data-step="5" data-stepped="false">Add Photos</a>\n  </div>\n    \n  <div id="fb_comments" class="mtop3">\n    <fb:comments href="http://ryonlife.dyndns.org:8080/#/memories/1" width="571" num_posts="25" />\n  </div>\n</div>'));
     }).call(this);
     
     return __out.join('');
@@ -16667,6 +16668,8 @@ window.Modernizr = (function( window, document, undefined ) {
     (function() {
       _print(_safe('<li data-fb-id="'));
       _print(this.friend.id);
+      _print(_safe('" data-tagged-by="'));
+      _print(this.taggedBy);
       _print(_safe('">\n  <div class="profile_pic">\n    <label></label>\n    <img src="http://graph.facebook.com/'));
       _print(this.friend.id);
       _print(_safe('/picture?type=square" width="50" height="50" />\n  </div>\n  <div class="name" >\n    <a href="'));
@@ -16833,11 +16836,13 @@ window.Modernizr = (function( window, document, undefined ) {
       }
     };
     MemoriesShowPhotoSelectorView.prototype.selectPhoto = function(e) {
-      var $el, $link, $newPhoto, $photo, $photos, background, image;
+      var $el, $link, $newPhoto, $photo, $photos, background, image, photoAdded, photos;
       $el = $(e.currentTarget);
       $photo = $('#photo a.add_photos');
       $photos = $('#photos li');
+      photoAdded = false;
       if ($photo.length && !$photos.find('a[href="' + $el.attr('data-xlarge') + '"]').length) {
+        photoAdded = true;
         image = new Image();
         image.onload = function() {
           return $photo.removeClass('add_photos').addClass('fb_gallery').css({
@@ -16845,10 +16850,11 @@ window.Modernizr = (function( window, document, undefined ) {
             height: image.height
           }).attr('href', $el.attr('data-xlarge'));
         };
-        return image.src = $el.attr('data-medium');
+        image.src = $el.attr('data-medium');
       } else if (!$photos.find('a[href="' + $el.attr('data-xlarge') + '"]').length) {
-        background = '#000 url(' + $el.attr('data-small') + ') no-repeat center center';
-        $link = $('<a href="' + $el.attr('data-xlarge') + '" class="fb_gallery"><label></label></a>');
+        photoAdded = true;
+        background = "#000 url(" + ($el.attr('data-small')) + ") no-repeat center center";
+        $link = $("<a href=\"" + ($el.attr('data-xlarge')) + "\" data-photo=\"" + ($el.attr('data-id')) + "\" class=\"fb_gallery\"><label></label></a>");
         if ($photos.find('a.fb_gallery').length < $photos.length) {
           $photos.each(function() {
             var $this;
@@ -16862,11 +16868,22 @@ window.Modernizr = (function( window, document, undefined ) {
           $newPhoto = $('<li></li>').css('background', background).append($link);
           $('#photos ul').append($newPhoto).append($('<li></li><li></li><li></li><li></li>'));
         }
-        return $('#photos li').fadeIn(function() {
+        $('#photos li').fadeIn(function() {
           if ($('#photos li a.fb_gallery').length > 5) {
             return $('#show_photos').text('Hide Photos');
           }
         });
+      }
+      if (photoAdded) {
+        photos = this.model.get('photos');
+        photos.push({
+          photo: $el.attr('data-id'),
+          addedBy: USER.ME.id
+        });
+        this.model.set({
+          photos: photos
+        });
+        return console.log(this.model.get('photos'));
       }
     };
     MemoriesShowPhotoSelectorView.prototype.reset = function(partial) {
@@ -16923,14 +16940,10 @@ window.Modernizr = (function( window, document, undefined ) {
       'click input[type=button]': 'cancelUpdateTitleDescription',
       'click #favorite': 'updateFavorite'
     };
-    MemoriesShowView.prototype.serialize = function() {
-      return this.model.set({
-        'title': 'test'
-      });
-    };
     MemoriesShowView.prototype.render = function() {
       var $el;
       $el = $(this.el).html(memoriesShowTemplate());
+      app.views.memories_show_photo_selector.model = this.model;
       $el.find('#photos').after(app.views.memories_show_photo_selector.render().el);
       $el.find('a[title]').qtip({
         position: {
@@ -16947,8 +16960,6 @@ window.Modernizr = (function( window, document, undefined ) {
       if (!Modernizr.input.placeholder) {
         $el.find('label').css('display', 'block');
       }
-      this.serialize();
-      console.log(this.model);
       return this;
     };
     MemoriesShowView.prototype.datepickers = function() {
@@ -17000,11 +17011,17 @@ window.Modernizr = (function( window, document, undefined ) {
       return $('#memory_edit').fadeIn();
     };
     MemoriesShowView.prototype.updateTitleDescription = function(e) {
-      var description, title;
+      var date, description, title;
       e.preventDefault();
       title = $.trim($('#edit_title').val());
+      date = $('#start_date').text();
       description = $.trim($('#edit_description').val());
       if (title && description) {
+        this.model.set({
+          title: title,
+          date: date,
+          description: description
+        });
         $('#title').text(title);
         $('#description').text(description);
         $('#memory_edit').hide();
@@ -17017,14 +17034,20 @@ window.Modernizr = (function( window, document, undefined ) {
       return $('#memory_header').fadeIn();
     };
     MemoriesShowView.prototype.updateFavorite = function(e) {
-      var $el;
+      var $el, favoriteOf;
       e.preventDefault();
       $el = $(e.currentTarget);
+      favoriteOf = this.model.get('favoriteOf');
       if ($el.attr('data-favorite') === 'true') {
-        return $el.attr('title', 'Add this memory to your favorites.').attr('data-favorite', 'false').css('opacity', 0.5);
+        $el.attr('title', 'Add this memory to your favorites.').attr('data-favorite', 'false').css('opacity', 0.5);
+        favoriteOf = _.without(favoriteOf, USER.ME.id);
       } else {
-        return $el.attr('title', 'Remove this memory from your favorites.').attr('data-favorite', 'true').css('opacity', 1);
+        $el.attr('title', 'Remove this memory from your favorites.').attr('data-favorite', 'true').css('opacity', 1);
+        favoriteOf.push(USER.ME.id);
       }
+      return this.model.set({
+        favoriteOf: favoriteOf
+      });
     };
     MemoriesShowView.prototype.showFriendSelector = function(e) {
       var selectedFriends;
@@ -17036,25 +17059,26 @@ window.Modernizr = (function( window, document, undefined ) {
       return $(e.currentTarget).attr('data-stepped', 'true').fbFriendSelector(USER.FRIENDS.data, selectedFriends);
     };
     MemoriesShowView.prototype.updateFriendSelections = function(e, newFriends) {
-      var $el, $friends, friend, preFbIds, profilePic, _i, _len, _ref;
+      var $el, $friends, fbIds, friend, profilePic, _i, _len, _ref;
       $el = $(e.currentTarget);
       $friends = $('ul#friends');
-      preFbIds = [];
+      fbIds = [];
       $friends.find('[data-fb-id]').each(function() {
-        return preFbIds.push($(this).attr('data-fb-id'));
+        return fbIds.push($(this).attr('data-fb-id'));
       });
       for (_i = 0, _len = newFriends.length; _i < _len; _i++) {
         friend = newFriends[_i];
-        if (_ref = friend.id, __indexOf.call(preFbIds, _ref) < 0) {
+        if (_ref = friend.id, __indexOf.call(fbIds, _ref) < 0) {
           profilePic = memoriesShowProfilePicTemplate({
-            friend: friend
+            friend: friend,
+            taggedBy: USER.ME.id
           });
           $friends.find('li.tag_button_container').after(profilePic);
         }
       }
       FB.XFBML.parse(document.getElementById('friends'));
       $('.tag_button_container').after($friends.find("li[data-fb-id=" + USER.ME.id + "]"));
-      return this.updateFriendCount();
+      return this.updateFriends();
     };
     MemoriesShowView.prototype.selfTag = function(e) {
       e.preventDefault();
@@ -17071,17 +17095,25 @@ window.Modernizr = (function( window, document, undefined ) {
     };
     MemoriesShowView.prototype.removeTag = function(e) {
       $(e.currentTarget).parents('li').remove();
-      return this.updateFriendCount();
+      return this.updateFriends();
     };
-    MemoriesShowView.prototype.updateFriendCount = function() {
-      var $button, $friends, friendsPresent, postFbIds;
+    MemoriesShowView.prototype.updateFriends = function() {
+      var $button, $friends, friends, friendsPresent;
       $friends = $('ul#friends');
       $button = $('a#tag_friends');
-      postFbIds = [];
+      friends = [];
       $friends.find('[data-fb-id]').each(function() {
-        return postFbIds.push($(this).attr('data-fb-id'));
+        var $this;
+        $this = $(this);
+        return friends.push({
+          tagged: $this.attr('data-fb-id'),
+          taggedBy: $this.attr('data-tagged-by')
+        });
       });
-      friendsPresent = !postFbIds.length ? 'Nobody was there.' : postFbIds.length === 1 ? '1 person was there.' : postFbIds.length + ' people were there.';
+      this.model.set({
+        friends: friends
+      });
+      friendsPresent = !friends.length ? 'Nobody was there.' : friends.length === 1 ? '1 person was there.' : friends.length + ' people were there.';
       $friends.find('.count').text(friendsPresent);
       $button.html('<span class="tag"></span> Tag Friends').css({
         'width': 'auto',
@@ -17133,8 +17165,14 @@ window.Modernizr = (function( window, document, undefined ) {
       }
     };
     MemoriesShowView.prototype.removePhoto = function(e) {
-      var $el, $fifthSquare, $photos, squares;
+      var $el, $fifthSquare, $photo, $photos, photos, squares;
       $el = $(e.currentTarget);
+      $photo = $el.parent();
+      photos = this.model.get('photos');
+      photos = _.reject(photos(function(p) {
+        return p.photo === $photo.attr('data-photo');
+      }));
+      console.log(photos);
       if ($el.parents('#photo').length) {
         return $el.parent().removeClass('fb_gallery').addClass('add_photos').css({
           backgroundImage: 'url(/web/img/add_photo.png)',
