@@ -17161,16 +17161,44 @@ window.Modernizr = (function( window, document, undefined ) {
       }
     };
     MemoriesShowView.prototype.removePhoto = function(e) {
-      var $el, $photo, photos;
+      var $el, $fifthSquare, $photo, $photos, photos, squares;
       $el = $(e.currentTarget);
       $photo = $el.parent();
       photos = this.model.get('photos');
       photos = _.reject(photos, function(p) {
         return p.photo === $photo.attr('data-photo');
       });
-      return this.model.set({
+      this.model.set({
         photos: photos
       });
+      if ($el.parents('#photo').length) {
+        return $el.parent().removeClass('fb_gallery').addClass('add_photos').css({
+          backgroundImage: 'url(/web/img/add_photo.png)',
+          height: 160
+        }).attr('href', '#');
+      } else {
+        $el.parents('li').css('background', 'rgb(242, 242, 242)').html('');
+        squares = Math.ceil($('#photos a.fb_gallery').length / 5) * 5 - 1;
+        $('#photos ul li:gt(' + squares + ')').remove();
+        $photos = $('#photos a.fb_gallery');
+        $photos.each(function(i) {
+          var $priorPhotoContainer, $this, bg;
+          $this = $(this);
+          $priorPhotoContainer = $this.parent().prev().filter('li');
+          if ($priorPhotoContainer.length && !$priorPhotoContainer.find('a').length) {
+            bg = $this.parent().css('background-image');
+            $this.parent().css('background', 'rgb(242, 242, 242)');
+            return $priorPhotoContainer.css('background-image', bg).append($this);
+          }
+        });
+        if ($photos.length <= 5) {
+          $('a#show_photos').text('');
+        }
+        $fifthSquare = $('#photos ul li:nth-child(5)');
+        if (!$fifthSquare.find('a.fb_gallery').length) {
+          return $fifthSquare.html('<a href="/web/img/add_photo.png" class="add_photos"></a>');
+        }
+      }
     };
     return MemoriesShowView;
   })();
