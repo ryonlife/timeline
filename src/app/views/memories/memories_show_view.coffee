@@ -235,48 +235,49 @@ class exports.MemoriesShowView extends Backbone.View
     $el = $(e.currentTarget)
     $photo = $el.parent()
     
+    # Update the model
     photos = @model.get 'photos'
-    photos = _.reject photos (p) -> p.photo == $photo.attr 'data-photo'
-    console.log photos
-    
-    # Removing main photo
-    if $el.parents('#photo').length
-      
-      $el.parent()
-        .removeClass('fb_gallery')
-        .addClass('add_photos')
-        .css({backgroundImage: 'url(/web/img/add_photo.png)', height: 160})
-        .attr('href', '#')
-    
-    # Removing photo from the gallery
-    else
-      
-      # Remove the thumbnail
-      $el.parents('li')
-        .css('background', 'rgb(242, 242, 242)')
-        .html('')
-      
-      # Remove any entirely blank rows
-      squares = Math.ceil($('#photos a.fb_gallery').length / 5) * 5 - 1
-      $('#photos ul li:gt('+squares+')').remove()
-    
-      # Shift photos left if one from the middle of the grid is removed
-      $photos = $('#photos a.fb_gallery')
-      $photos.each (i) ->
-        $this = $(@)
-        $priorPhotoContainer = $this.parent().prev().filter('li')
-        if $priorPhotoContainer.length and not $priorPhotoContainer.find('a').length
-          bg = $this.parent().css('background-image')
-          $this.parent().css('background', 'rgb(242, 242, 242)')
-          $priorPhotoContainer
-            .css('background-image', bg)
-            .append($this)
-    
-      # No need for a hide photos link when there is only a single row in the grid
-      $('a#show_photos').text('') if $photos.length <= 5
-      
-      # Put the add photos icon back in the fifth square, if it no longer has a thumbnail in it
-      $fifthSquare = $('#photos ul li:nth-child(5)')
-      if not $fifthSquare.find('a.fb_gallery').length
-        $fifthSquare.html('<a href="/web/img/add_photo.png" class="add_photos"></a>')
+    photos = _.reject photos, (p) -> p.photo == $photo.attr 'data-photo'
+    @model.set {photos}
+     
+    # # Removing main photo
+    # if $el.parents('#photo').length
+    #   
+    #   $el.parent()
+    #     .removeClass('fb_gallery')
+    #     .addClass('add_photos')
+    #     .css({backgroundImage: 'url(/web/img/add_photo.png)', height: 160})
+    #     .attr('href', '#')
+    # 
+    # # Removing photo from the gallery
+    # else
+    #   
+    #   # Remove the thumbnail
+    #   $el.parents('li')
+    #     .css('background', 'rgb(242, 242, 242)')
+    #     .html('')
+    #   
+    #   # Remove any entirely blank rows
+    #   squares = Math.ceil($('#photos a.fb_gallery').length / 5) * 5 - 1
+    #   $('#photos ul li:gt('+squares+')').remove()
+    # 
+    #   # Shift photos left if one from the middle of the grid is removed
+    #   $photos = $('#photos a.fb_gallery')
+    #   $photos.each (i) ->
+    #     $this = $(@)
+    #     $priorPhotoContainer = $this.parent().prev().filter('li')
+    #     if $priorPhotoContainer.length and not $priorPhotoContainer.find('a').length
+    #       bg = $this.parent().css('background-image')
+    #       $this.parent().css('background', 'rgb(242, 242, 242)')
+    #       $priorPhotoContainer
+    #         .css('background-image', bg)
+    #         .append($this)
+    # 
+    #   # No need for a hide photos link when there is only a single row in the grid
+    #   $('a#show_photos').text('') if $photos.length <= 5
+    #   
+    #   # Put the add photos icon back in the fifth square, if it no longer has a thumbnail in it
+    #   $fifthSquare = $('#photos ul li:nth-child(5)')
+    #   if not $fifthSquare.find('a.fb_gallery').length
+    #     $fifthSquare.html('<a href="/web/img/add_photo.png" class="add_photos"></a>')
       

@@ -99,59 +99,54 @@ class exports.MemoriesShowPhotoSelectorView extends Backbone.View
     $el = $(e.currentTarget)
     $photo = $('#photo a.add_photos')
     $photos = $('#photos li')
-    photoAdded = false
     
-    if $photo.length and not $photos.find('a[href="'+$el.attr('data-xlarge')+'"]').length
-      # There is no main photo for the memory, so add it
-      photoAdded = true
-
-      image = new Image()
-      image.onload = ->
-        $photo
-          .removeClass('add_photos')
-          .addClass('fb_gallery')
-          .css({backgroundImage: 'url('+$el.attr('data-medium')+')', height: image.height})
-          .attr('href', $el.attr('data-xlarge'))
-      image.src = $el.attr('data-medium')
+    if not $('a[href="'+$el.attr('data-xlarge')+'"]').length
     
-    else if not $photos.find('a[href="'+$el.attr('data-xlarge')+'"]').length
-      # This photo is not already in the gallery, so add it
-      photoAdded = true
+      if $photo.length
+        # There is no main photo for the memory, so add it
+        image = new Image()
+        image.onload = ->
+          $photo
+            .removeClass('add_photos')
+            .addClass('fb_gallery')
+            .css({backgroundImage: 'url('+$el.attr('data-medium')+')', height: image.height})
+            .attr('href', $el.attr('data-xlarge'))
+        image.src = $el.attr('data-medium')
     
-      background = "#000 url(#{$el.attr 'data-small'}) no-repeat center center"
-      $link = $("<a href=\"#{$el.attr 'data-xlarge'}\" data-photo=\"#{$el.attr 'data-id'}\" class=\"fb_gallery\"><label></label></a>")
-    
-      if $photos.find('a.fb_gallery').length < $photos.length
-        # Replace placeholder with a thumbnail
-        $photos.each ->
-          $this = $(this)
-          if not $this.find('a.fb_gallery').length
-            $this
-              .find('a').remove().end()
-              .css('background', background)
-              .append($link)
-            return false
       else
-        # Thumbnail in a new row
-        $newPhoto = $('<li></li>')
-          .css('background', background)
-          .append($link)
-        $('#photos ul')
-          .append($newPhoto)
-          .append($('<li></li><li></li><li></li><li></li>'))
+        # This photo is not already in the gallery, so add it
+        background = "#000 url(#{$el.attr 'data-small'}) no-repeat center center"
+        $link = $("<a href=\"#{$el.attr 'data-xlarge'}\" data-photo=\"#{$el.attr 'data-id'}\" class=\"fb_gallery\"><label></label></a>")
     
-      # Ensure all thumbnails in the gallery are displayed
-      $('#photos li').fadeIn ->
-        $('#show_photos').text('Hide Photos') if $('#photos li a.fb_gallery').length > 5
+        if $photos.find('a.fb_gallery').length < $photos.length
+          # Replace placeholder with a thumbnail
+          $photos.each ->
+            $this = $(this)
+            if not $this.find('a.fb_gallery').length
+              $this
+                .find('a').remove().end()
+                .css('background', background)
+                .append($link)
+              return false
+        else
+          # Thumbnail in a new row
+          $newPhoto = $('<li></li>')
+            .css('background', background)
+            .append($link)
+          $('#photos ul')
+            .append($newPhoto)
+            .append($('<li></li><li></li><li></li><li></li>'))
     
-    # A photo was added, so the model must be updated
-    if photoAdded
+        # Ensure all thumbnails in the gallery are displayed
+        $('#photos li').fadeIn ->
+          $('#show_photos').text('Hide Photos') if $('#photos li a.fb_gallery').length > 5
+    
+      # A photo was added, so the model must be updated
       photos = @model.get 'photos'
       photos.push
         photo: $el.attr 'data-id'
         addedBy: USER.ME.id
       @model.set {photos}
-      console.log @model.get 'photos'
   
   reset: (partial=false)->
     # Resets the widget in its entirety

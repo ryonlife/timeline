@@ -16836,54 +16836,50 @@ window.Modernizr = (function( window, document, undefined ) {
       }
     };
     MemoriesShowPhotoSelectorView.prototype.selectPhoto = function(e) {
-      var $el, $link, $newPhoto, $photo, $photos, background, image, photoAdded, photos;
+      var $el, $link, $newPhoto, $photo, $photos, background, image, photos;
       $el = $(e.currentTarget);
       $photo = $('#photo a.add_photos');
       $photos = $('#photos li');
-      photoAdded = false;
-      if ($photo.length && !$photos.find('a[href="' + $el.attr('data-xlarge') + '"]').length) {
-        photoAdded = true;
-        image = new Image();
-        image.onload = function() {
-          return $photo.removeClass('add_photos').addClass('fb_gallery').css({
-            backgroundImage: 'url(' + $el.attr('data-medium') + ')',
-            height: image.height
-          }).attr('href', $el.attr('data-xlarge'));
-        };
-        image.src = $el.attr('data-medium');
-      } else if (!$photos.find('a[href="' + $el.attr('data-xlarge') + '"]').length) {
-        photoAdded = true;
-        background = "#000 url(" + ($el.attr('data-small')) + ") no-repeat center center";
-        $link = $("<a href=\"" + ($el.attr('data-xlarge')) + "\" data-photo=\"" + ($el.attr('data-id')) + "\" class=\"fb_gallery\"><label></label></a>");
-        if ($photos.find('a.fb_gallery').length < $photos.length) {
-          $photos.each(function() {
-            var $this;
-            $this = $(this);
-            if (!$this.find('a.fb_gallery').length) {
-              $this.find('a').remove().end().css('background', background).append($link);
-              return false;
+      if (!$('a[href="' + $el.attr('data-xlarge') + '"]').length) {
+        if ($photo.length) {
+          image = new Image();
+          image.onload = function() {
+            return $photo.removeClass('add_photos').addClass('fb_gallery').css({
+              backgroundImage: 'url(' + $el.attr('data-medium') + ')',
+              height: image.height
+            }).attr('href', $el.attr('data-xlarge'));
+          };
+          image.src = $el.attr('data-medium');
+        } else {
+          background = "#000 url(" + ($el.attr('data-small')) + ") no-repeat center center";
+          $link = $("<a href=\"" + ($el.attr('data-xlarge')) + "\" data-photo=\"" + ($el.attr('data-id')) + "\" class=\"fb_gallery\"><label></label></a>");
+          if ($photos.find('a.fb_gallery').length < $photos.length) {
+            $photos.each(function() {
+              var $this;
+              $this = $(this);
+              if (!$this.find('a.fb_gallery').length) {
+                $this.find('a').remove().end().css('background', background).append($link);
+                return false;
+              }
+            });
+          } else {
+            $newPhoto = $('<li></li>').css('background', background).append($link);
+            $('#photos ul').append($newPhoto).append($('<li></li><li></li><li></li><li></li>'));
+          }
+          $('#photos li').fadeIn(function() {
+            if ($('#photos li a.fb_gallery').length > 5) {
+              return $('#show_photos').text('Hide Photos');
             }
           });
-        } else {
-          $newPhoto = $('<li></li>').css('background', background).append($link);
-          $('#photos ul').append($newPhoto).append($('<li></li><li></li><li></li><li></li>'));
         }
-        $('#photos li').fadeIn(function() {
-          if ($('#photos li a.fb_gallery').length > 5) {
-            return $('#show_photos').text('Hide Photos');
-          }
-        });
-      }
-      if (photoAdded) {
         photos = this.model.get('photos');
         photos.push({
           photo: $el.attr('data-id'),
           addedBy: USER.ME.id
         });
-        this.model.set({
+        return this.model.set({
           photos: photos
         });
-        return console.log(this.model.get('photos'));
       }
     };
     MemoriesShowPhotoSelectorView.prototype.reset = function(partial) {
@@ -17165,42 +17161,16 @@ window.Modernizr = (function( window, document, undefined ) {
       }
     };
     MemoriesShowView.prototype.removePhoto = function(e) {
-      var $el, $fifthSquare, $photo, $photos, photos, squares;
+      var $el, $photo, photos;
       $el = $(e.currentTarget);
       $photo = $el.parent();
       photos = this.model.get('photos');
-      photos = _.reject(photos(function(p) {
+      photos = _.reject(photos, function(p) {
         return p.photo === $photo.attr('data-photo');
-      }));
-      console.log(photos);
-      if ($el.parents('#photo').length) {
-        return $el.parent().removeClass('fb_gallery').addClass('add_photos').css({
-          backgroundImage: 'url(/web/img/add_photo.png)',
-          height: 160
-        }).attr('href', '#');
-      } else {
-        $el.parents('li').css('background', 'rgb(242, 242, 242)').html('');
-        squares = Math.ceil($('#photos a.fb_gallery').length / 5) * 5 - 1;
-        $('#photos ul li:gt(' + squares + ')').remove();
-        $photos = $('#photos a.fb_gallery');
-        $photos.each(function(i) {
-          var $priorPhotoContainer, $this, bg;
-          $this = $(this);
-          $priorPhotoContainer = $this.parent().prev().filter('li');
-          if ($priorPhotoContainer.length && !$priorPhotoContainer.find('a').length) {
-            bg = $this.parent().css('background-image');
-            $this.parent().css('background', 'rgb(242, 242, 242)');
-            return $priorPhotoContainer.css('background-image', bg).append($this);
-          }
-        });
-        if ($photos.length <= 5) {
-          $('a#show_photos').text('');
-        }
-        $fifthSquare = $('#photos ul li:nth-child(5)');
-        if (!$fifthSquare.find('a.fb_gallery').length) {
-          return $fifthSquare.html('<a href="/web/img/add_photo.png" class="add_photos"></a>');
-        }
-      }
+      });
+      return this.model.set({
+        photos: photos
+      });
     };
     return MemoriesShowView;
   })();
