@@ -18,14 +18,3 @@ app.get('/', function(req, res){
 
 util.log("starting server on port " + port);
 app.listen(parseInt(port, 10));
-
-
-httpProxy = require('http-proxy');
-var proxy = new httpProxy.HttpProxy();
-app.get('/couchdb/*', function(req, res){
-  res.render('index');
-  // proxy.proxyRequest(req, res, {
-  //   host: 'google.com',
-  //   port: 80
-  // });
-});
