@@ -16459,10 +16459,10 @@ window.Modernizr = (function( window, document, undefined ) {
     return child;
   };
   exports.MemoriesController = (function() {
+    __extends(MemoriesController, Backbone.Controller);
     function MemoriesController() {
       MemoriesController.__super__.constructor.apply(this, arguments);
     }
-    __extends(MemoriesController, Backbone.Controller);
     MemoriesController.prototype.routes = {
       '/memories/:id': 'show'
     };
@@ -16513,10 +16513,10 @@ window.Modernizr = (function( window, document, undefined ) {
     return child;
   };
   exports.Memory = (function() {
+    __extends(Memory, Backbone.Model);
     function Memory() {
       Memory.__super__.constructor.apply(this, arguments);
     }
-    __extends(Memory, Backbone.Model);
     Memory.prototype.defaults = {
       favoriteOf: [],
       title: null,
@@ -16529,172 +16529,196 @@ window.Modernizr = (function( window, document, undefined ) {
   })();
 }).call(this);
 }, "templates/home/home_index": function(exports, require, module) {module.exports = function(__obj) {
-  var _safe = function(value) {
-    if (typeof value === 'undefined' && value == null)
-      value = '';
-    var result = new String(value);
-    result.ecoSafe = true;
-    return result;
+  if (!__obj) __obj = {};
+  var __out = [], __capture = function(callback) {
+    var out = __out, result;
+    __out = [];
+    callback.call(this);
+    result = __out.join('');
+    __out = out;
+    return __safe(result);
+  }, __sanitize = function(value) {
+    if (value && value.ecoSafe) {
+      return value;
+    } else if (typeof value !== 'undefined' && value != null) {
+      return __escape(value);
+    } else {
+      return '';
+    }
+  }, __safe, __objSafe = __obj.safe, __escape = __obj.escape;
+  __safe = __obj.safe = function(value) {
+    if (value && value.ecoSafe) {
+      return value;
+    } else {
+      if (!(typeof value !== 'undefined' && value != null)) value = '';
+      var result = new String(value);
+      result.ecoSafe = true;
+      return result;
+    }
   };
-  return (function() {
-    var __out = [], __self = this, _print = function(value) {
-      if (typeof value !== 'undefined' && value != null)
-        __out.push(value.ecoSafe ? value : __self.escape(value));
-    }, _capture = function(callback) {
-      var out = __out, result;
-      __out = [];
-      callback.call(this);
-      result = __out.join('');
-      __out = out;
-      return _safe(result);
+  if (!__escape) {
+    __escape = __obj.escape = function(value) {
+      return ('' + value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
     };
+  }
+  (function() {
     (function() {
-      _print(_safe('<h1>Home</h1>\n'));
+      __out.push('<h1>Home</h1>\n');
     }).call(this);
     
-    return __out.join('');
-  }).call((function() {
-    var obj = {
-      escape: function(value) {
-        return ('' + value)
-          .replace(/&/g, '&amp;')
-          .replace(/</g, '&lt;')
-          .replace(/>/g, '&gt;')
-          .replace(/"/g, '&quot;');
-      },
-      safe: _safe
-    }, key;
-    for (key in __obj) obj[key] = __obj[key];
-    return obj;
-  })());
-};}, "templates/memories/memories_show": function(exports, require, module) {module.exports = function(__obj) {
-  var _safe = function(value) {
-    if (typeof value === 'undefined' && value == null)
-      value = '';
-    var result = new String(value);
-    result.ecoSafe = true;
-    return result;
+  }).call(__obj);
+  __obj.safe = __objSafe, __obj.escape = __escape;
+  return __out.join('');
+}}, "templates/memories/memories_show": function(exports, require, module) {module.exports = function(__obj) {
+  if (!__obj) __obj = {};
+  var __out = [], __capture = function(callback) {
+    var out = __out, result;
+    __out = [];
+    callback.call(this);
+    result = __out.join('');
+    __out = out;
+    return __safe(result);
+  }, __sanitize = function(value) {
+    if (value && value.ecoSafe) {
+      return value;
+    } else if (typeof value !== 'undefined' && value != null) {
+      return __escape(value);
+    } else {
+      return '';
+    }
+  }, __safe, __objSafe = __obj.safe, __escape = __obj.escape;
+  __safe = __obj.safe = function(value) {
+    if (value && value.ecoSafe) {
+      return value;
+    } else {
+      if (!(typeof value !== 'undefined' && value != null)) value = '';
+      var result = new String(value);
+      result.ecoSafe = true;
+      return result;
+    }
   };
-  return (function() {
-    var __out = [], __self = this, _print = function(value) {
-      if (typeof value !== 'undefined' && value != null)
-        __out.push(value.ecoSafe ? value : __self.escape(value));
-    }, _capture = function(callback) {
-      var out = __out, result;
-      __out = [];
-      callback.call(this);
-      result = __out.join('');
-      __out = out;
-      return _safe(result);
+  if (!__escape) {
+    __escape = __obj.escape = function(value) {
+      return ('' + value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
     };
+  }
+  (function() {
     (function() {
-      _print(_safe('<div id="header">\n  <div id="memory_header" class="clearfix">\n    <div id="photo">\n      <a href="#" class="add_photos"><label></label></a>\n    </div>\n\n    <div id="title_date_description">\n      <header>\n        <h1 id="title" data-model="title">New Memory</h1>\n        <h2 id="start_date" data-model="date">June 2, 2011</h2>\n        <p id="description" data-model="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eu orci nisi. Vivamus feugiat purus vel ipsum vestibulum sagittis. Donec et enim sed enim tempor aliquam. Vivamus id nisi tortor. Proin tempus, enim quis commodo euismod, orci eros elementum quam, eu fringilla mi tortor et velit.</p>\n      </header>\n      <fb:like href="#" send="true" layout="standard" width="418" show_faces="false"></fb:like>\n    </div>\n  \n    <a href="#" id="edit" class="icon" title="Edit the title, date and description of this memory.">Edit</a>\n    <a href="#" id="favorite" class="icon" title="Remove this memory from your favorites." data-favorite="true" data-model="favorite">Favorite</a>\n  </div>\n  <div id="memory_edit" class="clearfix">\n    <form>\n      <div id="start_datepicker" class="datepicker fl"></div>\n      <div class="fr">\n        <label for="edit_title">Title</label>\n        <input type="text" name="edit_title" id="edit_title" placeholder="Title" />\n        \n        <label for="edit_description">Description</label>\n        <textarea name="edit_description" id="edit_description" placeholder="Description..."></textarea>\n        \n        <input type="submit" class="submit" value="Save" />\n        <input type="button" class="submit" value="Cancel" />\n      </div>\n    </form>\n  </div>\n</div>\n\n<div id="sidebar">\n  <ul id="friends">\n    <li class="count">Nobody was there.</li>\n    <li class="tag_button_container">\n      <a href="#" id="self_tag" class="button">\n        <span class="tag"></span>\n        I was there!\n      </a>\n      <a href="#" id="tag_friends" class="button hide" data-step="3" data-stepped="false">\n        <span class="tag"></span>\n        Tag Friends (1)\n      </a>\n    </li>\n  </ul>\n</div>\n\n<div id="content">\n  <div id="photos" class="clearfix">\n    <ul class="clearfix">\n      <li></li>\n      <li></li>\n      <li></li>\n      <li></li>\n      <li><a href="/web/img/add_photo.png" class="add_photos"></a></li>\n    </ul>\n    <a href="#" id="show_photos" class="fl"></a>\n    <a href="#" id="add_photos" class="add_photos fr" data-step="5" data-stepped="false">Add Photos</a>\n  </div>\n    \n  <div id="fb_comments" class="mtop3">\n    <fb:comments href="http://ryonlife.dyndns.org:8080/#/memories/1" width="571" num_posts="25" />\n  </div>\n</div>'));
+      __out.push('<div id="header">\n  <div id="memory_header" class="clearfix">\n    <div id="photo">\n      <a href="#" class="add_photos"><label></label></a>\n    </div>\n\n    <div id="title_date_description">\n      <header>\n        <h1 id="title" data-model="title">New Memory</h1>\n        <h2 id="start_date" data-model="date">June 2, 2011</h2>\n        <p id="description" data-model="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eu orci nisi. Vivamus feugiat purus vel ipsum vestibulum sagittis. Donec et enim sed enim tempor aliquam. Vivamus id nisi tortor. Proin tempus, enim quis commodo euismod, orci eros elementum quam, eu fringilla mi tortor et velit.</p>\n      </header>\n      <fb:like href="#" send="true" layout="standard" width="418" show_faces="false"></fb:like>\n    </div>\n  \n    <a href="#" id="edit" class="icon" title="Edit the title, date and description of this memory.">Edit</a>\n    <a href="#" id="favorite" class="icon" title="Remove this memory from your favorites." data-favorite="true" data-model="favorite">Favorite</a>\n  </div>\n  <div id="memory_edit" class="clearfix">\n    <form>\n      <div id="start_datepicker" class="datepicker fl"></div>\n      <div class="fr">\n        <label for="edit_title">Title</label>\n        <input type="text" name="edit_title" id="edit_title" placeholder="Title" />\n        \n        <label for="edit_description">Description</label>\n        <textarea name="edit_description" id="edit_description" placeholder="Description..."></textarea>\n        \n        <input type="submit" class="submit" value="Save" />\n        <input type="button" class="submit" value="Cancel" />\n      </div>\n    </form>\n  </div>\n</div>\n\n<div id="sidebar">\n  <ul id="friends">\n    <li class="count">Nobody was there.</li>\n    <li class="tag_button_container">\n      <a href="#" id="self_tag" class="button">\n        <span class="tag"></span>\n        I was there!\n      </a>\n      <a href="#" id="tag_friends" class="button hide" data-step="3" data-stepped="false">\n        <span class="tag"></span>\n        Tag Friends (1)\n      </a>\n    </li>\n  </ul>\n</div>\n\n<div id="content">\n  <div id="photos" class="clearfix">\n    <ul class="clearfix">\n      <li></li>\n      <li></li>\n      <li></li>\n      <li></li>\n      <li><a href="/web/img/add_photo.png" class="add_photos"></a></li>\n    </ul>\n    <a href="#" id="show_photos" class="fl"></a>\n    <a href="#" id="add_photos" class="add_photos fr" data-step="5" data-stepped="false">Add Photos</a>\n  </div>\n    \n  <div id="fb_comments" class="mtop3">\n    <fb:comments href="http://ryonlife.dyndns.org:8080/#/memories/1" width="571" num_posts="25" />\n  </div>\n</div>');
     }).call(this);
     
-    return __out.join('');
-  }).call((function() {
-    var obj = {
-      escape: function(value) {
-        return ('' + value)
-          .replace(/&/g, '&amp;')
-          .replace(/</g, '&lt;')
-          .replace(/>/g, '&gt;')
-          .replace(/"/g, '&quot;');
-      },
-      safe: _safe
-    }, key;
-    for (key in __obj) obj[key] = __obj[key];
-    return obj;
-  })());
-};}, "templates/memories/memories_show_photo_selector": function(exports, require, module) {module.exports = function(__obj) {
-  var _safe = function(value) {
-    if (typeof value === 'undefined' && value == null)
-      value = '';
-    var result = new String(value);
-    result.ecoSafe = true;
-    return result;
+  }).call(__obj);
+  __obj.safe = __objSafe, __obj.escape = __escape;
+  return __out.join('');
+}}, "templates/memories/memories_show_photo_selector": function(exports, require, module) {module.exports = function(__obj) {
+  if (!__obj) __obj = {};
+  var __out = [], __capture = function(callback) {
+    var out = __out, result;
+    __out = [];
+    callback.call(this);
+    result = __out.join('');
+    __out = out;
+    return __safe(result);
+  }, __sanitize = function(value) {
+    if (value && value.ecoSafe) {
+      return value;
+    } else if (typeof value !== 'undefined' && value != null) {
+      return __escape(value);
+    } else {
+      return '';
+    }
+  }, __safe, __objSafe = __obj.safe, __escape = __obj.escape;
+  __safe = __obj.safe = function(value) {
+    if (value && value.ecoSafe) {
+      return value;
+    } else {
+      if (!(typeof value !== 'undefined' && value != null)) value = '';
+      var result = new String(value);
+      result.ecoSafe = true;
+      return result;
+    }
   };
-  return (function() {
-    var __out = [], __self = this, _print = function(value) {
-      if (typeof value !== 'undefined' && value != null)
-        __out.push(value.ecoSafe ? value : __self.escape(value));
-    }, _capture = function(callback) {
-      var out = __out, result;
-      __out = [];
-      callback.call(this);
-      result = __out.join('');
-      __out = out;
-      return _safe(result);
+  if (!__escape) {
+    __escape = __obj.escape = function(value) {
+      return ('' + value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
     };
+  }
+  (function() {
     (function() {
-      _print(_safe('<span class="nub"></span>\n\n<div id="select_from_container" class="clearfix">\n  <div class="fl">\n    <a href="#" id="select_from_tagged"><span>Select From</span> Photos I\'m Tagged In</a>\n  </div>\n  <div class="fr">\n    <a href="#" id="select_from_albums"><span>Select From</span> Photos In My Albums</a>\n    <select class="h_center_cheat v_center_cheat">\n      <option value="">Select an album:&nbsp;</option>\n    </select>\n  </div>\n</div>\n\n<div id="photo_choices">\n  <ul class="clearfix"></ul>\n</div>\n'));
+      __out.push('<span class="nub"></span>\n\n<div id="select_from_container" class="clearfix">\n  <div class="fl">\n    <a href="#" id="select_from_tagged"><span>Select From</span> Photos I\'m Tagged In</a>\n  </div>\n  <div class="fr">\n    <a href="#" id="select_from_albums"><span>Select From</span> Photos In My Albums</a>\n    <select class="h_center_cheat v_center_cheat">\n      <option value="">Select an album:&nbsp;</option>\n    </select>\n  </div>\n</div>\n\n<div id="photo_choices">\n  <ul class="clearfix"></ul>\n</div>\n');
     }).call(this);
     
-    return __out.join('');
-  }).call((function() {
-    var obj = {
-      escape: function(value) {
-        return ('' + value)
-          .replace(/&/g, '&amp;')
-          .replace(/</g, '&lt;')
-          .replace(/>/g, '&gt;')
-          .replace(/"/g, '&quot;');
-      },
-      safe: _safe
-    }, key;
-    for (key in __obj) obj[key] = __obj[key];
-    return obj;
-  })());
-};}, "templates/memories/memories_show_profile_pic": function(exports, require, module) {module.exports = function(__obj) {
-  var _safe = function(value) {
-    if (typeof value === 'undefined' && value == null)
-      value = '';
-    var result = new String(value);
-    result.ecoSafe = true;
-    return result;
+  }).call(__obj);
+  __obj.safe = __objSafe, __obj.escape = __escape;
+  return __out.join('');
+}}, "templates/memories/memories_show_profile_pic": function(exports, require, module) {module.exports = function(__obj) {
+  if (!__obj) __obj = {};
+  var __out = [], __capture = function(callback) {
+    var out = __out, result;
+    __out = [];
+    callback.call(this);
+    result = __out.join('');
+    __out = out;
+    return __safe(result);
+  }, __sanitize = function(value) {
+    if (value && value.ecoSafe) {
+      return value;
+    } else if (typeof value !== 'undefined' && value != null) {
+      return __escape(value);
+    } else {
+      return '';
+    }
+  }, __safe, __objSafe = __obj.safe, __escape = __obj.escape;
+  __safe = __obj.safe = function(value) {
+    if (value && value.ecoSafe) {
+      return value;
+    } else {
+      if (!(typeof value !== 'undefined' && value != null)) value = '';
+      var result = new String(value);
+      result.ecoSafe = true;
+      return result;
+    }
   };
-  return (function() {
-    var __out = [], __self = this, _print = function(value) {
-      if (typeof value !== 'undefined' && value != null)
-        __out.push(value.ecoSafe ? value : __self.escape(value));
-    }, _capture = function(callback) {
-      var out = __out, result;
-      __out = [];
-      callback.call(this);
-      result = __out.join('');
-      __out = out;
-      return _safe(result);
+  if (!__escape) {
+    __escape = __obj.escape = function(value) {
+      return ('' + value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
     };
+  }
+  (function() {
     (function() {
-      _print(_safe('<li data-fb-id="'));
-      _print(this.friend.id);
-      _print(_safe('" data-tagged-by="'));
-      _print(this.taggedBy);
-      _print(_safe('">\n  <div class="profile_pic">\n    <label></label>\n    <img src="http://graph.facebook.com/'));
-      _print(this.friend.id);
-      _print(_safe('/picture?type=square" width="50" height="50" />\n  </div>\n  <div class="name" >\n    <a href="'));
-      _print(this.friend.link);
-      _print(_safe('">'));
-      _print(this.friend.name);
-      _print(_safe('</a>\n  </div>\n</li>\n'));
+      __out.push('<li data-fb-id="');
+      __out.push(__sanitize(this.friend.id));
+      __out.push('" data-tagged-by="');
+      __out.push(__sanitize(this.taggedBy));
+      __out.push('">\n  <div class="profile_pic">\n    <label></label>\n    <img src="http://graph.facebook.com/');
+      __out.push(__sanitize(this.friend.id));
+      __out.push('/picture?type=square" width="50" height="50" />\n  </div>\n  <div class="name" >\n    <a href="');
+      __out.push(__sanitize(this.friend.link));
+      __out.push('">');
+      __out.push(__sanitize(this.friend.name));
+      __out.push('</a>\n  </div>\n</li>\n');
     }).call(this);
     
-    return __out.join('');
-  }).call((function() {
-    var obj = {
-      escape: function(value) {
-        return ('' + value)
-          .replace(/&/g, '&amp;')
-          .replace(/</g, '&lt;')
-          .replace(/>/g, '&gt;')
-          .replace(/"/g, '&quot;');
-      },
-      safe: _safe
-    }, key;
-    for (key in __obj) obj[key] = __obj[key];
-    return obj;
-  })());
-};}, "views/home/home_index_view": function(exports, require, module) {(function() {
+  }).call(__obj);
+  __obj.safe = __objSafe, __obj.escape = __escape;
+  return __out.join('');
+}}, "views/home/home_index_view": function(exports, require, module) {(function() {
   var homeTemplate;
   var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
     for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
@@ -16706,10 +16730,10 @@ window.Modernizr = (function( window, document, undefined ) {
   };
   homeTemplate = require('templates/home/home_index');
   exports.HomeIndexView = (function() {
+    __extends(HomeIndexView, Backbone.View);
     function HomeIndexView() {
       HomeIndexView.__super__.constructor.apply(this, arguments);
     }
-    __extends(HomeIndexView, Backbone.View);
     HomeIndexView.prototype.id = 'home-view';
     HomeIndexView.prototype.render = function() {
       $(this.el).html(homeTemplate());
@@ -16730,10 +16754,10 @@ window.Modernizr = (function( window, document, undefined ) {
   }, __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
   memoriesShowPhotoSelectorTemplate = require('templates/memories/memories_show_photo_selector');
   exports.MemoriesShowPhotoSelectorView = (function() {
+    __extends(MemoriesShowPhotoSelectorView, Backbone.View);
     function MemoriesShowPhotoSelectorView() {
       MemoriesShowPhotoSelectorView.__super__.constructor.apply(this, arguments);
     }
-    __extends(MemoriesShowPhotoSelectorView, Backbone.View);
     MemoriesShowPhotoSelectorView.prototype.id = 'photo_selector_view';
     MemoriesShowPhotoSelectorView.prototype.state = {
       limit: 60,
@@ -16917,10 +16941,10 @@ window.Modernizr = (function( window, document, undefined ) {
   memoriesShowTemplate = require('templates/memories/memories_show');
   memoriesShowProfilePicTemplate = require('templates/memories/memories_show_profile_pic');
   exports.MemoriesShowView = (function() {
+    __extends(MemoriesShowView, Backbone.View);
     function MemoriesShowView() {
       MemoriesShowView.__super__.constructor.apply(this, arguments);
     }
-    __extends(MemoriesShowView, Backbone.View);
     MemoriesShowView.prototype.id = 'memories_show_view';
     MemoriesShowView.prototype.events = {
       'click a#tag_friends': 'showFriendSelector',

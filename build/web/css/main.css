@@ -87,12 +87,12 @@ li .profile_pic:hover label{left:3px}
 .ui-tooltip a,.qtip a{color:#3b5998}
 .ui-datepicker-trigger{display:none}
 .ui-datepicker{padding:0;-webkit-border-radius:0;-moz-border-radiius:0;border-radius:0;width:190px;border-top:1px solid #3a589b;border-bottom:2px solid #3a589b;}
-.ui-datepicker .ui-widget-header{background:#6d84b4;color:#555;border:0;-webkit-border-radius:0;-moz-border-radiius:0;border-radius:0;aaa}
-.ui-datepicker .ui-widget-header .ui-datepicker-prev,.ui-datepicker .ui-widget-header a.ui-datepicker-next{border-color:#ff0;-webkit-border-radius:0;-moz-border-radiius:0;border-radius:0;width:6px;height:11px;border:1px solid transparent;}
-.ui-datepicker .ui-widget-header .ui-datepicker-prev:hover,.ui-datepicker .ui-widget-header a.ui-datepicker-next:hover{background:transparent;cursor:pointer}
-.ui-datepicker .ui-widget-header .ui-datepicker-prev span,.ui-datepicker .ui-widget-header a.ui-datepicker-next span{display:none}
-.ui-datepicker .ui-widget-header .ui-datepicker-prev,.ui-datepicker .ui-widget-header a.ui-datepicker-prev:hover{background:transparent url("/web/img/arrows.png") no-repeat 0 -35px;left:8px;top:8px}
-.ui-datepicker .ui-widget-header .ui-datepicker-next,.ui-datepicker .ui-widget-header a.ui-datepicker-next:hover{background:transparent url("/web/img/arrows.png") no-repeat -7px -35px;right:8px;top:8px}
+.ui-datepicker .ui-widget-header{background:#6d84b4;color:#555;border:0;-webkit-border-radius:0;-moz-border-radiius:0;border-radius:0;}
+.ui-datepicker .ui-widget-header a.ui-datepicker-prev,.ui-datepicker .ui-widget-header a.ui-datepicker-next{border-color:#ff0;-webkit-border-radius:0;-moz-border-radiius:0;border-radius:0;width:6px;height:11px;border:1px solid transparent;}
+.ui-datepicker .ui-widget-header a.ui-datepicker-prev:hover,.ui-datepicker .ui-widget-header a.ui-datepicker-next:hover{background:transparent;cursor:pointer}
+.ui-datepicker .ui-widget-header a.ui-datepicker-prev span,.ui-datepicker .ui-widget-header a.ui-datepicker-next span{display:none}
+.ui-datepicker .ui-widget-header a.ui-datepicker-prev,.ui-datepicker .ui-widget-header a.ui-datepicker-prev:hover{background:transparent url("/web/img/arrows.png") no-repeat 0 -35px;left:8px;top:8px}
+.ui-datepicker .ui-widget-header a.ui-datepicker-next,.ui-datepicker .ui-widget-header a.ui-datepicker-next:hover{background:transparent url("/web/img/arrows.png") no-repeat -7px -35px;right:8px;top:8px}
 .ui-datepicker .ui-widget-header select{font-size:10px;font-weight:bold;width:60px;position:relative;top:-2px;text-align:center}
 .ui-datepicker .ui-widget-header select.ui-datepicker-month{margin-right:2px}
 .ui-datepicker .ui-widget-header select.ui-datepicker-year{margin-left:2px}
@@ -109,7 +109,7 @@ a.ui-state-default.ui-state-highlight.ui-state-active{border-color:#bec8dd}
 #dialog > div h3{font-size:108%;color:#fff;background-color:#6d84b4;padding:5px 10px;margin:0}
 #friend_selector{width:450px;background-color:#f7f7f7;overflow:hidden;}
 #friend_selector #friend_selector_controls{padding:10px;}
-#friend_selector #friend_selector_controls input{background:#fff url("/web/img/sprite1.png") no-repeat 0 4px;padding-left:17px;padding-bottom:4px;width:270px}
+#friend_selector #friend_selector_controls input{background:#fff url("/web/img/sprite1.png") no-repeat 0% 4px;padding-left:17px;padding-bottom:4px;width:270px}
 #friend_selector #friend_selector_controls a{font-size:85%;font-weight:bold;float:right;height:20px;line-height:20px;padding:0 4px;border:1px solid #f7f7f7}
 #friend_selector #friend_selector_controls a.highlight{background-color:#6d84b4;-webkit-border-radius:5px;-moz-border-radiius:5px;border-radius:5px;color:#fff;cursor:default;border:1px solid #6d84b4;}
 #friend_selector #friend_selector_controls a.highlight:hover{text-decoration:none}

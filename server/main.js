@@ -5,7 +5,7 @@ var port = process.argv[2];
 var express = require("express");
 var app = express.createServer();
 
-var buildPath = path.join(process.argv[3], 'couch/_attachments');
+var buildPath = path.join(process.argv[3], 'build');
 
 app.configure(function(){
     app.set('views', buildPath);
@@ -13,10 +13,6 @@ app.configure(function(){
 });
 
 app.get('/', function(req, res){
-  res.render('index');
-});
-
-app.post('/', function(req, res){
   res.render('index');
 });
 
