@@ -16473,7 +16473,8 @@ window.Modernizr = (function( window, document, undefined ) {
         id: id
       });
       $('#fb_wrapper').html(app.views.memories_show.render().el);
-      return app.views.memories_show.datepickers();
+      app.views.memories_show.datepickers();
+      return console.log($.cookie('access_token'));
     };
     return MemoriesController;
   })();

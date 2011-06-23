@@ -8,6 +8,8 @@ class exports.MemoriesController extends Backbone.Controller
     $('#fb_wrapper').html app.views.memories_show.render().el
     app.views.memories_show.datepickers()
     
+    console.log $.cookie 'access_token'
+    
     # latlng = new google.maps.LatLng(-34.397, 150.644);
     # myOptions =
     #   zoom: 8

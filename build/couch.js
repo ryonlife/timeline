@@ -1,6 +1,8 @@
 var httpProxy = require('http-proxy');
 var url = require('url');
 var fs = require('fs');
+var https = require('https');
+var querystring = require('querystring');
 
 httpProxy.createServer(function(req, res, proxy) {
   var path = url.parse(req.url).pathname;
@@ -76,3 +78,21 @@ var Render = function() {
 };
 
 var render = new Render();
+
+// d = new Date();
+// cache[token] = {fb_uid: '123', fb_friends_uids: [], timestamp: d.getTime()}
+// https://graph.facebook.com/me/friends?access_token=
+// {"data":[{"name":"Mike Baria","id":"15548"}, ...
+
+var params = {access_token: '121822724510409|2.AQA5MBhgtAvl1IQF.3600.1308848400.1-569255561|7DCPSnWY1w_8v5_V64CYjcpz-vQ'};
+var options = {host: 'graph.facebook.com', path: '/me/friends?'+querystring.stringify(params)};
+var options = {host: 'graph.facebook.com', path: '/me?'+querystring.stringify(params)};
+var req = https.request(options, function(res) {
+  res.on('data', function(data) {
+    console.log(data.toString('utf8'));
+  });
+});
+req.end();
+req.on('error', function(e) {
+  console.error(e);
+});
