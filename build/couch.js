@@ -4,29 +4,13 @@ var fs = require('fs');
 var https = require('https');
 var querystring = require('querystring');
 
-httpProxy.createServer(function(req, res, proxy) {
-  var path = url.parse(req.url).pathname;
-  
-  if (path == '/' || path == '/index.html') {
-    // Root index.html file that will initialize Backbone.js
-    render.file('index.html', res);
-    
-  } else if (path.search(/\/web\//) == 0) {
-    // JS, CSS and image assets
-    render.file(path.substr(1), res);
-  
-  } else {
-    // Everything else should be proxied to CouchDB
-    proxy.proxyRequest(req, res, {
-      host: 'localhost',
-      port: 5984
-    });
-  }
-}).listen(8000);
-console.log('CouchDB proxy running at http://localhost:8000/');
+// process.on('uncaughtException', function (err) {
+//   console.error(err);
+// });
 
 var Render = function() {
   // Renders files to the browser, with simple in-memory caching
+  
   var cache = {};
   
   this.file = function(file, res) {
@@ -64,7 +48,6 @@ var Render = function() {
       fs.readFile(file, encoding, function(err, data) {
         if (err) {
           // Couldn't find it, so respond with a 404
-          console.log(file);
           res.writeHead(404);
           res.end();
         } else {
@@ -77,22 +60,134 @@ var Render = function() {
   };
 };
 
+var FbAuth = function() {
+  // Changes a Facebook token into a Facebook ID, and verifies friend lists, to prevent any funny business
+  
+  var self = this;
+  this.authenticated = {};
+  
+  this.authenticate = function(token) {
+    self.authenticated[token] = {fbId: null, friends: null, timestamp: new Date()};
+    
+    // FB UID
+    var dataMe = ''
+    var reqMe = https.request({host: 'graph.facebook.com', path: '/me?'+querystring.stringify({access_token: token})}, function(res) {
+      res.on('data', function(data) {
+        dataMe += data.toString('utf8');
+      });
+      res.on('end', function() {
+        dataMe = JSON.parse(dataMe);
+        if (self.authenticated[token] && res.statusCode == 200) {
+          // Succesful API calls
+          self.authenticated[token].fbId = dataMe.id;
+          console.log('Facebook user '+dataMe.id);
+        } else {
+          // API error
+          delete self.authenticated[token];
+          console.error(data);
+        }
+      });
+    });
+    reqMe.on('error', function(e) {
+      delete self.authenticated[token];
+    });
+    reqMe.end();
+    
+    // FB friends
+    var dataFriends = ''
+    var reqFriends = https.request({host: 'graph.facebook.com', path: '/me/friends?'+querystring.stringify({access_token: token})}, function(res) {      
+      res.on('data', function(data) {
+        dataFriends += data.toString('utf8');
+      });
+      res.on('end', function() {
+        dataFriends = JSON.parse(dataFriends);
+        if (self.authenticated[token] && res.statusCode === 200) {
+          // Succesful API call
+          var fbIds = [];
+          for (var i = 0; i < dataFriends.data.length; i++) {
+            fbIds.push(dataFriends.data[i].id);
+          }
+          self.authenticated[token].friends = fbIds;
+          console.log('Facebook friend count '+fbIds.length);
+        } else {
+          // API error
+          delete self.authenticated[token];
+          console.error(data);
+        }
+        expireCache();
+      });
+    });
+    reqFriends.on('error', function(e) {
+      delete self.authenticated[token];
+    });
+    reqFriends.end();
+  };
+  
+  function expireCache() {
+    // Expire old authentication objects from the cache
+    
+    // Cached authenticated objects should not be older than an hour
+    var now = new Date();
+    var oldestSurvivor = null;
+    for (var i = 0; i < self.authenticated.length; i++) {
+      if (self.authenticated[i].timestamp - now < 3600000) {
+        oldestSurvivor = i;
+        break;
+      }
+    }
+    if (oldestSurvivor) {
+      self.authenticated.splice(0, oldestSurvivor);
+    }
+    
+    // Cache should not contain more than 25,000 keys
+    if (self.authenticated.length > 25000) {
+      self.authenticated.splice(0, 1);
+    }
+  }
+};
+
 var render = new Render();
+var fbAuth = new FbAuth();
 
-// d = new Date();
-// cache[token] = {fb_uid: '123', fb_friends_uids: [], timestamp: d.getTime()}
-// https://graph.facebook.com/me/friends?access_token=
-// {"data":[{"name":"Mike Baria","id":"15548"}, ...
+httpProxy.createServer(function(req, res, proxy) {
+  var path = url.parse(req.url).pathname;
+  
+  if (path == '/' || path == '/index.html') {
+    // Root index.html file that will initialize Backbone.js
+    render.file('index.html', res);
+    
+  } else if (path.search(/\/web\//) == 0) {
+    // JS, CSS and image assets
+    render.file(path.substr(1), res);
+  
+  } else {
+    // Everything else should be proxied to CouchDB
+    var token = '121822724510409%257C2.AQAGHhmq6zI4uAE9.3600.1309194000.1-569255561%257CqcWeHy5mbzN56S1TTZIQuByi36g';
+    var authStarted = false;
+    var authAttempt = setInterval(function() {
+      if (!authStarted && !fbAuth.authenticated[token]) {
+        // User has not been authenticated
+        console.log('Authenticating...');
+        authStarted = true;
+        fbAuth.authenticate(token);
 
-var params = {access_token: '121822724510409|2.AQA5MBhgtAvl1IQF.3600.1308848400.1-569255561|7DCPSnWY1w_8v5_V64CYjcpz-vQ'};
-var options = {host: 'graph.facebook.com', path: '/me/friends?'+querystring.stringify(params)};
-var options = {host: 'graph.facebook.com', path: '/me?'+querystring.stringify(params)};
-var req = https.request(options, function(res) {
-  res.on('data', function(data) {
-    console.log(data.toString('utf8'));
-  });
-});
-req.end();
-req.on('error', function(e) {
-  console.error(e);
-});
+      } else if (fbAuth.authenticated[token] && fbAuth.authenticated[token].fbId && fbAuth.authenticated[token].friends) {
+        // User has been authenticated
+        console.log('Proxying...');
+        clearInterval(authAttempt);
+        res.writeHead(200);
+        res.end();
+        // proxy.proxyRequest(req, res, {host: 'localhost', port: 5984});
+
+      } else if (authStarted && !fbAuth.authenticated[token]) {
+        // Authentication failed
+        clearInterval(authAttempt);
+        res.writeHead(401);
+        res.end();
+      }
+      
+      // else: just wait for Facebook Graph API calls to return
+    }, 100);
+  }
+}).listen(8000);
+console.log('CouchDB proxy running at http://localhost:8000/');
