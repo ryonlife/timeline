@@ -150,44 +150,75 @@ var render = new Render();
 var fbAuth = new FbAuth();
 
 httpProxy.createServer(function(req, res, proxy) {
-  var path = url.parse(req.url).pathname;
+  // Can serve static assets, or authenticate through Facebook the proxy on to CouchDB
   
-  if (path == '/' || path == '/index.html') {
-    // Root index.html file that will initialize Backbone.js
-    render.file('index.html', res);
+  // Get the request body
+  var body = ''
+  req.on('data', function(data) {
+    body += data;
+  });
+  
+  // Finished receiving request
+  req.on('end', function() {
+    var parsedUrl = url.parse(req.url, true);
     
-  } else if (path.search(/\/web\//) == 0) {
-    // JS, CSS and image assets
-    render.file(path.substr(1), res);
-  
-  } else {
-    // Everything else should be proxied to CouchDB
-    var token = '121822724510409%257C2.AQAGHhmq6zI4uAE9.3600.1309194000.1-569255561%257CqcWeHy5mbzN56S1TTZIQuByi36g';
-    var authStarted = false;
-    var authAttempt = setInterval(function() {
-      if (!authStarted && !fbAuth.authenticated[token]) {
-        // User has not been authenticated
-        console.log('Authenticating...');
-        authStarted = true;
-        fbAuth.authenticate(token);
+    // Set headers
+    
+    if (req.method == 'OPTIONS') {
+      // What to response with??
+      // Access-Control-Allow-Methods: POST, PUT, GET, DELETE, OPTIONS
+    } else if (req.method == 'POST' || req.method == 'PUT') {
+      // Params in the request body
+      var params = querystring.parse(body);
+    } else {
+      // Params in the query string
+      var params = parsedUrl.query
+    }
+    
+    // Path will dictate routing
+    var path = parsedUrl.pathname;
 
-      } else if (fbAuth.authenticated[token] && fbAuth.authenticated[token].fbId && fbAuth.authenticated[token].friends) {
-        // User has been authenticated
-        console.log('Proxying...');
-        clearInterval(authAttempt);
-        res.writeHead(200);
-        res.end();
-        // proxy.proxyRequest(req, res, {host: 'localhost', port: 5984});
+    if (path == '/' || path == '/index.html') {
+      // Root index.html file that will initialize Backbone.js
+      render.file('index.html', res);
 
-      } else if (authStarted && !fbAuth.authenticated[token]) {
-        // Authentication failed
-        clearInterval(authAttempt);
-        res.writeHead(401);
-        res.end();
-      }
+    } else if (path.search(/\/web\//) == 0) {
+      // JS, CSS and image assets
+      render.file(path.substr(1), res);
+
+    } else if (params.token) {
+      // Everything else should be proxied to CouchDB
+      var authStarted = false;
+      var authAttempt = setInterval(function() {
+        if (!authStarted && !fbAuth.authenticated[params.token]) {
+          // User has not been authenticated
+          console.log('Authenticating...');
+          authStarted = true;
+          fbAuth.authenticate(params.token);
+
+        } else if (fbAuth.authenticated[params.token] && fbAuth.authenticated[params.token].fbId && fbAuth.authenticated[params.token].friends) {
+          // User has been authenticated
+          console.log('Proxying...');
+          clearInterval(authAttempt);
+          res.writeHead(200);
+          res.end();
+          // proxy.proxyRequest(req, res, {host: 'localhost', port: 5984});
+
+        } else if (authStarted && !fbAuth.authenticated[params.token]) {
+          // Authentication failed
+          clearInterval(authAttempt);
+          res.writeHead(401);
+          res.end();
+        }
+
+        // else: just wait for Facebook Graph API calls to return
+      }, 100);
       
-      // else: just wait for Facebook Graph API calls to return
-    }, 100);
-  }
+    } else {
+      // Everything else should 404
+      res.writeHead(404);
+      res.end();
+    }
+  });
 }).listen(8000);
 console.log('CouchDB proxy running at http://localhost:8000/');
