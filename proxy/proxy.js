@@ -89,10 +89,16 @@ function forwardRequest(inRequest, inResponse, uri) {
         // Append Facebook data onto the querystring or request body before proxying the request
         
         // Proxy request
+        if (uri.pathname === '/_uuids') {
+          // Special case for UUID generation
+          var path = '/_uuids' + uri.search || '';
+        } else {
+          var path = PREFIX + uri.pathname.substring(1) + uri.search || '';
+        }
         var outRequest = http.request({
           host: uri.hostname,
           port: uri.port || 80,
-          path: PREFIX + uri.pathname + (uri.search || ''),
+          path: path,
           method: inRequest.method,
           headers: headers
         });
