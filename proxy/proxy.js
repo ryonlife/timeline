@@ -1,5 +1,5 @@
 if (process.argv[2] == 'production') {
-  var TARGET = 'https://app584241.heroku.cloudant.com';
+  var TARGET = 'http://app584241.heroku.cloudant.com:80';
   var USERNAME = 'meneveguentenerestakewhi';
   var PASSWORD = '4NmBXtNCpylinPauG5SEmSrV';
   var PREFIX = '/timeline/';
@@ -23,25 +23,41 @@ if (process.argv[2] == 'production') {
 var sys = require('sys');
 var http = require('http');
 var https = require('https');
+var httpProxy = require('http-proxy');
 var url = require('url');
 var querystring = require('querystring');
 var _ = require('../brunch/src/vendor/underscore-1.1.6.js');
 var Hoptoad = require('./hoptoad-notifier').Hoptoad;
 
-// Unhandled Node exceptions
+// Unhandled exceptions
 process.on('uncaughtException', function(e) {
   ERROR(e);
 });
 
+var proxy = new httpProxy.HttpProxy();
+
 // Server
 function handleRequest(request, response) {
   var u = url.parse(request.url);
+  
   // Only serve URLs that start with PREFIX
   if (u.pathname.substring(0, PREFIX.length) != PREFIX) {
     return error(response, 'not found', 'Nothing found here.', 404);
   }
-  u = TARGET + u.pathname.substring(PREFIX.length-1) + (u.search || '');
-  forwardRequest(request, response, u);
+  
+  uri = TARGET + u.pathname.substring(PREFIX.length-1) + (u.search || '');
+  
+  if (u.pathname.match(/^\/timeline\/_design\/timeline\//)) {
+    // Just getting static assets, so keep the proxying simple
+    hostAndPort = TARGET.split('//')[1].split(':');
+    proxy.proxyRequest(request, response, {
+      host: hostAndPort[0],
+      port: hostAndPort[1]
+    });
+  } else{
+    // Homegrown proxy with Facebook authentication
+    forwardRequest(request, response, uri);
+  }
 }
 http.createServer(handleRequest).listen(PORT);
 sys.puts('Proxy ready on port ' + PORT + '.');
@@ -69,22 +85,28 @@ function forwardRequest(inRequest, inResponse, uri) {
       var params = querystring.parse(inData);
     }
 
-    var authStarted = false;
+    if (uri.pathname.match(/^\/_design\/timeline\//)) {
+        var authStarted = true;
+        var skipAuth = true;
+    } else {
+        var authStarted = false;
+    }
+    
     var authAttempt = setInterval(function() {
       
-      if (!authStarted && !fbAuth.authenticated[params.token]) {
+      if (!skipAuth && !authStarted && !fbAuth.authenticated[params.token]) {
         // User has not been authenticated, so authenticate
         authStarted = true;
         fbAuth.authenticate(params.token);
       
-      } else if (fbAuth.authenticated[params.token] && fbAuth.authenticated[params.token].fbId && fbAuth.authenticated[params.token].friends) {
+      } else if (skipAuth || (fbAuth.authenticated[params.token] && fbAuth.authenticated[params.token].fbId && fbAuth.authenticated[params.token].friends)) {
         // User has been authenticated, so time to proxy
         clearInterval(authAttempt);
         
         var headers = inRequest.headers;  
-        headers['host'] = uri.hostname + ':' + (uri.port||80);
+        headers['host'] = uri.hostname + ':' + (uri.port || 80);
         headers['x-forwarded-for'] = inRequest.connection.remoteAddress;
-        headers['referer'] = 'http://' + uri.hostname + ':' + (uri.port||80) + '/';
+        headers['referer'] = 'http://' + uri.hostname + ':' + (uri.port || 80) + '/';
         
         // Append Facebook data onto the querystring or request body before proxying the request
         
@@ -144,8 +166,8 @@ function forwardRequest(inRequest, inResponse, uri) {
 
 function error(response, error, reason, code) {
   sys.log('Error '+code+': '+error+' ('+reason+').');
-  response.writeHead(code, { 'Content-Type': 'application/json' });
-  response.write(JSON.stringify({ error: error, reason: reason }));
+  response.writeHead(code, {'Content-Type': 'application/json'});
+  response.write(JSON.stringify({error: error, reason: reason}));
   response.end();
 }
 
