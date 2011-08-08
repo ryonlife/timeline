@@ -41,20 +41,23 @@ function handleRequest(request, response) {
   var u = url.parse(request.url);
   
   // Only serve URLs that start with PREFIX
-  if (u.pathname.substring(0, PREFIX.length) != PREFIX) {
+  if (u.pathname.substring(0, PREFIX.length) != PREFIX && u.pathname != '/') {
     return error(response, 'not found', 'Nothing found here.', 404);
   }
   
   uri = TARGET + u.pathname.substring(PREFIX.length-1) + (u.search || '');
   
-  if (u.pathname.match(/^\/timeline\/_design\/timeline\//)) {
+  if (u.pathname.match(/^\/timeline\/_design\/timeline\//) || u.pathname == '/') {
     // Just getting static assets, so keep the proxying simple
+    if (u.pathname == '/') {
+      request.url = '/timeline/_design/timeline/index.html';
+    }
     hostAndPort = TARGET.split('//')[1].split(':');
     proxy.proxyRequest(request, response, {
       host: hostAndPort[0],
       port: hostAndPort[1]
     });
-  } else{
+  } else {
     // Homegrown proxy with Facebook authentication
     forwardRequest(request, response, uri);
   }

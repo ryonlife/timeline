@@ -158,7 +158,7 @@ class exports.MemoriesShowPhotoSelectorView extends Backbone.View
     # Resets the actual display of photos
     $('#photo_choices')
       .hide()
-      .find('ul').css('background', 'transparent url(/web/img/spinner.gif) no-repeat center center')
+      .find('ul').css('background', 'transparent url(/timeline/_design/timeline/web/img/spinner.gif) no-repeat center center')
       .find('li').remove()
     @state = _.extend(@state, {page: 1, maxReached: false, pendingRequest: false})
       

@@ -246,7 +246,7 @@ class exports.MemoriesShowView extends Backbone.View
       $el.parent()
         .removeClass('fb_gallery')
         .addClass('add_photos')
-        .css({backgroundImage: 'url(/web/img/add_photo.png)', height: 160})
+        .css({backgroundImage: 'url(/timeline/_design/timeline/web/img/add_photo.png)', height: 160})
         .attr('href', '#')
     
     # Removing photo from the gallery

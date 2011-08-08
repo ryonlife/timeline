@@ -1,5 +1,5 @@
 exports.Timeline =
-  API: 'http://localhost:8080'
+  API: 'http://localhost:8001'
 
   sync: (method, model, options) ->
     

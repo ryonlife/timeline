@@ -3,8 +3,8 @@ class exports.MemoriesController extends Backbone.Controller
     '/memories/new': 'new'
     '/memories/:id': 'show'
 
-  new: ->
-    http://127.0.0.1:5984/_uuids
+  # new: ->
+  #   http://127.0.0.1:5984/_uuids
 
   show: ->
     id = location.hash.split('/')[2]
