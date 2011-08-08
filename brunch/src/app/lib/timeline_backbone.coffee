@@ -1,6 +1,4 @@
 exports.Timeline =
-  API: 'http://localhost:8001'
-
   sync: (method, model, options) ->
     
     # Default JSON-request options
@@ -8,7 +6,7 @@ exports.Timeline =
     params = _.extend {type}, options
 
     # Construct the full cross-domain API URL
-    params.url = Timeline.API + if !params.url then getUrl(model) else params.url
+    params.url = CONFIG.url + if !params.url then getUrl(model) else params.url
 
     # Ensure appropriate request data
     if !params.data and model and (method == 'create' or method == 'update')

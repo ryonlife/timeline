@@ -1,4 +1,5 @@
 if (process.argv[2] == 'production') {
+  var ENV = 'production';
   var TARGET = 'http://app584241.heroku.cloudant.com:80';
   var USERNAME = 'meneveguentenerestakewhi';
   var PASSWORD = '4NmBXtNCpylinPauG5SEmSrV';
@@ -10,6 +11,7 @@ if (process.argv[2] == 'production') {
     Hoptoad.notify(e);
   };
 } else {
+  var ENV = 'development'
   var TARGET = 'http://localhost:5984';
   var USERNAME = '';
   var PASSWORD = '';
@@ -19,6 +21,8 @@ if (process.argv[2] == 'production') {
     sys.log(e.stack);
   };
 }
+
+var TOKEN = null;
 
 var sys = require('sys');
 var http = require('http');
@@ -39,6 +43,16 @@ var proxy = new httpProxy.HttpProxy();
 // Server
 function handleRequest(request, response) {
   var u = url.parse(request.url);
+  
+  if (request.headers.cookie) {
+    var cookies = request.headers.cookie.split(';');
+    _.each(cookies, function(cookie) {
+      cookie = cookie.split('=');
+      if (cookie[0] == 'access_token') {
+        TOKEN = cookie[1];
+      }
+    });
+  }
   
   // Only serve URLs that start with PREFIX
   if (u.pathname.substring(0, PREFIX.length) != PREFIX && u.pathname != '/') {
@@ -97,12 +111,12 @@ function forwardRequest(inRequest, inResponse, uri) {
     
     var authAttempt = setInterval(function() {
       
-      if (!skipAuth && !authStarted && !fbAuth.authenticated[params.token]) {
+      if (!skipAuth && !authStarted && !fbAuth.authenticated[TOKEN]) {
         // User has not been authenticated, so authenticate
         authStarted = true;
-        fbAuth.authenticate(params.token);
+        fbAuth.authenticate(TOKEN);
       
-      } else if (skipAuth || (fbAuth.authenticated[params.token] && fbAuth.authenticated[params.token].fbId && fbAuth.authenticated[params.token].friends)) {
+      } else if (skipAuth || (fbAuth.authenticated[TOKEN] && fbAuth.authenticated[TOKEN].fbId && fbAuth.authenticated[TOKEN].friends)) {
         // User has been authenticated, so time to proxy
         clearInterval(authAttempt);
         
@@ -156,7 +170,7 @@ function forwardRequest(inRequest, inResponse, uri) {
         // All event handlers have been bound to the proxy request, so end it to CouchDB
         outRequest.end();
       
-      } else if (authStarted && !fbAuth.authenticated[params.token]) {
+      } else if (authStarted && !fbAuth.authenticated[TOKEN]) {
         // Authentication failed
         clearInterval(authAttempt);
         return error(inResponse, 'unauthorized', 'Facebook authentication failed.', 401);

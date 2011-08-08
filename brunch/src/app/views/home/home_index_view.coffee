@@ -5,4 +5,6 @@ class exports.HomeIndexView extends Backbone.View
 
   render: ->
     $(@.el).html homeTemplate()
+    $.get "#{CONFIG.url}/timeline/_uuids", (data) ->
+      console.log data
     @

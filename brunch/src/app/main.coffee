@@ -1,3 +1,9 @@
+window.CONFIG = require('lib/config').config
+
+if CONFIG.hoptoadApiKey
+  $.getScript 'http://hoptoadapp.com/javascripts/notifier.js', ->
+    Hoptoad.setKey(CONFIG.hoptoadApiKey)
+
 window.Timeline = require('lib/timeline_backbone').Timeline
 Backbone.sync = Timeline.sync
 
