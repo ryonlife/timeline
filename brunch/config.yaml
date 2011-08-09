@@ -1,6 +1,7 @@
 dependencies:
   - ConsoleDummy.js
-  - jquery-1.5.2.js
-  - underscore-1.1.6.js
+  - jquery-1.6.2.js
+  - underscore-1.1.7.js
   - backbone-master.js
+  - jquery.couch.js
 buildPath: _attachments

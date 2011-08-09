@@ -1,7 +1,7 @@
-class exports.MemoriesController extends Backbone.Controller
+class exports.MemoriesRouter extends Backbone.Router
   routes:
-    '/memories/new': 'new'
-    '/memories/:id': 'show'
+    '!/memories/new': 'new'
+    '!/memories/:id': 'show'
 
   # new: ->
   #   http://127.0.0.1:5984/_uuids

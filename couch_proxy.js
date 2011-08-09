@@ -30,7 +30,7 @@ var https = require('https');
 var httpProxy = require('http-proxy');
 var url = require('url');
 var querystring = require('querystring');
-var _ = require('./brunch/src/vendor/underscore-1.1.6.js');
+var _ = require('./brunch/src/vendor/underscore-1.1.7.js');
 var Hoptoad = require('./hoptoad_notifier').Hoptoad;
 
 // Unhandled exceptions

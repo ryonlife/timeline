@@ -1,8 +1,8 @@
-class exports.HomeController extends Backbone.Controller
-  routes :
-    ''                     : 'oauth'
-    'access_token=:params' : 'access_token'
-    'home'                 : 'home_index'
+class exports.HomeRouter extends Backbone.Router
+  routes:
+    '': 'oauth'
+    'access_token=:params': 'access_token'
+    'home': 'home_index'
 
   constructor: ->
     super
