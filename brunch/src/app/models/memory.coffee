@@ -1,5 +1,7 @@
 class exports.Memory extends Backbone.Model
   
+  urlRoot: '/memories'
+  
   defaults:
     favoriteOf: []
     

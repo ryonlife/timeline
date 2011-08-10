@@ -21,6 +21,14 @@ class exports.MemoriesShowView extends Backbone.View
     
     'click #favorite': 'updateFavorite'
   
+  renderTest: ->
+    $el = $(@el).html 'test'
+    
+    memory = new app.models.memory
+    memory.save()
+    
+    @
+  
   render: ->
     $el = $(@el).html memoriesShowTemplate()
     app.views.memories_show_photo_selector.model = @model

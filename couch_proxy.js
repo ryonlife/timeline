@@ -56,8 +56,11 @@ function handleRequest(request, response) {
   
   // Only serve URLs that start with PREFIX
   if (u.pathname.substring(0, PREFIX.length) != PREFIX && u.pathname != '/') {
-    return error(response, 'not found', 'Nothing found here.', 404);
+    return error(response, 'not found', 'Not found: ' + u.pathname, 404);
   }
+  
+  console.log(request.method)
+  console.log(u.pathname);
   
   uri = TARGET + u.pathname.substring(PREFIX.length-1) + (u.search || '');
   
@@ -88,7 +91,7 @@ function forwardRequest(inRequest, inResponse, uri) {
   var inData = ''
   inRequest.on('data', function(chunk) {
     inData += chunk;
-    outRequest.write(chunk)
+    // outRequest.write(chunk)
   });
   
   inRequest.on('end', function() {
@@ -141,6 +144,8 @@ function forwardRequest(inRequest, inResponse, uri) {
           method: inRequest.method,
           headers: headers
         });
+        
+        outRequest.write(inData);
 
         outRequest.on('error', function(e) {
           unknownError(inResponse, e);

@@ -4,8 +4,8 @@ if CONFIG.hoptoadApiKey
   $.getScript 'http://hoptoadapp.com/javascripts/notifier.js', ->
     Hoptoad.setKey(CONFIG.hoptoadApiKey)
 
-window.Timeline = require('lib/timeline_backbone').Timeline
-Backbone.sync = Timeline.sync
+# window.Timeline = require('lib/timeline_backbone').Timeline
+# Backbone.sync = Timeline.sync
 
 Backbone.couch_connector.config.db_name = 'timeline';
 Backbone.couch_connector.config.ddoc_name = 'timeline';
