@@ -15,6 +15,7 @@ app.routers = {}
 app.models = {}
 app.collections = {}
 app.views = {}
+app.helpers = require('lib/helpers').helpers
 
 app.models.memory = require('models/memory').Memory
 
@@ -27,14 +28,38 @@ MemoriesShowView = require('views/memories/memories_show_view').MemoriesShowView
 MemoriesShowPhotoSelectorView = require('views/memories/memories_show_photo_selector_view').MemoriesShowPhotoSelectorView
 
 $(document).ready ->
-  app.initialize = ->
+  app.initialize = ->    
+    e = document.createElement 'script'
+    e.async = true
+    e.src = "#{document.location.protocol}//connect.facebook.net/en_US/all.js"
+    document.getElementById('fb-root').appendChild e
+  
+  app.initialize()
+  
+window.fbAsyncInit = ->
+  FB.init {appId: '121822724510409', status: true, cookie: true, xfbml: true}
+  FB.Canvas.setAutoResize()
+  
+  window.USER = {}
+  FB.api '/me', (response) -> USER.ME = response
+  FB.api '/me/friends', (response) -> USER.FRIENDS = response
+  FB.api '/me/albums', (response) -> USER.ALBUMS = response
+  
+  bootstrap = ->
     app.routers.home = new HomeRouter
     app.views.home_index = new HomeIndexView
-    
+
     app.routers.memories = new MemoriesRouter
     app.collections.memories = new MemoriesCollection
     app.views.memories_show = new MemoriesShowView
     app.views.memories_show_photo_selector = new MemoriesShowPhotoSelectorView
+
+    Backbone.history.start()
   
-  app.initialize()
-  Backbone.history.start()
+  fbComplete = null
+  FbComplete = setInterval ->
+    if USER.ME and USER.FRIENDS and USER.ALBUMS
+      clearInterval FbComplete
+      bootstrap()
+  , 50
+  

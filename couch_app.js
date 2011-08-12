@@ -10,7 +10,7 @@ ddoc = {
 
 module.exports = ddoc;
 
-doc.views.collection = {
+ddoc.views.collection = {
   map: function(doc) {
     if (doc.collection) {
       emit(doc.collection, doc);
