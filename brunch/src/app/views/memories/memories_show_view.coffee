@@ -16,8 +16,8 @@ class exports.MemoriesShowView extends Backbone.View
     'click a.fb_gallery label': 'removePhoto'
     
     'click #edit': 'editMemory'
-    'submit #memory_edit form': 'updateTitleDescription'
-    'click input[type=button]': 'cancelUpdateTitleDescription'
+    'submit #memory_edit form': 'updateTitleDescriptionDate'
+    'click input[type=button]': 'cancelUpdateTitleDescriptionDate'
     
     'click #favorite': 'updateFavorite'
   
@@ -46,7 +46,7 @@ class exports.MemoriesShowView extends Backbone.View
         altFormat = this._get(inst, 'altFormat') || this._get(inst, 'dateFormat')
         date = this._getDate(inst)
         dateStr = this.formatDate(altFormat, date, this._getFormatConfig(inst))
-        $(altField).each -> $(this).text(dateStr)        
+        $(altField).each -> $(this).text(dateStr)
     $.extend($.datepicker.__proto__, {_updateAlternate: duckPunch})
     
     # Initialize the jQuery UI datepickers
@@ -61,7 +61,7 @@ class exports.MemoriesShowView extends Backbone.View
         dayNamesMin: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
         showAnim: ''
         altFormat: 'MM d, yy'
-        dateFormat: 'MM d, yy'
+        dateFormat: 'yy-mm-dd'
         altField: '#'+$(this).attr('id').slice(0, -6)
         maxDate: 0
         minDate: new Date(birthdayParts[2], birthdayParts[0] - 1, birthdayParts[1])
@@ -74,19 +74,19 @@ class exports.MemoriesShowView extends Backbone.View
     $('#edit_title').val($('#title').text())
     $('#edit_description').val($('#description').text())
     
-    $('.datepicker').datepicker('setDate', $('#start_date').text())
-    $('.datepicker').data('priorDate', $('#start_date').text())
+    model = @model
+    $('.datepicker').datepicker('setDate', model.get('date'))
     
     $('#edit').first().qtip('toggle')
     
     $('#memory_header').hide()
     $('#memory_edit').fadeIn()
   
-  updateTitleDescription: (e) ->
+  updateTitleDescriptionDate: (e) ->
     e.preventDefault()
     
     title = $.trim($('#edit_title').val())
-    date = $('#start_date').text()
+    date = $.datepicker.formatDate 'yy-mm-dd', $('#start_datepicker').datepicker('getDate')
     description = $.trim($('#edit_description').val())
     
     if title and description
@@ -95,14 +95,17 @@ class exports.MemoriesShowView extends Backbone.View
         date: date
         description: description
       
+      @model.save()
+      
       $('#title').text(title)
       $('#description').text(description)
       
       $('#memory_edit').hide()
       $('#memory_header').fadeIn()
   
-  cancelUpdateTitleDescription: (e) ->
-    $('#start_date').text($('.datepicker').data('priorDate'))
+  cancelUpdateTitleDescriptionDate: (e) ->
+    model = @model
+    $('#start_date').text(model.formatDate())
     $('#memory_edit').hide()
     $('#memory_header').fadeIn()
   

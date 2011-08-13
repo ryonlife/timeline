@@ -7,7 +7,7 @@
     <div id="title_date_description">
       <header>
         <h1 id="title" data-model="title"><%= if @model.get 'title' then @model.get 'title' else 'New Memory' %></h1>
-        <h2 id="start_date" data-model="date"><%= @model.formatDate %></h2>
+        <h2 id="start_date" data-model="date"><%= @model.formatDate() %></h2>
         <p id="description" data-model="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eu orci nisi. Vivamus feugiat purus vel ipsum vestibulum sagittis. Donec et enim sed enim tempor aliquam. Vivamus id nisi tortor. Proin tempus, enim quis commodo euismod, orci eros elementum quam, eu fringilla mi tortor et velit.</p>
       </header>
       <fb:like href="#" send="true" layout="standard" width="418" show_faces="false"></fb:like>

@@ -12,12 +12,10 @@ class exports.Memory extends Backbone.Model
     photos: []
   
   initialize: ->
-    @attributes.favoriteOf = [@get('owner')]
+    @set {favoriteOf: [@get('owner')]}
   
   formatDate: ->
-    $.datepicker.formatDate 'MM 2, yy', new Date @get 'date'
+    $.datepicker.formatDate 'MM d, yy', new Date @get 'date'
     
   addFavoriteOf: (fbId) ->
-    # Why is this kicking an error?
-    # @set 'favoriteOf', _.union(@get('favoriteOf'), [userId])
-    @attributes.favoriteOf = _.union(@get('favoriteOf'), [fbId])
+    @set {favoriteOf: _.union @get('favoriteOf'), [userId]}
