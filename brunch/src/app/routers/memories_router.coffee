@@ -24,5 +24,5 @@ class exports.MemoriesRouter extends Backbone.Router
     
     view = new MemoriesShowView {model}
     $('#fb_wrapper').html view.render().el
-    view.datepickers()
+    Helpers.datepickers()
     

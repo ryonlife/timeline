@@ -1,4 +1,6 @@
+MemoriesShowHeaderView = require('views/memories/memories_show_header_view').MemoriesShowHeaderView
 MemoriesShowPhotoSelectorView = require('views/memories/memories_show_photo_selector_view').MemoriesShowPhotoSelectorView
+
 memoriesShowTemplate = require('templates/memories/memories_show')
 memoriesShowProfilePicTemplate = require('templates/memories/memories_show_profile_pic')
 
@@ -15,128 +17,32 @@ class exports.MemoriesShowView extends Backbone.View
     'click a.add_photos': 'showPhotoSelector'
     'click a.fb_gallery': 'showGallery'
     'click a.fb_gallery label': 'removePhoto'
-    
-    'click #edit': 'editMemory'
-    'submit #memory_edit form': 'updateTitleDescriptionDate'
-    'click input[type=button]': 'cancelUpdateTitleDescriptionDate'
-    
-    'click #favorite': 'updateFavorite'
   
   initialize: ->
-    _.bindAll @, 'render'
-    @model.bind 'change', @render
-    @model.fetch() if @model.id
+    @model.fetch() if not @model.isNew()
+    @views = {}
   
   render: ->
-    $el = $(@el).html memoriesShowTemplate {model: @model}
+    $el = $(@el)
     
-    @views = {}
+    # Container
+    $el.html memoriesShowTemplate {model: @model}
+    
+    # Header
+    memoriesShowHeaderView = new MemoriesShowHeaderView {model: @model}
+    $el.find('#header').html memoriesShowHeaderView.render().el
+    
+    # # Sidebar
+    # memoriesShowFriendsView = new MemoriesShowFriendsView {model: @model}
+    # $el.find('#sidebar').html memoriesShowFriendsView.render().el
+    
+    # Photo selector
     @views.photoSelector = new MemoriesShowPhotoSelectorView
-    
     @views.photoSelector.model = @model
     $el.find('#photos').after @views.photoSelector.render().el
     
-    $el.find('a[title]').qtip
-      position:
-        my: 'top right'
-        at: 'bottom left'
-        adjust:
-          x: 5
-      style:
-        classes: 'ui-tooltip-dark ui-tooltip-shadow'
-    $el.find('label').css('display', 'block') if not Modernizr.input.placeholder
-    
+    # Done!!
     @
-    
-  datepickers: ->
-    # Datepicker updates the value of an input, but I want to update the text of a non-input HTML element
-    duckPunch = (inst) ->
-      altField = this._get(inst, 'altField')
-      if altField
-        altFormat = this._get(inst, 'altFormat') || this._get(inst, 'dateFormat')
-        date = this._getDate(inst)
-        dateStr = this.formatDate(altFormat, date, this._getFormatConfig(inst))
-        $(altField).each -> $(this).text(dateStr)
-    $.extend($.datepicker.__proto__, {_updateAlternate: duckPunch})
-    
-    # Initialize the jQuery UI datepickers
-    that = @
-    $('.datepicker').each ->
-      $this = $(@)
-      birthdayParts = '11/27/1982'.split('/')
-      options =
-        showOn: 'both'
-        changeMonth: true
-        changeYear: true
-        dayNamesMin: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-        showAnim: ''
-        altFormat: 'MM d, yy'
-        dateFormat: 'yy-mm-dd'
-        altField: '#'+$(this).attr('id').slice(0, -6)
-        maxDate: 0
-        minDate: new Date(birthdayParts[2], birthdayParts[0] - 1, birthdayParts[1])
-        yearRange: birthdayParts[2].toString()+':-nn:+nn'
-      $this.datepicker options
-  
-  editMemory: (e) ->
-    e.preventDefault()
-        
-    $('#edit_title').val($('#title').text())
-    $('#edit_description').val($('#description').text())
-    
-    model = @model
-    $('.datepicker').datepicker('setDate', model.get('date'))
-    
-    $('#edit').first().qtip('toggle')
-    
-    $('#memory_header').hide()
-    $('#memory_edit').fadeIn()
-  
-  updateTitleDescriptionDate: (e) ->
-    e.preventDefault()
-    
-    title = $.trim($('#edit_title').val())
-    date = $.datepicker.formatDate 'yy-mm-dd', $('#start_datepicker').datepicker('getDate')
-    description = $.trim($('#edit_description').val())
-    
-    if title and description
-      @model.set
-        title: title
-        date: date
-        description: description
-      
-      @model.save()
-      
-      $('#title').text(title)
-      $('#description').text(description)
-      
-      $('#memory_edit').hide()
-      $('#memory_header').fadeIn()
-  
-  cancelUpdateTitleDescriptionDate: (e) ->
-    model = @model
-    $('#start_date').text(model.formatDate())
-    $('#memory_edit').hide()
-    $('#memory_header').fadeIn()
-  
-  updateFavorite: (e) ->
-    e.preventDefault()
-    $el = $(e.currentTarget)
-    
-    favoriteOf = @model.get 'favoriteOf'
-    if $el.attr('data-favorite') == 'true'
-      $el
-        .attr('title', 'Add this memory to your favorites.')
-        .attr('data-favorite', 'false')
-        .css('opacity', 0.5)
-      favoriteOf = _.without favoriteOf, USER.ME.id
-    else
-      $el
-        .attr('title', 'Remove this memory from your favorites.')
-        .attr('data-favorite', 'true')
-        .css('opacity', 1)
-      favoriteOf.push USER.ME.id
-    @model.set {favoriteOf: favoriteOf}
   
   showFriendSelector: (e) ->
     e.preventDefault()

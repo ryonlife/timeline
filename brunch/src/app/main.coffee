@@ -8,6 +8,8 @@ Backbone.couch_connector.config.db_name = 'timeline'
 Backbone.couch_connector.config.ddoc_name = 'timeline'
 Backbone.couch_connector.viewName = 'collection'
 
+window.Helpers = require('lib/helpers').helpers
+
 HomeRouter = require('routers/home_router').HomeRouter
 MemoriesRouter = require('routers/memories_router').MemoriesRouter
 
@@ -30,8 +32,8 @@ window.fbAsyncInit = ->
   FB.api '/me/albums', (response) -> USER.ALBUMS = response
   
   bootstrap = ->
-    hr = new HomeRouter
-    mr = new MemoriesRouter
+    new HomeRouter
+    new MemoriesRouter
     Backbone.history.start()
   
   fbComplete = null
