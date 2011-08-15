@@ -72,7 +72,7 @@
         }
       }
       return this.helpers.make_db().view("" + this.config.ddoc_name + "/" + _view, {
-        keys: keys,
+        // keys: keys,
         success: __bind(function(data) {
           var doc, _i, _len, _ref, _temp;
           _temp = [];

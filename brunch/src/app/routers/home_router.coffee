@@ -1,3 +1,5 @@
+HomeIndexView = require('views/home/home_index_view').HomeIndexView
+
 class exports.HomeRouter extends Backbone.Router
   routes:
     '': 'oauth'
@@ -8,7 +10,8 @@ class exports.HomeRouter extends Backbone.Router
     super
 
   home_index: ->
-    $('#fb_wrapper').html app.views.home_index.render().el
+    view = new HomeIndexView
+    $('#fb_wrapper').html view.render().el
   
   oauth: ->
     error = $.url().param 'error'
@@ -20,5 +23,5 @@ class exports.HomeRouter extends Backbone.Router
   access_token: (params) ->
     params = params.split '&expires_in='
     $.cookie 'access_token', params[0]
-    location.hash = '!/memories/new'
+    location.hash = '!/memories'
     

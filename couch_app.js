@@ -18,4 +18,12 @@ ddoc.views.collection = {
   }
 }
 
+ddoc.views.memories = {
+  map: function(doc) {
+    if (doc.collection == 'memories') {
+      emit('doc', doc);
+    }
+  }
+}
+
 couchapp.loadAttachments(ddoc, path.join(__dirname, '_attachments'));

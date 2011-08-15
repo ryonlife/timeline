@@ -1,3 +1,4 @@
+MemoriesShowPhotoSelectorView = require('views/memories/memories_show_photo_selector_view').MemoriesShowPhotoSelectorView
 memoriesShowTemplate = require('templates/memories/memories_show')
 memoriesShowProfilePicTemplate = require('templates/memories/memories_show_profile_pic')
 
@@ -21,10 +22,19 @@ class exports.MemoriesShowView extends Backbone.View
     
     'click #favorite': 'updateFavorite'
   
+  initialize: ->
+    _.bindAll @, 'render'
+    @model.bind 'change', @render
+    @model.fetch() if @model.id
+  
   render: ->
     $el = $(@el).html memoriesShowTemplate {model: @model}
-    app.views.memories_show_photo_selector.model = @model
-    $el.find('#photos').after app.views.memories_show_photo_selector.render().el
+    
+    @views = {}
+    @views.photoSelector = new MemoriesShowPhotoSelectorView
+    
+    @views.photoSelector.model = @model
+    $el.find('#photos').after @views.photoSelector.render().el
     
     $el.find('a[title]').qtip
       position:
@@ -225,7 +235,7 @@ class exports.MemoriesShowView extends Backbone.View
       $add.text('Add Photos')
       $ps.fadeOut()
     else
-      app.views.memories_show_photo_selector.reset()
+      @views.photoSelector.reset()
       $add.text('Close')
       $ps.fadeIn()
         

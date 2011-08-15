@@ -5,14 +5,17 @@ class exports.Memory extends Backbone.Model
   defaults:
     owner: null
     favoriteOf: []
-    title: null
+    title: 'New Memory Title'
     date: $.datepicker.formatDate('yy-mm-dd', new Date())
-    description: null
+    description: 'Describe your memory and what makes it worth remembering...'
     friends: []
     photos: []
   
   initialize: ->
-    @set {favoriteOf: [@get('owner')]}
+    owner = @get 'owner'
+    @set
+      favoriteOf: [owner]
+      friends: [{tagged: owner, taggedName: "#{USER.ME.first_name} #{USER.ME.last_name}", taggedBy: owner}]
   
   formatDate: ->
     $.datepicker.formatDate 'MM d, yy', new Date @get 'date'

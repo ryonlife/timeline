@@ -6,9 +6,9 @@
 
     <div id="title_date_description">
       <header>
-        <h1 id="title" data-model="title"><%= if @model.get 'title' then @model.get 'title' else 'New Memory' %></h1>
+        <h1 id="title" data-model="title"><%= @model.get 'title' %></h1>
         <h2 id="start_date" data-model="date"><%= @model.formatDate() %></h2>
-        <p id="description" data-model="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eu orci nisi. Vivamus feugiat purus vel ipsum vestibulum sagittis. Donec et enim sed enim tempor aliquam. Vivamus id nisi tortor. Proin tempus, enim quis commodo euismod, orci eros elementum quam, eu fringilla mi tortor et velit.</p>
+        <p id="description" data-model="description"><%= @model.get 'description' %></p>
       </header>
       <fb:like href="#" send="true" layout="standard" width="418" show_faces="false"></fb:like>
     </div>
@@ -35,17 +35,41 @@
 
 <div id="sidebar">
   <ul id="friends">
-    <li class="count">Nobody was there.</li>
-    <li class="tag_button_container">
-      <a href="#" id="self_tag" class="button">
-        <span class="tag"></span>
-        I was there!
-      </a>
-      <a href="#" id="tag_friends" class="button hide" data-step="3" data-stepped="false">
-        <span class="tag"></span>
-        Tag Friends (1)
-      </a>
+    <li class="count">
+      <% if not @model.get('friends').length: %>
+        Nobody was there.
+      <% else if @model.get('friends').length == 1: %>
+        1 person was there.
+      <% else: %>
+        <%= @model.get('friends').length %> were there.
+      <% end %>
     </li>
+    
+    <li class="tag_button_container">
+      <% if not _.include _.map(@model.get('friends'), (friend) -> friend.tagged), USER.ME.id: %>
+        <a href="#" id="self_tag" class="button">
+          <span class="tag"></span>
+          I was there!
+        </a>
+      <% else: %>
+        <a href="#" id="tag_friends" class="button" data-step="3" data-stepped="false">
+          <span class="tag"></span>
+          Tag Friends (<%= @model.get('friends').length %>)
+        </a>
+      <% end %>
+    </li>
+    
+    <% for friend in @model.get('friends'): %>
+      <li data-fb-id="<%= friend.tagged %>" data-tagged-by="<%= friend.taggedBy %>">
+        <div class="profile_pic">
+          <label></label>
+          <img src="http://graph.facebook.com/<%= friend.tagged %>/picture?type=square" width="50" height="50" />
+        </div>
+        <div class="name" >
+          <a href="http://www.facebook.com/profile.php?id=<%= friend.tagged %>"><%= friend.taggedName %></a>
+        </div>
+      </li>
+    <% end %>
   </ul>
 </div>
 
