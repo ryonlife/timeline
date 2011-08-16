@@ -3,7 +3,6 @@ MemoriesShowFriendsView = require('views/memories/memories_show_friends_view').M
 MemoriesShowPhotosView = require('views/memories/memories_show_photos_view').MemoriesShowPhotosView
 
 memoriesShowTemplate = require('templates/memories/memories_show')
-memoriesShowProfilePicTemplate = require('templates/memories/memories_show_profile_pic')
 
 class exports.MemoriesShowView extends Backbone.View
   id: 'memories_show_view'

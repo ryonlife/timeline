@@ -13,15 +13,9 @@ class exports.MemoriesRouter extends Backbone.Router
     view = new MemoriesIndexView
     $('#fb_wrapper').html view.render().el
   
-  show: ->
-    id = location.hash.split('/')[2]
-    
-    if id == 'new'
-      model = new Memory {owner: USER.ME.id}
-    else
-      model = new Memory
-      model.id = id
-    
+  show: (id) ->
+    model = new Memory
+    model.id = id if id != 'new'    
     view = new MemoriesShowView {model}
     $('#fb_wrapper').html view.render().el
     Helpers.datepickers()

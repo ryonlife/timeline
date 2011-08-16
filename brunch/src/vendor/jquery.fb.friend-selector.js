@@ -74,7 +74,7 @@
     $.each(friends, function() {
       if($.inArray(this.id.toString(), selectedFriends) == -1) {
         var name = this.name.replace(/ /, '<br />');
-        $fsf.append('<li data-friend-id="'+this.id+'" data-friend-name="'+this.name+'" data-friend-link="'+this.link+'"><span class="frame"><img src="http://graph.facebook.com/'+this.id+'/picture?type=square" width="50" height="50" /><span class="check"></span></span><span class="name">'+name+'</span></li>');
+        $fsf.append('<li data-friend-id="'+this.id+'" data-friend-name="'+this.name+'"><span class="frame"><img src="http://graph.facebook.com/'+this.id+'/picture?type=square" width="50" height="50" /><span class="check"></span></span><span class="name">'+name+'</span></li>');
       }
     });
     updateSelectedCount();
@@ -112,7 +112,7 @@
       friends = [];
       $fsf.find('li.selected').each(function() {
         $friend = $(this);
-        friends.push({id: $friend.attr('data-friend-id'), name: $friend.attr('data-friend-name'), link: $friend.attr('data-friend-link')});
+        friends.push({id: $friend.attr('data-friend-id'), name: $friend.attr('data-friend-name')});
       });
 
       $button.trigger('friendSelection', [friends])

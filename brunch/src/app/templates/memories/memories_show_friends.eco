@@ -5,7 +5,7 @@
     <% else if @model.get('friends').length == 1: %>
       1 person was there.
     <% else: %>
-      <%= @model.get('friends').length %> were there.
+      <%= @model.get('friends').length %> people were there.
     <% end %>
   </li>
   
