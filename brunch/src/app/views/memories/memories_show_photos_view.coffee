@@ -1,25 +1,114 @@
-memoriesShowPhotoSelectorTemplate = require('templates/memories/memories_show_photo_selector')
+memoriesShowPhotosTemplate = require('templates/memories/memories_show_photos')
 
-class exports.MemoriesShowPhotoSelectorView extends Backbone.View
-  id: 'photo_selector_view'
-  
-  state:
-    limit: 60
-    page: 1
-    maxReached: false
-    pendingRequest: false
+class exports.MemoriesShowPhotosView extends Backbone.View
+  id: 'memories_show_photos_view'
   
   events:
+    # Photo gallery
+    'click a#show_photos': 'showPhotos'
+    'click a.add_photos': 'showPhotoSelector'
+    'click a.fb_gallery': 'showGallery'
+    'click a.fb_gallery label': 'removePhoto'
+    
+    # Photo selector
     'click #select_from_container a': 'selectSource'
     'click #select_from_albums': 'showAlbums'
     'click #select_from_tagged': 'showTaggedPhotos'
     'change select': 'showAlbumPhotos'
     'click li[data-id]': 'selectPhoto'
   
+  initialize: ->
+    _.bindAll @, 'render'
+    @model.bind 'change', @render
+
   render: ->
-    $(@el).html memoriesShowPhotoSelectorTemplate()
-    @
-    
+    $el = $(@el)
+    $(@el).html memoriesShowPhotosTemplate {model: @model}
+    @  
+  
+  # PHOTO GALLERY
+  
+  showPhotos: (e) ->
+    e.preventDefault()
+    $el = $(e.currentTarget)
+    $p = $('#photos li')
+    if $p.length > 5 and $p.filter(':visible').length < $p.length
+      $el.text('Hide Photos')
+      $('#photos li').fadeIn()
+    else
+      $el.text('Show All Photos ('+$p.find('a.fb_gallery').length+')')
+      $('#photos li:gt(4)').fadeOut()
+
+  showPhotoSelector: (e) ->
+    e.preventDefault()
+    $(e.currentTarget).attr('data-stepped', 'true')
+    $add = $('#add_photos')
+    $ps = $('#photo_selector_view')
+    if $ps.is(':visible')
+      $add.text('Add Photos')
+      $ps.fadeOut()
+    else
+      @views.photoSelector.reset()
+      $add.text('Close')
+      $ps.fadeIn()
+
+  showGallery: (e) ->
+    e.preventDefault()
+    $pic = $(e.target)
+    $pic.fbGallery() if $pic.filter('a').length # Do not open the gallery if the close button was clicked
+
+  removePhoto: (e) ->
+    $el = $(e.currentTarget)
+    $photo = $el.parent()
+
+    # Update the model
+    photos = @model.get 'photos'
+    photos = _.reject photos, (p) -> p.photo == $photo.attr 'data-photo'
+    @model.set {photos}
+
+    # Removing main photo
+    if $el.parents('#photo').length
+
+      $el.parent()
+        .removeClass('fb_gallery')
+        .addClass('add_photos')
+        .css({backgroundImage: 'url(/timeline/_design/timeline/web/img/add_photo.png)', height: 160})
+        .attr('href', '#')
+
+    # Removing photo from the gallery
+    else
+
+      # Remove the thumbnail
+      $el.parents('li')
+        .css('background', 'rgb(242, 242, 242)')
+        .html('')
+
+      # Remove any entirely blank rows
+      squares = Math.ceil($('#photos a.fb_gallery').length / 5) * 5 - 1
+      $('#photos ul li:gt('+squares+')').remove()
+
+      # Shift photos left if one from the middle of the grid is removed
+      $photos = $('#photos a.fb_gallery')
+      $photos.each (i) ->
+        $this = $(@)
+        $priorPhotoContainer = $this.parent().prev().filter('li')
+        if $priorPhotoContainer.length and not $priorPhotoContainer.find('a').length
+          bg = $this.parent().css('background-image')
+          $this.parent().css('background', 'rgb(242, 242, 242)')
+          $priorPhotoContainer
+            .css('background-image', bg)
+            .append($this)
+
+      # No need for a hide photos link when there is only a single row in the grid
+      $('a#show_photos').text('') if $photos.length <= 5
+
+      # Put the add photos icon back in the fifth square, if it no longer has a thumbnail in it
+      $fifthSquare = $('#photos ul li:nth-child(5)')
+      if not $fifthSquare.find('a.fb_gallery').length
+        $fifthSquare.html('<a href="/web/img/add_photo.png" class="add_photos"></a>')
+  
+  # PHOTO SELECTOR
+  
   selectSource: (e) ->
     e.preventDefault()
     $el = $(e.currentTarget)
@@ -48,6 +137,12 @@ class exports.MemoriesShowPhotoSelectorView extends Backbone.View
           @infinityScroll(e, '/me/photos')
           @
         .trigger('scroll')
+
+  state:
+    limit: 60
+    page: 1
+    maxReached: false
+    pendingRequest: false
 
   infinityScroll: (e, url) ->
     $el = $(e.currentTarget)

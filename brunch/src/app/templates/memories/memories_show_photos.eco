@@ -1,0 +1,31 @@
+<div id="photos" class="clearfix">
+  <ul class="clearfix">
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li><a href="/web/img/add_photo.png" class="add_photos"></a></li>
+  </ul>
+  <a href="#" id="show_photos" class="fl"></a>
+  <a href="#" id="add_photos" class="add_photos fr" data-step="5" data-stepped="false">Add Photos</a>
+</div>
+
+<div id="photo_selector">
+  <span class="nub"></span>
+
+  <div id="select_from_container" class="clearfix">
+    <div class="fl">
+      <a href="#" id="select_from_tagged"><span>Select From</span> Photos I'm Tagged In</a>
+    </div>
+    <div class="fr">
+      <a href="#" id="select_from_albums"><span>Select From</span> Photos In My Albums</a>
+      <select class="h_center_cheat v_center_cheat">
+        <option value="">Select an album:&nbsp;</option>
+      </select>
+    </div>
+  </div>
+
+  <div id="photo_choices">
+    <ul class="clearfix"></ul>
+  </div>
+</div>

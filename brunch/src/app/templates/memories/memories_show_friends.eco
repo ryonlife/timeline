@@ -1,0 +1,37 @@
+<ul id="friends">
+  <li class="count">
+    <% if not @model.get('friends').length: %>
+      Nobody was there.
+    <% else if @model.get('friends').length == 1: %>
+      1 person was there.
+    <% else: %>
+      <%= @model.get('friends').length %> were there.
+    <% end %>
+  </li>
+  
+  <li class="tag_button_container">
+    <% if not _.include _.map(@model.get('friends'), (friend) -> friend.tagged), USER.ME.id: %>
+      <a href="#" id="self_tag" class="button">
+        <span class="tag"></span>
+        I was there!
+      </a>
+    <% else: %>
+      <a href="#" id="tag_friends" class="button" data-step="3" data-stepped="false">
+        <span class="tag"></span>
+        Tag Friends (<%= @model.get('friends').length %>)
+      </a>
+    <% end %>
+  </li>
+  
+  <% for friend in @model.get('friends'): %>
+    <li data-fb-id="<%= friend.tagged %>" data-tagged-by="<%= friend.taggedBy %>">
+      <div class="profile_pic">
+        <label></label>
+        <img src="http://graph.facebook.com/<%= friend.tagged %>/picture?type=square" width="50" height="50" />
+      </div>
+      <div class="name" >
+        <a href="http://www.facebook.com/profile.php?id=<%= friend.tagged %>"><%= friend.taggedName %></a>
+      </div>
+    </li>
+  <% end %>
+</ul>

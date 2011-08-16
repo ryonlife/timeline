@@ -1,4 +1,4 @@
-exports.helpers
+exports.helpers =
   
   datepickers: ->
     # jQuery UI Datepickers need to be be in the DOM to work, so just calling this from routers until I have a better idea
