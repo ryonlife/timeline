@@ -3,7 +3,7 @@ class exports.Memory extends Backbone.Model
   urlRoot: '/memories'
   
   defaults:
-    owner: null
+    owners: []
     favoriteOf: []
     title: 'New Memory Title'
     date: $.datepicker.formatDate('yy-mm-dd', new Date())
@@ -13,7 +13,7 @@ class exports.Memory extends Backbone.Model
   
   initialize: ->
     @set
-      owner: USER.ME.id
+      owners: [USER.ME.id]
       favoriteOf: [USER.ME.id]
       friends: [{tagged: USER.ME.id, taggedName: "#{USER.ME.first_name} #{USER.ME.last_name}", taggedBy: USER.ME.id}]
   
@@ -24,19 +24,25 @@ class exports.Memory extends Backbone.Model
     @set {favoriteOf: _.union @get('favoriteOf'), [userId]}
   
   tagFriend: (friend) ->
-    taggedFriendIds = @taggedFriendIds()
-    if not _.include taggedFriendIds, friend.tagged
-      friends = @get 'friends'
-      friend.taggedBy = USER.ME.id
-      friends.push friend
-      @set {friends}
+    # taggedFriendIds = @taggedFriendIds()
+    # if not _.include taggedFriendIds, friend.tagged
+    #   friends = @get 'friends'
+    #   friend.taggedBy = USER.ME.id
+    #   friends.push friend
+    #   @set {friends}
+    friends = @get 'friends'
+    friend.taggedBy = USER.ME.id
+    friends.push friend
+    @set {friends}
   
   untagFriend: (friendId) ->
-    if friendId != @get 'owner' and _.include friendId in @taggedFriendIds()
-      friends = @get 'friends'
-      friendsToKeep = _.select friends, (friend) -> friend.tagged != friendId
-      friendToUntag = _.detect friends, (friend) -> friend.tagged == friendId
-      @set {friends: friendsToKeep} if _.include [friendId, friendToUntag.taggedBy, @get('owner')], USER.ME.id
+    # if friendId != @get 'owner' and _.include friendId in @taggedFriendIds()
+    #   friends = @get 'friends'
+    #   friendsToKeep = _.select friends, (friend) -> friend.tagged != friendId
+    #   friendToUntag = _.detect friends, (friend) -> friend.tagged == friendId
+    #   @set {friends: friendsToKeep} if _.include [friendId, friendToUntag.taggedBy, @get('owner')], USER.ME.id
+    friends = _.select @get('friends'), (friend) -> friend.tagged != friendId
+    @set {friends}
   
   taggedFriendIds: ->
     _.map @get('friends'), (friend) -> friend.tagged

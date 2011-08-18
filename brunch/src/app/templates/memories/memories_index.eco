@@ -1,1 +1,9 @@
 <h1>Memories</h1>
+
+<% if @collection.models.length: %>
+  <ul>
+    <% for memory in @collection.models: %>
+      <li><a href="#!/memories/<%= memory.id %>"><%= memory.get 'title' %></a></li>
+    <% end %>
+  </ul>
+<% end %>

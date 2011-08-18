@@ -5,10 +5,10 @@ class exports.MemoriesIndexView extends Backbone.View
   
   initialize: ->
     _.bindAll @, 'render'
-    # app.collections.memories.bind 'add', @render
-    # app.collections.memories.bind 'refresh', @render
+    @collection.bind 'reset', @render
+    @collection.fetch()
   
   render: ->
-    $(@el).html memoriesIndexTemplate()
+    $(@el).html memoriesIndexTemplate {collection: @collection}
     @
     

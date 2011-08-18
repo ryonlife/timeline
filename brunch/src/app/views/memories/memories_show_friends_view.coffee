@@ -31,7 +31,7 @@ class exports.MemoriesShowFriendsView extends Backbone.View
 
   selfTag: (e) ->
     e.preventDefault()
-    @updateFriendSelections e, {tagged: USER.ME.id, taggedName: "#{USER.ME.first_name} #{USER.ME.last_name}"}
+    @updateFriendSelections e, [{id: USER.ME.id, name: "#{USER.ME.first_name} #{USER.ME.last_name}"}]
 
   untag: (e) ->
     e.preventDefault()

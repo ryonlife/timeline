@@ -6,6 +6,7 @@ if CONFIG.hoptoadApiKey
 
 Backbone.couch_connector.config.db_name = 'timeline'
 Backbone.couch_connector.config.ddoc_name = 'timeline'
+Backbone.couch_connector.config.global_changes = false
 Backbone.couch_connector.viewName = 'collection'
 
 window.Helpers = require('lib/helpers').helpers
