@@ -18,26 +18,20 @@ class exports.MemoriesShowHeaderView extends Backbone.View
     $el = $(@el)
     
     $el.html memoriesShowHeaderTemplate {model: @model}
-    
-    $el.find('a[title]').qtip
-      position:
-        my: 'top right'
-        at: 'bottom left'
-        adjust:
-          x: 5
-      style:
-        classes: 'ui-tooltip-dark ui-tooltip-shadow'
-    $el.find('label').css('display', 'block') if not Modernizr.input.placeholder
+        
+    @qtips()
+    @datepickers()
+    @xfbml()
     
     @
     
   editMemory: (e) ->
     e.preventDefault()
+    model = @model
 
     $('#edit_title').val($('#title').text())
     $('#edit_description').val($('#description').text())
-
-    model = @model
+    
     $('.datepicker').datepicker('setDate', model.get('date'))
 
     $('#edit').first().qtip('toggle')

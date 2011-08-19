@@ -9,7 +9,9 @@ Backbone.couch_connector.config.ddoc_name = 'timeline'
 Backbone.couch_connector.config.global_changes = false
 Backbone.couch_connector.viewName = 'collection'
 
-window.Helpers = require('lib/helpers').helpers
+require('lib/view').View()
+
+window.Helpers = require('lib/helpers').Helpers
 
 HomeRouter = require('routers/home_router').HomeRouter
 MemoriesRouter = require('routers/memories_router').MemoriesRouter
