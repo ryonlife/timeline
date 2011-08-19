@@ -9,21 +9,18 @@ Backbone.couch_connector.config.ddoc_name = 'timeline'
 Backbone.couch_connector.config.global_changes = false
 Backbone.couch_connector.viewName = 'collection'
 
-require('lib/view').View()
+require('lib/view')
 
 window.Helpers = require('lib/helpers').Helpers
 
 HomeRouter = require('routers/home_router').HomeRouter
 MemoriesRouter = require('routers/memories_router').MemoriesRouter
 
-$(document).ready ->
-  initialize = ->    
-    e = document.createElement 'script'
-    e.async = true
-    e.src = "#{document.location.protocol}//connect.facebook.net/en_US/all.js"
-    document.getElementById('fb-root').appendChild e
-  
-  initialize()
+$(document).ready -> 
+  e = document.createElement 'script'
+  e.async = true
+  e.src = "#{document.location.protocol}//connect.facebook.net/en_US/all.js"
+  document.getElementById('fb-root').appendChild e
   
 window.fbAsyncInit = ->
   FB.init {appId: '121822724510409', status: true, cookie: true, xfbml: true}
