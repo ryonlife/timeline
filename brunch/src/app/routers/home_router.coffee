@@ -2,9 +2,9 @@ HomeIndexView = require('views/home/home_index_view').HomeIndexView
 
 class exports.HomeRouter extends Backbone.Router
   routes:
-    '': 'oauth'
+    '': 'home_index'
+    '!/oauth': 'oauth'
     'access_token=:params': 'access_token'
-    '!/home': 'home_index'
 
   constructor: ->
     super

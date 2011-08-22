@@ -1,0 +1,8 @@
+config:
+  name: 'production'
+  target: 'http://app584241.heroku.cloudant.com:80'
+  username: 'meneveguentenerestakewhi'
+  password: '4NmBXtNCpylinPauG5SEmSrV'
+  prefix: '/timeline/'
+  port: 5984
+  

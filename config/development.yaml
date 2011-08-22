@@ -1,0 +1,8 @@
+config:
+  name: 'development'
+  target: 'http://localhost:5984'
+  username: ''
+  password: ''
+  prefix: '/timeline/'
+  port: 8001
+  
