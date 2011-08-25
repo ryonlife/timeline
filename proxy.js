@@ -1,6 +1,5 @@
 (function() {
   var CONFIG, TOKEN, airbrake, authProxy, error, exec, fbAuth, growlCondition, http, httpProxy, https, proxy, querystring, requestHandler, spawn, spawner, sys, unknownError, url, _;
-  var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
   CONFIG = require('config').config;
   exec = require('child_process').exec;
   spawn = require('child_process').spawn;
@@ -45,9 +44,11 @@
       var growl;
       data = data.toString('utf8');
       console.log("[" + processName + "] " + data);
-      growl = growlCondition(data);
-      if (growl) {
-        return exec("growlnotify -m [" + processName + "] " + growl);
+      if (CONFIG.name === 'development') {
+        growl = growlCondition(data);
+        if (growl) {
+          return exec("growlnotify -m [" + processName + "] " + growl);
+        }
       }
     };
     process.stdout.on('data', function(data) {
@@ -61,16 +62,16 @@
     });
   };
   growlCondition = function(data) {
-    if (data.search(/Error/ === -1)) {
-      return 'compiled';
-    } else {
+    if (/Error/.test(data)) {
       return 'error';
+    } else {
+      return 'compiled';
     }
   };
   spawner('brunch', ['watch'], growlCondition);
   if (CONFIG.name === 'development') {
     growlCondition = function(data) {
-      if (data.search(/Finished push/ !== -1)) {
+      if (/Finished push/.test(data)) {
         return data;
       } else {
         return false;
@@ -166,25 +167,27 @@
   };
   fbAuth = {
     authenticated: {},
-    authenticate: __bind(function(token) {
+    authenticate: function(token) {
       var friends, me;
-      this.authenticated[token] = {
+      fbAuth.authenticated[token] = {
         fbId: null,
         friends: [],
         timestamp: new Date()
       };
-      me = this.callApi('/me');
-      if (me) {
-        this.authenticated[token].fbId = me.id;
-      }
-      friends = this.callApi('/me/friends');
-      return _.each(friends.data(__bind(function(friend) {
-        if (friends) {
-          return this.authenticated[token].friends.push(friend.id);
+      me = fbAuth.callApi('/me', token, function(me) {
+        if (me) {
+          return fbAuth.authenticated[token].fbId = me.id;
         }
-      }, this)));
-    }, this),
-    callApi: __bind(function(url) {
+      });
+      return friends = fbAuth.callApi('/me/friends', token, function(friends) {
+        return _.each(friends.data, function(friend) {
+          if (friends) {
+            return fbAuth.authenticated[token].friends.push(friend.id);
+          }
+        });
+      });
+    },
+    callApi: function(url, token, success) {
       var request;
       request = https.request({
         host: 'graph.facebook.com',
@@ -197,32 +200,32 @@
         response.on('data', function(data) {
           return apiData += data.toString('utf8');
         });
-        return response.on('end', __bind(function() {
-          if (this.authenticated[token] && response.statusCode === 200) {
-            return JSON.parse(apiData);
+        return response.on('end', function() {
+          if (fbAuth.authenticated[token] && response.statusCode === 200) {
+            return success(JSON.parse(apiData));
           } else {
-            delete this.authenticate[token];
+            delete fbAuth.authenticate[token];
             console.error(apiData);
             return null;
           }
-        }, this));
+        });
       });
-      request.on('error', __bind(function(e) {
-        delete this.authenticated[token];
+      request.on('error', function(e) {
+        delete fbAuth.authenticated[token];
         return console.error(e);
-      }, this));
+      });
       return request.end();
-    }, this),
+    },
     expireCache: function() {
       var now;
       now = new Date();
-      _.each(this.authenticated, function(a, i) {
+      _.each(fbAuth.authenticated, function(a, i) {
         if (a.timestamp - now < 3600000) {
-          return this.authenticated.splice(0, i);
+          return fbAuth.authenticated.splice(0, i);
         }
       });
-      if (this.authenticated.length > 50000) {
-        return this.authenticated.splice(0, 1);
+      if (fbAuth.authenticated.length > 50000) {
+        return fbAuth.authenticated.splice(0, 1);
       }
     }
   };

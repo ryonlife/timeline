@@ -4,5 +4,5 @@ config:
   username: ''
   password: ''
   prefix: '/timeline/'
-  port: 8001
+  port: 8080
   

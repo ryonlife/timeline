@@ -44,19 +44,20 @@ spawner = (processName, args, growlCondition) ->
   processOut = (data) ->
     data = data.toString 'utf8'
     console.log "[#{processName}] #{data}"
-    growl = growlCondition data
-    exec "growlnotify -m [#{processName}] #{growl}" if growl
+    if CONFIG.name == 'development'
+      growl = growlCondition data
+      exec "growlnotify -m [#{processName}] #{growl}" if growl
   process.stdout.on 'data', (data) -> processOut data
   process.stderr.on 'data', (data) -> processOut data
   process.on 'exit', (code) -> console.log "[#{processName}] exited with code #{code}"
 
 # Brunch
-growlCondition = (data) -> if data.search /Error/ == -1 then 'compiled' else 'error'
+growlCondition = (data) -> if /Error/.test data then 'error' else 'compiled'
 spawner 'brunch', ['watch'], growlCondition
 
 # CouchApp
 if CONFIG.name == 'development'
-  growlCondition = (data) -> if data.search /Finished push/ != -1 then data else false
+  growlCondition = (data) -> if /Finished push/.test data then data else false
   spawner 'couchapp', ['sync', 'couchapp.js', "#{CONFIG.target}#{CONFIG.prefix}"], growlCondition
 
 # Proxy to handle requests
@@ -167,38 +168,42 @@ fbAuth =
   authenticated: {}
   
   # Given a token, authenticate into Facebook and cache some key data
-  authenticate: (token) =>
+  authenticate: (token) ->
     # Cache
-    @authenticated[token] =
+    fbAuth.authenticated[token] =
       fbId: null
       friends: []
       timestamp: new Date()
+    
     # Get the user's Facebook ID
-    me = @callApi('/me')
-    @authenticated[token].fbId = me.id if me
+    me = fbAuth.callApi '/me', token, (me) ->
+      fbAuth.authenticated[token].fbId = me.id if me
+    
     # Get the user's friends
-    friends = @callApi('/me/friends')
-    _.each friends.data (friend) => @authenticated[token].friends.push friend.id if friends
+    friends = fbAuth.callApi '/me/friends', token, (friends) ->
+      _.each friends.data, (friend) -> fbAuth.authenticated[token].friends.push friend.id if friends
   
   # Make a request to the Facebook API
-  callApi: (url) =>
+  callApi: (url, token, success) ->
     request = https.request {host: 'graph.facebook.com', path: "#{url}?#{querystring.stringify {access_token: token}}"}, (response) ->
       # Piece the response together
       apiData = ''
       response.on 'data', (data) -> apiData += data.toString 'utf8'
+      
       # API call has returned
-      response.on 'end', =>
-        if @authenticated[token] and response.statusCode == 200
+      response.on 'end', ->
+        if fbAuth.authenticated[token] and response.statusCode == 200
           # Return the parsed response
-          JSON.parse apiData
+          success JSON.parse(apiData)
         else
           # Delete the cache key because there was an error response
-          delete @authenticate[token]
+          delete fbAuth.authenticate[token]
           console.error apiData
           null
+    
     # Delete the cache key on any error
-    request.on 'error', (e) =>
-      delete @authenticated[token]
+    request.on 'error', (e) ->
+      delete fbAuth.authenticated[token]
       console.error e
     request.end()
   
@@ -206,6 +211,6 @@ fbAuth =
   expireCache: ->
     # Cached authenticated objects should not be older than an hour
     now = new Date()
-    _.each @authenticated, (a, i) -> @authenticated.splice 0, i if a.timestamp - now < 3600000
+    _.each fbAuth.authenticated, (a, i) -> fbAuth.authenticated.splice 0, i if a.timestamp - now < 3600000
     # Cache should not contain more than 50,000 keys (roughly 500MB of memory)
-    @authenticated.splice 0, 1 if @authenticated.length > 50000
+    fbAuth.authenticated.splice 0, 1 if fbAuth.authenticated.length > 50000
