@@ -1,6 +1,8 @@
 <div id="memory_header">
   <div id="photo">
-    <a href="#" class="add_photos"><label></label></a>
+    <% if USER.AUTH: %>
+      <a href="#" class="add_photos"><label></label></a>
+    <% end %>
   </div>
 
   <div id="title_date_description">
@@ -12,8 +14,10 @@
     <fb:like href="#" send="true" layout="standard" width="418" show_faces="false"></fb:like>
   </div>
   
-  <a href="#" id="edit" class="icon" title="Edit the title, date and description of this memory.">Edit</a>
-  <a href="#" id="favorite" class="icon" title="Remove this memory from your favorites." data-favorite="true" data-model="favorite">Favorite</a>
+  <% if USER.AUTH: %>
+    <a href="#" id="edit" class="icon" title="Edit the title, date and description of this memory.">Edit</a>
+    <a href="#" id="favorite" class="icon" title="Remove this memory from your favorites." data-favorite="true" data-model="favorite">Favorite</a>
+  <% end %>
 </div>
 
 <div id="memory_edit" class="clearfix">

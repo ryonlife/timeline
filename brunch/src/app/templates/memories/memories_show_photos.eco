@@ -4,10 +4,16 @@
     <li></li>
     <li></li>
     <li></li>
-    <li><a href="/web/img/add_photo.png" class="add_photos"></a></li>
+    <li>
+      <% if USER.AUTH: %>
+        <a href="/web/img/add_photo.png" class="add_photos"></a>
+      <% end %>
+    </li>
   </ul>
   <a href="#" id="show_photos" class="fl"></a>
-  <a href="#" id="add_photos" class="add_photos fr" data-step="5" data-stepped="false">Add Photos</a>
+  <% if USER.AUTH: %>
+    <a href="#" id="add_photos" class="add_photos fr" data-step="5" data-stepped="false">Add Photos</a>
+  <% end %>
 </div>
 
 <div id="photo_selector">

@@ -32,7 +32,15 @@ Backbone.View = Backbone.View.extend
     that = @
     $('.datepicker').each ->
       $this = $(@)
-      birthdayParts = USER.ME.birthday.split('/')
+      
+      if USER.AUTH
+        birthdayParts = USER.ME.birthday.split('/')
+        minDate = new Date(birthdayParts[2], birthdayParts[0] - 1, birthdayParts[1])
+        yearRange = "#{birthdayParts[2].toString()}:-nn:+nn"
+      else
+        minDate = new Date
+        yearRange = "#{minDate.getFullYear()}:-nn:+nn"
+      
       options =
         showOn: 'both'
         changeMonth: true
@@ -43,6 +51,6 @@ Backbone.View = Backbone.View.extend
         dateFormat: 'yy-mm-dd'
         altField: '#'+$(this).attr('id').slice(0, -6)
         maxDate: 0
-        minDate: new Date(birthdayParts[2], birthdayParts[0] - 1, birthdayParts[1])
-        yearRange: birthdayParts[2].toString()+':-nn:+nn'
+        minDate: minDate
+        yearRange: yearRange
       $this.datepicker options
