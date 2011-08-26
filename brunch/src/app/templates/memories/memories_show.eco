@@ -4,7 +4,7 @@
       Welcome to <strong>Timeline</strong>, a social timeline of your favorite memories.<br/>
       You're viewing a memory, and <a href="#">this is a timeline</a>. Get started:
     </p>
-    <a href="#" class="login_button">Login with Facebook</a>
+    <a href="/#!/oauth" class="login_button">Login with Facebook</a>
   </div>
 <% end %>
 
@@ -13,7 +13,7 @@
 <div id="sidebar"></div>
 
 <div id="content">    
-  <div id="fb_comments" class="mtop3">
+  <div id="fb_comments">
     <fb:comments href="http://ryonlife.dyndns.org:8080/#/memories/1" width="571" num_posts="25" />
   </div>
 </div>

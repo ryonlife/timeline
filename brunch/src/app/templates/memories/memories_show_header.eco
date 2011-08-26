@@ -1,11 +1,13 @@
 <div id="memory_header">
-  <div id="photo">
-    <% if USER.AUTH: %>
-      <a href="#" class="add_photos"><label></label></a>
-    <% end %>
-  </div>
+  <% if @model.get('photos').length or USER.AUTH: %>
+    <div id="photo">
+      <% if USER.AUTH: %>
+        <a href="#" class="add_photos"><label></label></a>
+      <% end %>
+    </div>
+  <% end %>
 
-  <div id="title_date_description">
+  <div id="title_date_description" class="<%= 'full_width' if not USER.AUTH and not @model.get('photos').length %>">
     <header>
       <h1 id="title" data-model="title"><%= @model.get 'title' %></h1>
       <h2 id="start_date" data-model="date"><%= @model.formatDate() %></h2>
