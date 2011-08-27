@@ -19,10 +19,18 @@ $(document).ready ->
   
   window.USER = {}
   
+  $('.login_button').live 'click', (e) -> $.cookie 'hash', document.location.hash
+  
   window.bootstrap = ->
     new HomeRouter
-    new MemoriesRouter    
+    new MemoriesRouter
     Backbone.history.start()
+    
+    error = $.url().param 'error'
+    if error == 'access_denied'
+      $.cookie 'access_token', null
+      hash = $.cookie 'hash'
+      location.href = if hash then "#{location.origin}#{hash}" else "#{location.origin}"
   
   $.getScript "#{document.location.protocol}//connect.facebook.net/en_US/all.js"
   
