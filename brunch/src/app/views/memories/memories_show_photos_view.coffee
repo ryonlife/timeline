@@ -16,9 +16,8 @@ class exports.MemoriesShowPhotosView extends Backbone.View
     'click #select_from_container a': 'selectPhotoSelectorSource'
     'click #select_from_tagged': 'showPhotoSelectorPhotos'
     'change select#albums': 'showPhotoSelectorPhotos'
-    'scroll #photo_choices ul': 'infinityScroll'
     'click li[data-id]': 'selectPhoto'
-  
+    
   uiStates:
     fullGrid: false
     photoSelector: false
@@ -122,27 +121,33 @@ class exports.MemoriesShowPhotosView extends Backbone.View
   selectPhotoSelectorSource: (e) ->
     e.preventDefault()
     @uiStates.photoSelectorSource = $(e.currentTarget).attr 'data-source'
+    @uiStates.photoSelectorChoices = false 
     @render()
     $.centerCheat()
           
   showPhotoSelectorPhotos: (e) ->
     e.preventDefault()
     $el = $(e.currentTarget)
-    @uiStates.photoSelectorChoices = true
     @uiStates.photoSelectorAlbum = if $el.is 'select' then $el.val() else null
+    @uiStates.photoSelectorChoices = if @uiStates.photoSelectorSource == 'albums' and not @uiStates.photoSelectorAlbum then false else true
     @render()
     $.centerCheat()
-    $('#photo_choices ul').trigger 'scroll'
-
+    if @uiStates.photoSelectorSource == 'tags' or @uiStates.photoSelectorAlbum
+      @uiStates.infinityScroller = _.extend @uiStates.infinityScroller, {page: 1, maxReached: false, pendingRequest: false}
+      # Setting a 'scroll' event handler in MemoriesShowPhotosView.events is not binding correctly, so doing it here, and also triggering it
+      $('#photo_choices ul')
+        .unbind()
+        .scroll (e) =>
+          @infinityScroll(e)
+          @
+        .scroll()
+    
   infinityScroll: (e) ->
     $el = $(e.currentTarget)
     
-    if @uiStates.photoSelectorSource == 'tags'
-      url = '/me/photos'
-    else
-      url = "#{$('#albums').val()}/photos"
-    
+    url = if @uiStates.photoSelectorSource == 'tags' then '/me/photos' else "#{$('#albums').val()}/photos"
     usIs = @uiStates.infinityScroller
+    
     if (usIs.page == 1 or 700 >= Math.ceil($el.find('li').length / 3) * 140 - $el.scrollTop()) and not usIs.pendingRequest and not usIs.maxReached
       
       @uiStates.infinityScroller.pendingRequest = true
@@ -179,56 +184,65 @@ class exports.MemoriesShowPhotosView extends Backbone.View
   
   selectPhoto: (e) ->
     $el = $(e.currentTarget)
-    $photo = $('#photo a.add_photos')
-    $photos = $('#photos li')
+    @model.addPhoto $el.attr 'data-id'
     
-    if not $('a[href="'+$el.attr('data-xlarge')+'"]').length
-    
-      if $photo.length
-        # There is no main photo for the memory, so add it
-        image = new Image()
-        image.onload = ->
-          $photo
-            .removeClass('add_photos')
-            .addClass('fb_gallery')
-            .css({backgroundImage: 'url('+$el.attr('data-medium')+')', height: image.height})
-            .attr('href', $el.attr('data-xlarge'))
-        image.src = $el.attr('data-medium')
-    
-      else
-        # This photo is not already in the gallery, so add it
-        background = "#000 url(#{$el.attr 'data-small'}) no-repeat center center"
-        $link = $("<a href=\"#{$el.attr 'data-xlarge'}\" data-photo=\"#{$el.attr 'data-id'}\" class=\"fb_gallery\"><label></label></a>")
-    
-        if $photos.find('a.fb_gallery').length < $photos.length
-          # Replace placeholder with a thumbnail
-          $photos.each ->
-            $this = $(this)
-            if not $this.find('a.fb_gallery').length
-              $this
-                .find('a').remove().end()
-                .css('background', background)
-                .append($link)
-              return false
-        else
-          # Thumbnail in a new row
-          $newPhoto = $('<li></li>')
-            .css('background', background)
-            .append($link)
-          $('#photos ul')
-            .append($newPhoto)
-            .append($('<li></li><li></li><li></li><li></li>'))
-    
-        # Ensure all thumbnails in the gallery are displayed
-        $('#photos li').fadeIn ->
-          $('#show_photos').text('Hide Photos') if $('#photos li a.fb_gallery').length > 5
-    
-      # A photo was added, so the model must be updated
-      photos = @model.get 'photos'
-      photos.push
-        photo: $el.attr 'data-id'
-        addedBy: USER.ME.id
-      @model.set {photos}
+    # @model.get 'photos'
+    # photos.push
+    #   photo: $el.attr 'data-id'
+    #   addedBy: USER.ME.id
+    # @model.set {photos}
+    # 
+    # 
+    # $photo = $('#photo a.add_photos')
+    # $photos = $('#photos li')
+    # 
+    # if not $('a[href="'+$el.attr('data-xlarge')+'"]').length
+    # 
+    #   if $photo.length
+    #     # There is no main photo for the memory, so add it
+    #     image = new Image()
+    #     image.onload = ->
+    #       $photo
+    #         .removeClass('add_photos')
+    #         .addClass('fb_gallery')
+    #         .css({backgroundImage: 'url('+$el.attr('data-medium')+')', height: image.height})
+    #         .attr('href', $el.attr('data-xlarge'))
+    #     image.src = $el.attr('data-medium')
+    # 
+    #   else
+    #     # This photo is not already in the gallery, so add it
+    #     background = "#000 url(#{$el.attr 'data-small'}) no-repeat center center"
+    #     $link = $("<a href=\"#{$el.attr 'data-xlarge'}\" data-photo=\"#{$el.attr 'data-id'}\" class=\"fb_gallery\"><label></label></a>")
+    # 
+    #     if $photos.find('a.fb_gallery').length < $photos.length
+    #       # Replace placeholder with a thumbnail
+    #       $photos.each ->
+    #         $this = $(this)
+    #         if not $this.find('a.fb_gallery').length
+    #           $this
+    #             .find('a').remove().end()
+    #             .css('background', background)
+    #             .append($link)
+    #           return false
+    #     else
+    #       # Thumbnail in a new row
+    #       $newPhoto = $('<li></li>')
+    #         .css('background', background)
+    #         .append($link)
+    #       $('#photos ul')
+    #         .append($newPhoto)
+    #         .append($('<li></li><li></li><li></li><li></li>'))
+    # 
+    #     # Ensure all thumbnails in the gallery are displayed
+    #     $('#photos li').fadeIn ->
+    #       $('#show_photos').text('Hide Photos') if $('#photos li a.fb_gallery').length > 5
+    # 
+    #   # A photo was added, so the model must be updated
+    #   photos = @model.get 'photos'
+    #   photos.push
+    #     photo: $el.attr 'data-id'
+    #     addedBy: USER.ME.id
+    #   @model.set {photos}
   
   reset: (partial=false)->
     # Resets the widget in its entirety
