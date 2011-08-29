@@ -2,39 +2,61 @@
 
   <div id="photos" class="clearfix mbottom3">
     <ul class="clearfix">
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li>
-        <% if USER.AUTH: %>
-          <a href="/web/img/add_photo.png" class="add_photos"></a>
-        <% end %>
-      </li>
+      <% blocks = Math.ceil(@model.get('photos').length / 5) * 5 or 5 %>
+      <% for block in [1..blocks]: %>
+        <li class="<%= 'hide' if not @uiStates.fullGrid and block > 5 %>">
+          <% if block <= @model.get('photos').length: %>
+            photo
+          <% else if block == blocks and USER.AUTH: %>
+            <a href="/web/img/add_photo.png" class="add_photos"></a>
+          <% end %>
+        </li>
+      <% end %>
     </ul>
-    <a href="#" id="show_photos" class="fl"></a>
+    
+    <% if @model.get('photos').length > 5: %>
+      <% if not @uiStates.fullGrid: %>
+        <a href="#" id="hide_photos" class="fl">Show All Photos (<%= @model.get('photos').length %>)</a>
+      <% else: %>
+        <a href="#" id="show_photos" class="fl">Hide Photos</a>
+      <% end %>
+    <% end %>
+    
     <% if USER.AUTH: %>
-      <a href="#" id="add_photos" class="add_photos fr" data-step="5" data-stepped="false">Add Photos</a>
+      <% if not @uiStates.photoSelector: %>
+        <a href="#" class="add_photos fr">Add Photos</a>
+      <% else: %>
+        <a href="#" id="hide_photo_selector" class="fr">Close</a>
+      <% end %>
     <% end %>
   </div>
 
 
-  <div id="photo_selector">
+  <div id="photo_selector" class="<%= 'hide' if not @uiStates.photoSelector %>">
     <span class="nub"></span>
 
     <div id="select_from_container" class="clearfix">
-      <div class="fl">
-        <a href="#" id="select_from_tagged"><span>Select From</span> Photos I'm Tagged In</a>
+      <div class="fl <%= 'selected' if @uiStates.photoSelectorSource == 'tags' %>">
+        <a href="#" id="select_from_tagged" data-source="tags">
+          <span>Select From</span> Photos I'm Tagged In
+        </a>
       </div>
-      <div class="fr">
-        <a href="#" id="select_from_albums"><span>Select From</span> Photos In My Albums</a>
-        <select class="h_center_cheat v_center_cheat">
+      <div class="fr <%= 'selected' if @uiStates.photoSelectorSource == 'albums' %>">
+        <a href="#" id="select_from_albums" data-source="albums" class="<%= 'hide' if @uiStates.photoSelectorSource == 'albums' %>">
+          <span>Select From</span> Photos In My Albums
+        </a>
+        <select id="albums" class="h_center_cheat v_center_cheat">
           <option value="">Select an album:&nbsp;</option>
+          <% for album in USER.ALBUMS.data: %>
+            <option value="<%= album.id %>" <%= 'selected="true"' if @uiStates.photoSelectorAlbum == album.id %>>
+              <%= album.name %>&nbsp;
+            </option>
+          <% end %>
         </select>
       </div>
     </div>
 
-    <div id="photo_choices">
+    <div id="photo_choices" class="<%= 'hide' if not @uiStates.photoSelectorChoices %>">
       <ul class="clearfix"></ul>
     </div>
   </div>

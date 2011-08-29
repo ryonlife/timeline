@@ -5,17 +5,31 @@ class exports.MemoriesShowPhotosView extends Backbone.View
   
   events:
     # Photo gallery
-    'click a#show_photos': 'showPhotos'
-    'click a.add_photos': 'showPhotoSelector'
+    'click a#show_full_grid': 'showPhotos'
+    'click a#hide_full_grid': 'hidePhotos'
     'click a.fb_gallery': 'showGallery'
     'click a.fb_gallery label': 'removePhoto'
     
     # Photo selector
-    'click #select_from_container a': 'selectSource'
-    'click #select_from_albums': 'showAlbums'
-    'click #select_from_tagged': 'showTaggedPhotos'
-    'change select': 'showAlbumPhotos'
+    'click a.add_photos': 'showPhotoSelector'
+    'click a#hide_photo_selector': 'hidePhotoSelector'
+    'click #select_from_container a': 'selectPhotoSelectorSource'
+    'click #select_from_tagged': 'showPhotoSelectorPhotos'
+    'change select#albums': 'showPhotoSelectorPhotos'
+    'scroll #photo_choices ul': 'infinityScroll'
     'click li[data-id]': 'selectPhoto'
+  
+  uiStates:
+    fullGrid: false
+    photoSelector: false
+    photoSelectorSource: null
+    photoSelectorAlbum: null
+    photoSelectorChoices: false
+    infinityScroller:
+      limit: 60
+      page: 1
+      maxReached: false
+      pendingRequest: false
   
   initialize: ->
     _.bindAll @, 'render'
@@ -23,39 +37,25 @@ class exports.MemoriesShowPhotosView extends Backbone.View
 
   render: ->
     $el = $(@el)
-    $(@el).html memoriesShowPhotosTemplate {model: @model}
-    @  
+    $(@el).html memoriesShowPhotosTemplate {model: @model, uiStates: @uiStates}
+    @
   
   # PHOTO GALLERY
   
   showPhotos: (e) ->
     e.preventDefault()
-    $el = $(e.currentTarget)
-    $p = $('#photos li')
-    if $p.length > 5 and $p.filter(':visible').length < $p.length
-      $el.text('Hide Photos')
-      $('#photos li').fadeIn()
-    else
-      $el.text('Show All Photos ('+$p.find('a.fb_gallery').length+')')
-      $('#photos li:gt(4)').fadeOut()
-
-  showPhotoSelector: (e) ->
+    @uiStates.fullGrid = true
+    @render()
+    
+  hidePhotos: (e) ->
     e.preventDefault()
-    $(e.currentTarget).attr('data-stepped', 'true')
-    $add = $('#add_photos')
-    $ps = $('#photo_selector_view')
-    if $ps.is(':visible')
-      $add.text('Add Photos')
-      $ps.fadeOut()
-    else
-      @views.photoSelector.reset()
-      $add.text('Close')
-      $ps.fadeIn()
+    @uiStates.fullGrid = false
+    @render()
 
   showGallery: (e) ->
     e.preventDefault()
-    $pic = $(e.target)
-    $pic.fbGallery() if $pic.filter('a').length # Do not open the gallery if the close button was clicked
+    $el = $(e.currentTarget)
+    $el.fbGallery() if $el.filter('a').length # Do not open the gallery if the close button was clicked
 
   removePhoto: (e) ->
     $el = $(e.currentTarget)
@@ -109,55 +109,54 @@ class exports.MemoriesShowPhotosView extends Backbone.View
   
   # PHOTO SELECTOR
   
-  selectSource: (e) ->
+  showPhotoSelector: (e) ->
     e.preventDefault()
-    $el = $(e.currentTarget)
-    if not $el.hasClass('selected')
-      @reset()
-      $el.parent().addClass('selected')
-  
-  showAlbums: (e) ->
+    @uiStates.photoSelector = true
+    @render()
+    
+  hidePhotoSelector: (e) ->
     e.preventDefault()
+    @uiStates.photoSelector = false
+    @render()
     
-    $el = $(@el)
-    $el.find('option:gt(0)').remove()
-    for album in USER.ALBUMS.data
-      $el.find('select').append($('<option value="'+album.id+'">'+album.name+'&nbsp;</option>'))
-    
-    $(e.currentTarget).hide().siblings().show()
+  selectPhotoSelectorSource: (e) ->
+    e.preventDefault()
+    @uiStates.photoSelectorSource = $(e.currentTarget).attr 'data-source'
+    @render()
     $.centerCheat()
           
-  showTaggedPhotos: (e) ->
-    $('#photo_choices')
-      .show()
-      .find('ul')
-        # Backbone scroll listener not working ???
-        .unbind()
-        .scroll (e) =>
-          @infinityScroll(e, '/me/photos')
-          @
-        .trigger('scroll')
-
-  state:
-    limit: 60
-    page: 1
-    maxReached: false
-    pendingRequest: false
-
-  infinityScroll: (e, url) ->
+  showPhotoSelectorPhotos: (e) ->
+    e.preventDefault()
     $el = $(e.currentTarget)
-    if (@state.page == 1 or 700 >= Math.ceil($el.find('li').length / 3) * 140 - $el.scrollTop()) and not @state.pendingRequest and not @state.maxReached
+    @uiStates.photoSelectorChoices = true
+    @uiStates.photoSelectorAlbum = if $el.is 'select' then $el.val() else null
+    @render()
+    $.centerCheat()
+    $('#photo_choices ul').trigger 'scroll'
+
+  infinityScroll: (e) ->
+    $el = $(e.currentTarget)
+    
+    if @uiStates.photoSelectorSource == 'tags'
+      url = '/me/photos'
+    else
+      url = "#{$('#albums').val()}/photos"
+    
+    usIs = @uiStates.infinityScroller
+    if (usIs.page == 1 or 700 >= Math.ceil($el.find('li').length / 3) * 140 - $el.scrollTop()) and not usIs.pendingRequest and not usIs.maxReached
       
-      @state.pendingRequest = true
-      FB.api url, {limit: @state.limit, offset: (@state.page - 1) * @state.limit}, (response) =>
+      @uiStates.infinityScroller.pendingRequest = true
+      FB.api url, {limit: @uiStates.infinityScroller.limit, offset: (@uiStates.infinityScroller.page - 1) * @uiStates.infinityScroller.limit}, (response) =>
         
         for photos in response.data
           p = {}
+          
           for photo in photos.images
             p.xlarge = photo if photo.width <= 720 and not p.xlarge
             p.large = photo if photo.width <= 720 and not p.large
             p.medium = photo if photo.width <= 180 and not p.medium
             p.small = photo if photo.width <= 130 and not p.small
+          
           $photo = $('<li></li>')
             .attr('data-id', photos.id)
             .attr('data-small', p.small.source)
@@ -165,30 +164,18 @@ class exports.MemoriesShowPhotosView extends Backbone.View
             .attr('data-large', p.large.source)
             .attr('data-xlarge', p.xlarge.source)
             .css('background', '#000 url('+p.medium.source+') no-repeat center center')
+          
           $('#photo_choices ul').append($photo)
       
         $('#photo_choices ul li:nth-child(3n+2)').addClass('middle')
       
         if response.paging && response.paging.next
-          @state.page++
+          @uiStates.infinityScroller.page++
         else
-          @state.maxReached = true
+          @uiStates.infinityScroller.maxReached = true
       
         $('#photo_choices ul').css('background-image', 'none')
-        @state.pendingRequest = false
-  
-  showAlbumPhotos: (e) ->
-    @reset(partial=true)
-    url = $(e.currentTarget).val()+'/photos'
-    if url.length > 7
-      $('#photo_choices')
-        .show()
-        .find('ul')
-          .unbind()
-          .scroll (e) =>
-            @infinityScroll(e, url)
-            @
-          .trigger('scroll')
+        @uiStates.infinityScroller.pendingRequest = false
   
   selectPhoto: (e) ->
     $el = $(e.currentTarget)
@@ -255,5 +242,5 @@ class exports.MemoriesShowPhotosView extends Backbone.View
       .hide()
       .find('ul').css('background', 'transparent url(/timeline/_design/timeline/web/img/spinner.gif) no-repeat center center')
       .find('li').remove()
-    @state = _.extend(@state, {page: 1, maxReached: false, pendingRequest: false})
+    @uiStates.infinityScroller = _.extend(@uiStates.infinityScroller, {page: 1, maxReached: false, pendingRequest: false})
       
