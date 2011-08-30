@@ -47,3 +47,9 @@ class exports.Memory extends Backbone.Model
   taggedFriendIds: ->
     _.map @get('friends'), (friend) -> friend.tagged
   
+  addPhoto: (photo) ->
+    photos = @get 'photos'
+    photo.addedBy = USER.ME.id
+    photos.push photo
+    @set {photos}
+  

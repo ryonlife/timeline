@@ -184,7 +184,13 @@ class exports.MemoriesShowPhotosView extends Backbone.View
   
   selectPhoto: (e) ->
     $el = $(e.currentTarget)
-    @model.addPhoto $el.attr 'data-id'
+    @model.addPhoto
+      id: $el.attr 'data-id'
+      small: $el.attr 'data-small'
+      medium: $el.attr 'data-medium'
+      xlarge: $el.attr 'data-xlarge'
+    console.log @model.attributes
+    @model.save()
     
     # @model.get 'photos'
     # photos.push
