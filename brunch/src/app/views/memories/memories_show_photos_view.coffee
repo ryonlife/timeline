@@ -18,19 +18,23 @@ class exports.MemoriesShowPhotosView extends Backbone.View
     'change select#albums': 'showPhotoSelectorPhotos'
     'click li[data-id]': 'selectPhoto'
     
-  uiStates:
-    fullGrid: false
-    photoSelector: false
-    photoSelectorSource: null
-    photoSelectorAlbum: null
-    photoSelectorChoices: false
-    infinityScroller:
-      limit: 60
-      page: 1
-      maxReached: false
-      pendingRequest: false
+  resetUiStates: (override={}) ->
+    @uiStates =
+      fullGrid: false
+      photoSelector: false
+      photoSelectorSource: null
+      photoSelectorAlbum: null
+      photoSelectorChoices: false
+      infinityScroller:
+        limit: 60
+        page: 1
+        maxReached: false
+        pendingRequest: false
+        photos: []
+    _.extend @uiStates, override
   
   initialize: ->
+    @resetUiStates()
     _.bindAll @, 'render'
     @model.bind 'change', @render
 
@@ -110,12 +114,13 @@ class exports.MemoriesShowPhotosView extends Backbone.View
   
   showPhotoSelector: (e) ->
     e.preventDefault()
-    @uiStates.photoSelector = true
-    @render()
-    
+    if @uiStates.photoSelector is false
+      @uiStates.photoSelector = true
+      @render()
+
   hidePhotoSelector: (e) ->
     e.preventDefault()
-    @uiStates.photoSelector = false
+    @resetUiStates {fullGrid: @uiStates.fullGrid}
     @render()
     
   selectPhotoSelectorSource: (e) ->
@@ -162,25 +167,21 @@ class exports.MemoriesShowPhotosView extends Backbone.View
             p.medium = photo if photo.width <= 180 and not p.medium
             p.small = photo if photo.width <= 130 and not p.small
           
-          $photo = $('<li></li>')
-            .attr('data-id', photos.id)
-            .attr('data-small', p.small.source)
-            .attr('data-medium', p.medium.source)
-            .attr('data-large', p.large.source)
-            .attr('data-xlarge', p.xlarge.source)
-            .css('background', '#000 url('+p.medium.source+') no-repeat center center')
-          
-          $('#photo_choices ul').append($photo)
-      
-        $('#photo_choices ul li:nth-child(3n+2)').addClass('middle')
+          @uiStates.infinityScroller.photos.push
+            id: photos.id
+            small: p.small.source
+            medium: p.medium.source
+            large: p.large.source
+            xlarge: p.xlarge.source
       
         if response.paging && response.paging.next
           @uiStates.infinityScroller.page++
         else
           @uiStates.infinityScroller.maxReached = true
       
-        $('#photo_choices ul').css('background-image', 'none')
         @uiStates.infinityScroller.pendingRequest = false
+        
+        @render()
   
   selectPhoto: (e) ->
     $el = $(e.currentTarget)
@@ -189,78 +190,5 @@ class exports.MemoriesShowPhotosView extends Backbone.View
       small: $el.attr 'data-small'
       medium: $el.attr 'data-medium'
       xlarge: $el.attr 'data-xlarge'
-    console.log @model.attributes
     @model.save()
     
-    # @model.get 'photos'
-    # photos.push
-    #   photo: $el.attr 'data-id'
-    #   addedBy: USER.ME.id
-    # @model.set {photos}
-    # 
-    # 
-    # $photo = $('#photo a.add_photos')
-    # $photos = $('#photos li')
-    # 
-    # if not $('a[href="'+$el.attr('data-xlarge')+'"]').length
-    # 
-    #   if $photo.length
-    #     # There is no main photo for the memory, so add it
-    #     image = new Image()
-    #     image.onload = ->
-    #       $photo
-    #         .removeClass('add_photos')
-    #         .addClass('fb_gallery')
-    #         .css({backgroundImage: 'url('+$el.attr('data-medium')+')', height: image.height})
-    #         .attr('href', $el.attr('data-xlarge'))
-    #     image.src = $el.attr('data-medium')
-    # 
-    #   else
-    #     # This photo is not already in the gallery, so add it
-    #     background = "#000 url(#{$el.attr 'data-small'}) no-repeat center center"
-    #     $link = $("<a href=\"#{$el.attr 'data-xlarge'}\" data-photo=\"#{$el.attr 'data-id'}\" class=\"fb_gallery\"><label></label></a>")
-    # 
-    #     if $photos.find('a.fb_gallery').length < $photos.length
-    #       # Replace placeholder with a thumbnail
-    #       $photos.each ->
-    #         $this = $(this)
-    #         if not $this.find('a.fb_gallery').length
-    #           $this
-    #             .find('a').remove().end()
-    #             .css('background', background)
-    #             .append($link)
-    #           return false
-    #     else
-    #       # Thumbnail in a new row
-    #       $newPhoto = $('<li></li>')
-    #         .css('background', background)
-    #         .append($link)
-    #       $('#photos ul')
-    #         .append($newPhoto)
-    #         .append($('<li></li><li></li><li></li><li></li>'))
-    # 
-    #     # Ensure all thumbnails in the gallery are displayed
-    #     $('#photos li').fadeIn ->
-    #       $('#show_photos').text('Hide Photos') if $('#photos li a.fb_gallery').length > 5
-    # 
-    #   # A photo was added, so the model must be updated
-    #   photos = @model.get 'photos'
-    #   photos.push
-    #     photo: $el.attr 'data-id'
-    #     addedBy: USER.ME.id
-    #   @model.set {photos}
-  
-  reset: (partial=false)->
-    # Resets the widget in its entirety
-    if not partial
-      $('#select_from_container')
-        .find('div').removeClass('selected').end()
-        .find('a').show().end()
-        .find('select').hide().find('option:first').attr('selected', 'selected')
-    # Resets the actual display of photos
-    $('#photo_choices')
-      .hide()
-      .find('ul').css('background', 'transparent url(/timeline/_design/timeline/web/img/spinner.gif) no-repeat center center')
-      .find('li').remove()
-    @uiStates.infinityScroller = _.extend(@uiStates.infinityScroller, {page: 1, maxReached: false, pendingRequest: false})
-      

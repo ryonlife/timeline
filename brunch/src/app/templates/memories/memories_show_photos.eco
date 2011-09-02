@@ -4,9 +4,8 @@
     <ul class="clearfix">
       <% blocks = Math.ceil(Math.abs(@model.get('photos').length - 1) / 5) * 5 or 5 %>
       <% for block in [1..blocks]: %>
-        <% console.log block %>
-        <% console.log @model.get('photos') %>
-        <% bg = if @model.get('photos')[block] then "background: #000 url(#{@model.get('photos')[block].small}) no-repeat center center" else null %>
+      
+        <% bg = if @model.get('photos')[block] then "background: #000 url(#{@model.get('photos')[block].small}) no-repeat center center" else null %>  
         <li class="<%= 'hide' if not @uiStates.fullGrid and block > 5 %>" style="<%= bg %>">
           <% if @model.get('photos')[block]: %>
             <a href="<%= @model.get('photos')[block].xlarge %>" data-photo="<%= @model.get('photos')[block].id %>" class="fb_gallery">
@@ -16,6 +15,7 @@
             <a href="/web/img/add_photo.png" class="add_photos"></a>
           <% end %>
         </li>
+      
       <% end %>
     </ul>
     
@@ -35,7 +35,6 @@
       <% end %>
     <% end %>
   </div>
-
 
   <div id="photo_selector" class="<%= 'hide' if not @uiStates.photoSelector %>">
     <span class="nub"></span>
@@ -60,9 +59,20 @@
         </select>
       </div>
     </div>
-
+    
     <div id="photo_choices" class="<%= 'hide' if not @uiStates.photoSelectorChoices %>">
-      <ul class="clearfix"></ul>
+      <ul class="clearfix <%= 'spinner' if not @uiStates.infinityScroller.photos.length %>">
+        <% for photo in @uiStates.infinityScroller.photos: %>
+          <li
+            data-id="<%= photo.id %>"
+            data-small="<%= photo.small %>"
+            data-medium="<%= photo.medium %>"
+            data-large="<%= photo.large %>"
+            data-xlarge="<%= photo.xlarge %>"
+            style="background: #000 url(<%= photo.medium %>) no-repeat center center"
+          ></li>
+        <% end %>
+      </ul>
     </div>
   </div>
   

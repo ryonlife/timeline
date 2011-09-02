@@ -1,7 +1,9 @@
 <div id="memory_header">
   <% if @model.get('photos').length or USER.AUTH: %>
     <div id="photo">
-      <% if USER.AUTH: %>
+      <% if @model.get('photos').length: %>
+        <a href="<%= @model.get('photos')[0].xlarge %>" class="fb_gallery" style="background-image: url(<%= @model.get('photos')[0].medium %>);"></a>
+      <% else: %>
         <a href="#" class="add_photos"><label></label></a>
       <% end %>
     </div>

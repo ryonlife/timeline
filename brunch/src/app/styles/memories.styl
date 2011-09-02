@@ -184,13 +184,14 @@ li .profile_pic:hover label
     margin 5px 0 0 0
     padding-top 5px
     border-top 1px solid rgb(229, 229, 229)
+    ul.spinner
+      background transparent url(/timeline/_design/timeline/web/img/spinner.gif) no-repeat center center
     ul
       margin 0
       min-height 140px
       max-height 415px
       overflow-x hidden
       overflow-y scroll
-      background transparent url(/timeline/_design/timeline/web/img/spinner.gif) no-repeat center center
       li
         display block
         width 173px
@@ -199,7 +200,7 @@ li .profile_pic:hover label
         float left
         margin-bottom 5px
         cursor pointer
-      li.middle
+      li:nth-child(3n+2)
         margin 0 5px
         
 .ui-tooltip

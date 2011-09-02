@@ -83,6 +83,7 @@
     var cookies, hostAndPort, parsedUrl, proxyUrl;
     parsedUrl = url.parse(request.url);
     if (request.method === 'GET') {
+      console.log("" + request.method + " " + parsedUrl.pathname);
       if (parsedUrl.pathname === '/') {
         request.url = '/timeline/_design/timeline/index.html';
       }
@@ -101,8 +102,6 @@
           }
         });
       }
-      console.log(request.method);
-      console.log(parsedUrl.pathname);
       if (parsedUrl.pathname === '/') {
         parsedUrl.pathname = '/timeline/_design/timeline/index.html';
       }
@@ -114,13 +113,13 @@
   console.log("Proxy ready on port " + CONFIG.port);
   authProxy = function(inRequest, inResponse, proxyUrl) {
     var inData;
-    console.log("" + inRequest.method + " " + proxyUrl);
     inData = '';
     inRequest.on('data', function(chunk) {
       return inData += chunk;
     });
     return inRequest.on('end', function() {
       var authAttempt, authStarted;
+      console.log("" + inRequest.method + " " + proxyUrl.pathname + " " + inData);
       authStarted = false;
       return authAttempt = setInterval(function() {
         var headers, outRequest, params;

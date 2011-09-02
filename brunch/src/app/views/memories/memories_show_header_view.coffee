@@ -18,7 +18,12 @@ class exports.MemoriesShowHeaderView extends Backbone.View
     $el = $(@el)
     
     $el.html memoriesShowHeaderTemplate {model: @model}
-        
+    
+    if @model.get('photos').length
+      image = new Image()
+      image.onload = -> $el.find('#photo .fb_gallery').css('height', image.height)
+      image.src = @model.get('photos')[0].medium
+    
     @qtips()
     @datepickers()
     @xfbml()

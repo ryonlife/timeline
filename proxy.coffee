@@ -61,9 +61,10 @@ if CONFIG.name == 'development'
   spawner 'couchapp', ['sync', 'couchapp.js', "#{CONFIG.target}#{CONFIG.prefix}"], growlCondition
 
 # Proxy to handle requests
-requestHandler = (request, response) ->
+requestHandler = (request, response) ->  
   parsedUrl = url.parse request.url
   if request.method == 'GET'
+    console.log "#{request.method} #{parsedUrl.pathname}"
     request.url = '/timeline/_design/timeline/index.html' if parsedUrl.pathname == '/'
     hostAndPort = CONFIG.target.split('//')[1].split(':')
     proxy.proxyRequest request, response, {host: hostAndPort[0], port: hostAndPort[1]}
@@ -74,9 +75,6 @@ requestHandler = (request, response) ->
       _.each cookies, (cookie) ->
         cookie = cookie.split '='
         TOKEN = cookie[1] if cookie[0] == 'access_token'
-    # Logging
-    console.log request.method
-    console.log parsedUrl.pathname
     # Proxy
     parsedUrl.pathname = '/timeline/_design/timeline/index.html' if parsedUrl.pathname == '/'
     proxyUrl = "#{CONFIG.target}#{parsedUrl.pathname.substring CONFIG.prefix.length - 1}#{parsedUrl.search || ''}"
@@ -89,9 +87,6 @@ console.log "Proxy ready on port #{CONFIG.port}"
 # Authenticates using Facebook, then proxies to CouchDB
 authProxy = (inRequest, inResponse, proxyUrl) ->
   
-  # Logging
-  console.log "#{inRequest.method} #{proxyUrl}"
-  
   # Construct the incoming request body
   inData = ''
   inRequest.on 'data', (chunk) ->
@@ -99,6 +94,8 @@ authProxy = (inRequest, inResponse, proxyUrl) ->
   
   # When the incoming request is finished, time to proxy it
   inRequest.on 'end', ->
+    
+    console.log "#{inRequest.method} #{proxyUrl.pathname} #{inData}"
     
     # Timer to check the status of a Facebook authorization
     authStarted = false
