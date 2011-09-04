@@ -1,4 +1,4 @@
-<% if @model.get('photos').length > 1 or USER.AUTH: %>
+<% if @model.get('photos').length or USER.AUTH: %>
 
   <div id="photos" class="clearfix mbottom3">
     <ul class="clearfix">
@@ -9,7 +9,9 @@
         <li class="<%= 'hide' if not @uiStates.fullGrid and block > 5 %>" style="<%= bg %>">
           <% if @model.get('photos')[block]: %>
             <a href="<%= @model.get('photos')[block].xlarge %>" data-photo="<%= @model.get('photos')[block].id %>" class="fb_gallery">
-              <label></label>
+              <% if USER.AUTH: %>
+                <label></label>
+              <% end %>
             </a>
           <% else if not @model.get('photos')[block] and block == blocks and USER.AUTH: %>
             <a href="/web/img/add_photo.png" class="add_photos"></a>
@@ -36,44 +38,46 @@
     <% end %>
   </div>
 
-  <div id="photo_selector" class="<%= 'hide' if not @uiStates.photoSelector %>">
-    <span class="nub"></span>
+  <% if USER.AUTH: %>
+    <div id="photo_selector" class="<%= 'hide' if not @uiStates.photoSelector %>">
+      <span class="nub"></span>
 
-    <div id="select_from_container" class="clearfix">
-      <div class="fl <%= 'selected' if @uiStates.photoSelectorSource == 'tags' %>">
-        <a href="#" id="select_from_tagged" data-source="tags">
-          <span>Select From</span> Photos I'm Tagged In
-        </a>
+      <div id="select_from_container" class="clearfix">
+        <div class="fl <%= 'selected' if @uiStates.photoSelectorSource == 'tags' %>">
+          <a href="#" id="select_from_tagged" data-source="tags">
+            <span>Select From</span> Photos I'm Tagged In
+          </a>
+        </div>
+        <div class="fr <%= 'selected' if @uiStates.photoSelectorSource == 'albums' %>">
+          <a href="#" id="select_from_albums" data-source="albums" class="<%= 'hide' if @uiStates.photoSelectorSource == 'albums' %>">
+            <span>Select From</span> Photos In My Albums
+          </a>
+          <select id="albums" class="h_center_cheat v_center_cheat">
+            <option value="">Select an album:&nbsp;</option>
+            <% for album in USER.ALBUMS.data: %>
+              <option value="<%= album.id %>" <%= 'selected="true"' if @uiStates.photoSelectorAlbum == album.id %>>
+                <%= album.name %>&nbsp;
+              </option>
+            <% end %>
+          </select>
+        </div>
       </div>
-      <div class="fr <%= 'selected' if @uiStates.photoSelectorSource == 'albums' %>">
-        <a href="#" id="select_from_albums" data-source="albums" class="<%= 'hide' if @uiStates.photoSelectorSource == 'albums' %>">
-          <span>Select From</span> Photos In My Albums
-        </a>
-        <select id="albums" class="h_center_cheat v_center_cheat">
-          <option value="">Select an album:&nbsp;</option>
-          <% for album in USER.ALBUMS.data: %>
-            <option value="<%= album.id %>" <%= 'selected="true"' if @uiStates.photoSelectorAlbum == album.id %>>
-              <%= album.name %>&nbsp;
-            </option>
-          <% end %>
-        </select>
-      </div>
-    </div>
     
-    <div id="photo_choices" class="<%= 'hide' if not @uiStates.photoSelectorChoices %>">
-      <ul class="clearfix <%= 'spinner' if not @uiStates.infinityScroller.photos.length %>">
-        <% for photo in @uiStates.infinityScroller.photos: %>
-          <li
-            data-id="<%= photo.id %>"
-            data-small="<%= photo.small %>"
-            data-medium="<%= photo.medium %>"
-            data-large="<%= photo.large %>"
-            data-xlarge="<%= photo.xlarge %>"
-            style="background: #000 url(<%= photo.medium %>) no-repeat center center"
-          ></li>
-        <% end %>
-      </ul>
+      <div id="photo_choices" class="<%= 'hide' if not @uiStates.photoSelectorChoices %>">
+        <ul class="clearfix <%= 'spinner' if not @uiStates.infinityScroller.photos.length %>">
+          <% for photo in @uiStates.infinityScroller.photos: %>
+            <li
+              data-id="<%= photo.id %>"
+              data-small="<%= photo.small %>"
+              data-medium="<%= photo.medium %>"
+              data-large="<%= photo.large %>"
+              data-xlarge="<%= photo.xlarge %>"
+              style="background: #000 url(<%= photo.medium %>) no-repeat center center"
+            ></li>
+          <% end %>
+        </ul>
+      </div>
     </div>
-  </div>
+  <% end %>
   
 <% end %>
