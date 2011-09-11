@@ -159,6 +159,7 @@
           return outRequest.end();
         } else if (authStarted && !fbAuth.authenticated[TOKEN]) {
           clearInterval(authAttempt);
+          inResponse.setHeader('Set-Cookie', 'access_token=null; expires=Sat, 01-Jan-2000 00:00:00 GMT; path=/;');
           return error(inResponse, 'Unauthorized', 'Facebook authentication failed.', 401);
         }
       }, 100);
@@ -203,7 +204,7 @@
           if (fbAuth.authenticated[token] && response.statusCode === 200) {
             return success(JSON.parse(apiData));
           } else {
-            delete fbAuth.authenticate[token];
+            delete fbAuth.authenticated[token];
             console.error(apiData);
             return null;
           }

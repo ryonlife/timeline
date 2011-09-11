@@ -25,12 +25,12 @@ class exports.MemoriesShowPhotosView extends Backbone.View
       photoSelectorSource: null
       photoSelectorAlbum: null
       photoSelectorChoices: false
+      photos: []
       infinityScroller:
         limit: 60
         page: 1
         maxReached: false
         pendingRequest: false
-        photos: []
     _.extend @uiStates, override
   
   initialize: ->
@@ -120,7 +120,7 @@ class exports.MemoriesShowPhotosView extends Backbone.View
 
   hidePhotoSelector: (e) ->
     e.preventDefault()
-    @resetUiStates {fullGrid: @uiStates.fullGrid}
+    @resetUiStates {fullGrid: @uiSstates.fullGrid}
     @render()
     
   selectPhotoSelectorSource: (e) ->
@@ -167,21 +167,32 @@ class exports.MemoriesShowPhotosView extends Backbone.View
             p.medium = photo if photo.width <= 180 and not p.medium
             p.small = photo if photo.width <= 130 and not p.small
           
-          @uiStates.infinityScroller.photos.push
+          @uiStates.photos.append
             id: photos.id
             small: p.small.source
             medium: p.medium.source
             large: p.large.source
             xlarge: p.xlarge.source
+          
+        #   $photo = $('<li></li>')
+        #     .attr('data-id', photos.id)
+        #     .attr('data-small', p.small.source)
+        #     .attr('data-medium', p.medium.source)
+        #     .attr('data-large', p.large.source)
+        #     .attr('data-xlarge', p.xlarge.source)
+        #     .css('background', '#000 url('+p.medium.source+') no-repeat center center')
+        #   
+        #   $('#photo_choices ul').append($photo)
+        #       
+        # $('#photo_choices ul li:nth-child(3n+2)').addClass('middle')
       
         if response.paging && response.paging.next
           @uiStates.infinityScroller.page++
         else
           @uiStates.infinityScroller.maxReached = true
       
+        $('#photo_choices ul').css('background-image', 'none')
         @uiStates.infinityScroller.pendingRequest = false
-        
-        @render()
   
   selectPhoto: (e) ->
     $el = $(e.currentTarget)

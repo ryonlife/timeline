@@ -154,6 +154,7 @@ authProxy = (inRequest, inResponse, proxyUrl) ->
       else if authStarted and not fbAuth.authenticated[TOKEN]
         # Authentication failed
         clearInterval authAttempt
+        inResponse.setHeader 'Set-Cookie', 'access_token=null; expires=Sat, 01-Jan-2000 00:00:00 GMT; path=/;'
         return error inResponse, 'Unauthorized', 'Facebook authentication failed.', 401
       
       # else, just wait a tenth of a second for the Facebook Graph API calls to return
@@ -194,7 +195,7 @@ fbAuth =
           success JSON.parse(apiData)
         else
           # Delete the cache key because there was an error response
-          delete fbAuth.authenticate[token]
+          delete fbAuth.authenticated[token]
           console.error apiData
           null
     
