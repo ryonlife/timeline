@@ -102,6 +102,7 @@
           }
         });
       }
+      console.log(TOKEN);
       if (parsedUrl.pathname === '/') {
         parsedUrl.pathname = '/timeline/_design/timeline/index.html';
       }

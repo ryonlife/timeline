@@ -167,24 +167,12 @@ class exports.MemoriesShowPhotosView extends Backbone.View
             p.medium = photo if photo.width <= 180 and not p.medium
             p.small = photo if photo.width <= 130 and not p.small
           
-          @uiStates.photos.append
+          @uiStates.photos.push
             id: photos.id
             small: p.small.source
             medium: p.medium.source
             large: p.large.source
             xlarge: p.xlarge.source
-          
-        #   $photo = $('<li></li>')
-        #     .attr('data-id', photos.id)
-        #     .attr('data-small', p.small.source)
-        #     .attr('data-medium', p.medium.source)
-        #     .attr('data-large', p.large.source)
-        #     .attr('data-xlarge', p.xlarge.source)
-        #     .css('background', '#000 url('+p.medium.source+') no-repeat center center')
-        #   
-        #   $('#photo_choices ul').append($photo)
-        #       
-        # $('#photo_choices ul li:nth-child(3n+2)').addClass('middle')
       
         if response.paging && response.paging.next
           @uiStates.infinityScroller.page++

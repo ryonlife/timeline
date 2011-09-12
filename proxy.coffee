@@ -76,6 +76,7 @@ requestHandler = (request, response) ->
         cookie = cookie.split '='
         TOKEN = cookie[1] if cookie[0] == 'access_token'
     # Proxy
+    console.log TOKEN
     parsedUrl.pathname = '/timeline/_design/timeline/index.html' if parsedUrl.pathname == '/'
     proxyUrl = "#{CONFIG.target}#{parsedUrl.pathname.substring CONFIG.prefix.length - 1}#{parsedUrl.search || ''}"
     authProxy request, response, url.parse(proxyUrl, true)

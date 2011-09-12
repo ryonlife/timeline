@@ -26,6 +26,8 @@ $(document).ready ->
     new MemoriesRouter
     Backbone.history.start()
     
+    # On Facebook's OAuth page, user did not allow requested permissions,
+    # so redirect back to the page they were viewing, deleting the access_token cookie so they're not logged in
     error = $.url().param 'error'
     if error == 'access_denied'
       $.cookie 'access_token', null
@@ -37,16 +39,30 @@ $(document).ready ->
   window.fbAsyncInit = ->
     FB.init {appId: '121822724510409', status: true, cookie: true, xfbml: true}
     FB.Canvas.setAutoResize()
-  
-    fbComplete = null
-    FbComplete = setInterval ->
-      if USER.ME and USER.FRIENDS and USER.ALBUMS
-        USER.AUTH = if USER.ME.error or USER.FRIENDS.error or USER.ALBUMS.error then false else true
-        clearInterval FbComplete
-        bootstrap()
-    , 50
     
-    FB.api '/me', (response) -> USER.ME = response
-    FB.api '/me/friends', (response) -> USER.FRIENDS = response
-    FB.api '/me/albums', (response) -> USER.ALBUMS = response
+    FB.getLoginStatus (loginStatusResponse) ->
+      if loginStatusResponse.status != 'connected'
+        # User has not authorized Timeline to connect to his Facebook account
+        USER.AUTH = false
+        $.cookie 'access_token', null
+        bootstrap()
+      else
+        # User did authorize Timeline
+        fbComplete = null
+        FbComplete = setInterval ->
+          if USER.ME and USER.FRIENDS and USER.ALBUMS
+            if USER.ME.error or USER.FRIENDS.error or USER.ALBUMS.error
+              USER.AUTH = false
+              $.cookie 'access_token', null
+            else
+              USER.AUTH = true
+              $.cookie 'access_token', loginStatusResponse.session.access_token
+            # Now that Facebook auth status is a known commodity, app can be started
+            clearInterval FbComplete
+            bootstrap()
+        , 50
+        
+        FB.api '/me', (response) -> USER.ME = response
+        FB.api '/me/friends', (response) -> USER.FRIENDS = response
+        FB.api '/me/albums', (response) -> USER.ALBUMS = response
   
