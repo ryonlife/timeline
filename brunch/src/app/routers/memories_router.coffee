@@ -17,7 +17,7 @@ class exports.MemoriesRouter extends Backbone.Router
   
   show: (id) ->
     model = new Memory
-    model.id = id if id != 'new'    
+    model.id = id if id != 'new'
     view = new MemoriesShowView {model}
     $('#fb_wrapper').html view.render().el
     view.xfbml()

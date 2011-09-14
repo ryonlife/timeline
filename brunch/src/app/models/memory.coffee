@@ -12,10 +12,11 @@ class exports.Memory extends Backbone.Model
     photos: []
   
   initialize: ->
-    @set
-      owners: [USER.ME.id]
-      favoriteOf: [USER.ME.id]
-      friends: [{tagged: USER.ME.id, taggedName: "#{USER.ME.first_name} #{USER.ME.last_name}", taggedBy: USER.ME.id}]
+    if USER.AUTH
+      @set
+        owners: [USER.ME.id]
+        favoriteOf: [USER.ME.id]
+        friends: [{tagged: USER.ME.id, taggedName: "#{USER.ME.first_name} #{USER.ME.last_name}", taggedBy: USER.ME.id}]
   
   formatDate: ->
     $.datepicker.formatDate 'MM d, yy', new Date @get 'date'

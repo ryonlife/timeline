@@ -30,7 +30,6 @@ $(document).ready ->
     # so redirect back to the page they were viewing, deleting the access_token cookie so they're not logged in
     error = $.url().param 'error'
     if error == 'access_denied'
-      $.cookie 'access_token', null
       hash = $.cookie 'hash'
       location.href = if hash then "#{location.origin}#{hash}" else "#{location.origin}"
   
@@ -44,19 +43,13 @@ $(document).ready ->
       if loginStatusResponse.status != 'connected'
         # User has not authorized Timeline to connect to his Facebook account
         USER.AUTH = false
-        $.cookie 'access_token', null
         bootstrap()
       else
         # User did authorize Timeline
         fbComplete = null
         FbComplete = setInterval ->
           if USER.ME and USER.FRIENDS and USER.ALBUMS
-            if USER.ME.error or USER.FRIENDS.error or USER.ALBUMS.error
-              USER.AUTH = false
-              $.cookie 'access_token', null
-            else
-              USER.AUTH = true
-              $.cookie 'access_token', loginStatusResponse.session.access_token
+            USER.AUTH = if USER.ME.error or USER.FRIENDS.error or USER.ALBUMS.error then false else true
             # Now that Facebook auth status is a known commodity, app can be started
             clearInterval FbComplete
             bootstrap()

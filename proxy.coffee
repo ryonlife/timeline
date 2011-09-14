@@ -61,7 +61,7 @@ if CONFIG.name == 'development'
   spawner 'couchapp', ['sync', 'couchapp.js', "#{CONFIG.target}#{CONFIG.prefix}"], growlCondition
 
 # Proxy to handle requests
-requestHandler = (request, response) ->  
+requestHandler = (request, response) ->
   parsedUrl = url.parse request.url
   if request.method == 'GET'
     console.log "#{request.method} #{parsedUrl.pathname}"
@@ -71,12 +71,9 @@ requestHandler = (request, response) ->
   else
     # Get the token from the cookie
     if request.headers.cookie
-      cookies = request.headers.cookie.split ';'
-      _.each cookies, (cookie) ->
-        cookie = cookie.split '='
-        TOKEN = cookie[1] if cookie[0] == 'access_token'
+      match = /fbs_.*access_token=(.*)&expires=/.exec request.headers.cookie
+      TOKEN = match[1] if match
     # Proxy
-    console.log TOKEN
     parsedUrl.pathname = '/timeline/_design/timeline/index.html' if parsedUrl.pathname == '/'
     proxyUrl = "#{CONFIG.target}#{parsedUrl.pathname.substring CONFIG.prefix.length - 1}#{parsedUrl.search || ''}"
     authProxy request, response, url.parse(proxyUrl, true)
@@ -106,7 +103,7 @@ authProxy = (inRequest, inResponse, proxyUrl) ->
         # Request method requires authentication and user has not been authenticated, so need to authenticate before proxying
         authStarted = true
         fbAuth.authenticate TOKEN
-      
+
       else if inRequest.method == 'GET' or (fbAuth.authenticated[TOKEN] and fbAuth.authenticated[TOKEN].fbId and fbAuth.authenticated[TOKEN].friends)
         # Time to proxy because this is a GET, which doesn't require authentication, or the user has been authenticated
         
@@ -114,7 +111,7 @@ authProxy = (inRequest, inResponse, proxyUrl) ->
         clearInterval authAttempt
         
         # Proxy headers
-        headers = inRequest.headers  
+        headers = inRequest.headers
         headers['host'] = "#{proxyUrl.hostname}:#{proxyUrl.port || 80}"
         headers['x-forwarded-for'] = inRequest.connection.remoteAddress
         headers['referer'] = "http://#{proxyUrl.hostname}:#{proxyUrl.port || 80}/"
@@ -155,7 +152,6 @@ authProxy = (inRequest, inResponse, proxyUrl) ->
       else if authStarted and not fbAuth.authenticated[TOKEN]
         # Authentication failed
         clearInterval authAttempt
-        inResponse.setHeader 'Set-Cookie', 'access_token=null; expires=Sat, 01-Jan-2000 00:00:00 GMT; path=/;'
         return error inResponse, 'Unauthorized', 'Facebook authentication failed.', 401
       
       # else, just wait a tenth of a second for the Facebook Graph API calls to return

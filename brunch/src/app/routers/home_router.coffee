@@ -17,8 +17,6 @@ class exports.HomeRouter extends Backbone.Router
     top.location = "http://www.facebook.com/dialog/oauth/?scope=user_birthday,user_photo_video_tags,user_photos&client_id=121822724510409&redirect_uri=#{CONFIG.url}&response_type=token"
       
   access_token: (params) ->
-    # params = params.split '&expires_in='
-    # $.cookie 'access_token', params[0]
     hash = $.cookie 'hash'
     location.hash = if hash then hash else '#'
     location.reload()

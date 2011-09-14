@@ -80,7 +80,7 @@
     spawner('couchapp', ['sync', 'couchapp.js', "" + CONFIG.target + CONFIG.prefix], growlCondition);
   }
   requestHandler = function(request, response) {
-    var cookies, hostAndPort, parsedUrl, proxyUrl;
+    var hostAndPort, match, parsedUrl, proxyUrl;
     parsedUrl = url.parse(request.url);
     if (request.method === 'GET') {
       console.log("" + request.method + " " + parsedUrl.pathname);
@@ -94,15 +94,11 @@
       });
     } else {
       if (request.headers.cookie) {
-        cookies = request.headers.cookie.split(';');
-        _.each(cookies, function(cookie) {
-          cookie = cookie.split('=');
-          if (cookie[0] === 'access_token') {
-            return TOKEN = cookie[1];
-          }
-        });
+        match = /fbs_.*access_token=(.*)&expires=/.exec(request.headers.cookie);
+        if (match) {
+          TOKEN = match[1];
+        }
       }
-      console.log(TOKEN);
       if (parsedUrl.pathname === '/') {
         parsedUrl.pathname = '/timeline/_design/timeline/index.html';
       }
@@ -160,7 +156,6 @@
           return outRequest.end();
         } else if (authStarted && !fbAuth.authenticated[TOKEN]) {
           clearInterval(authAttempt);
-          inResponse.setHeader('Set-Cookie', 'access_token=null; expires=Sat, 01-Jan-2000 00:00:00 GMT; path=/;');
           return error(inResponse, 'Unauthorized', 'Facebook authentication failed.', 401);
         }
       }, 100);

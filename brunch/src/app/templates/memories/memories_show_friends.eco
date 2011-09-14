@@ -27,7 +27,7 @@
   
   <% for friend in @model.get('friends'): %>
     <li data-fb-id="<%= friend.tagged %>" data-tagged-by="<%= friend.taggedBy %>">
-      <div class="profile_pic <%= 'untag' if _.include [friend.tagged, friend.taggedBy], USER.ME.id or _.include @model.get('owners'), USER.ME.id %>">
+      <div class="profile_pic <%= 'untag' if USER.AUTH and _.include [friend.tagged, friend.taggedBy], USER.ME.id or _.include @model.get('owners'), USER.ME.id %>">
         <label></label>
         <img src="http://graph.facebook.com/<%= friend.tagged %>/picture?type=square" width="50" height="50" />
       </div>
