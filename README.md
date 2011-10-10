@@ -1,0 +1,1 @@
+This may be helpful example code for anyone interested in building a Facebook canvas app using CouchDB and Backbone.js. A CouchApp serves all static assets. There's a Node-based autentication layer that receives all AJAX requests from the client and ensures the user has authenticated the app before it proxies the request on to CouchDB.
